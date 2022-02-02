@@ -7,18 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C108924A27AAFE2800067819 /* ColorExtension.swift */; };
 		C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3127AAC99900D9387B /* FoodlabApp.swift */; };
 		C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3327AAC99900D9387B /* ContentView.swift */; };
 		C19ABB3627AAC99900D9387B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19ABB3527AAC99900D9387B /* Assets.xcassets */; };
 		C19ABB3927AAC99900D9387B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19ABB3827AAC99900D9387B /* Preview Assets.xcassets */; };
+		C19ABB4227AAD5DE00D9387B /* IngredientCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB4127AAD5DE00D9387B /* IngredientCreation.swift */; };
+		C19ABB4527AAD64800D9387B /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB4427AAD64800D9387B /* Ingredient.swift */; };
+		C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB4B27AAEE8300D9387B /* Dropdown.swift */; };
+		C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB4D27AAF13E00D9387B /* MockData.swift */; };
+		C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C108924A27AAFE2800067819 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		C19ABB2E27AAC99900D9387B /* Foodlab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodlab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19ABB3127AAC99900D9387B /* FoodlabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodlabApp.swift; sourceTree = "<group>"; };
 		C19ABB3327AAC99900D9387B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C19ABB3527AAC99900D9387B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C19ABB3827AAC99900D9387B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C19ABB4127AAD5DE00D9387B /* IngredientCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCreation.swift; sourceTree = "<group>"; };
+		C19ABB4427AAD64800D9387B /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
+		C19ABB4B27AAEE8300D9387B /* Dropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dropdown.swift; sourceTree = "<group>"; };
+		C19ABB4D27AAF13E00D9387B /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +63,9 @@
 		C19ABB3027AAC99900D9387B /* Foodlab */ = {
 			isa = PBXGroup;
 			children = (
+				C19ABB4F27AAF4B100D9387B /* Extensions */,
+				C19ABB4327AAD63100D9387B /* Model */,
+				C19ABB3F27AAD57B00D9387B /* Views */,
 				C19ABB3127AAC99900D9387B /* FoodlabApp.swift */,
 				C19ABB3327AAC99900D9387B /* ContentView.swift */,
 				C19ABB3527AAC99900D9387B /* Assets.xcassets */,
@@ -65,6 +80,41 @@
 				C19ABB3827AAC99900D9387B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C19ABB3F27AAD57B00D9387B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C19ABB4027AAD5A500D9387B /* Ingredient */,
+				C19ABB4B27AAEE8300D9387B /* Dropdown.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C19ABB4027AAD5A500D9387B /* Ingredient */ = {
+			isa = PBXGroup;
+			children = (
+				C19ABB4127AAD5DE00D9387B /* IngredientCreation.swift */,
+			);
+			path = Ingredient;
+			sourceTree = "<group>";
+		};
+		C19ABB4327AAD63100D9387B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C19ABB4427AAD64800D9387B /* Ingredient.swift */,
+				C19ABB4D27AAF13E00D9387B /* MockData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C19ABB4F27AAF4B100D9387B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */,
+				C108924A27AAFE2800067819 /* ColorExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +187,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C19ABB4527AAD64800D9387B /* Ingredient.swift in Sources */,
+				C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */,
 				C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */,
+				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
 				C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */,
+				C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */,
+				C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */,
+				C19ABB4227AAD5DE00D9387B /* IngredientCreation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

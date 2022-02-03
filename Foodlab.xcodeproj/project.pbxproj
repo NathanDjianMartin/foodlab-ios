@@ -17,6 +17,7 @@
 		C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB4B27AAEE8300D9387B /* Dropdown.swift */; };
 		C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB4D27AAF13E00D9387B /* MockData.swift */; };
 		C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */; };
+		C1A7D0C427AB2BEF009AB166 /* RoundedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A7D0C327AB2BEF009AB166 /* RoundedTextFieldStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		C19ABB4B27AAEE8300D9387B /* Dropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dropdown.swift; sourceTree = "<group>"; };
 		C19ABB4D27AAF13E00D9387B /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		C1A7D0C327AB2BEF009AB166 /* RoundedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextFieldStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 		C19ABB3F27AAD57B00D9387B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C1A7D0C027AB2A78009AB166 /* TextFieldStyles */,
 				C19ABB4027AAD5A500D9387B /* Ingredient */,
 				C19ABB4B27AAEE8300D9387B /* Dropdown.swift */,
 			);
@@ -115,6 +118,14 @@
 				C108924A27AAFE2800067819 /* ColorExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C1A7D0C027AB2A78009AB166 /* TextFieldStyles */ = {
+			isa = PBXGroup;
+			children = (
+				C1A7D0C327AB2BEF009AB166 /* RoundedTextFieldStyle.swift */,
+			);
+			path = TextFieldStyles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +200,7 @@
 			files = (
 				C19ABB4527AAD64800D9387B /* Ingredient.swift in Sources */,
 				C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */,
+				C1A7D0C427AB2BEF009AB166 /* RoundedTextFieldStyle.swift in Sources */,
 				C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */,
 				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
 				C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */,

@@ -21,57 +21,61 @@ struct IngredientCreation: View {
         return formatter
     }()
     
-    private var columns = [GridItem](repeating: GridItem(.adaptive(minimum: 100)), count: 2)
+    private var columns = [GridItem(.adaptive(minimum: 300))]
     
     var body: some View {
-        VStack {
-            Text("Add an ingredient")
-                .font(.title)
-                .fontWeight(.bold)
-            
-            
-            HStack {
-                Text("Name")
-                TextField("Name", text: $name)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
-            
-            
-            HStack {
-                Text("Unit")
-                TextField("Unit", text: $unit)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
-            
-            HStack {
-                Text("Price")
-                TextField("Price", value: $price, formatter: decimalFormatter)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
-            
-            HStack {
-                Text("Stock quantity")
-                TextField("Stock quantity", value: $stockQuantity, formatter: decimalFormatter)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
-            
-            Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
-            Dropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
-            
-            HStack {
-                Spacer()
-                Button("Create ingredient") {
-                    print("TODO: Create ingredient!")
+        ScrollView {
+            VStack {
+                Text("Add an ingredient")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                
+                HStack {
+                    Text("Name")
+                    TextField("Name", text: $name)
+                        .textFieldStyle(RoundedTextFieldStyle())
                 }
-                .padding(10)
-                .background(Color.darkRed)
-                .foregroundColor(.white)
-                .cornerRadius(10)
+                
+                LazyVGrid(columns: columns) {
+                    HStack {
+                        Text("Unit")
+                        TextField("Unit", text: $unit)
+                            .textFieldStyle(RoundedTextFieldStyle())
+                    }
+                    
+                    HStack {
+                        Text("Price")
+                        TextField("Price", value: $price, formatter: decimalFormatter)
+                            .textFieldStyle(RoundedTextFieldStyle())
+                    }
+                    
+                    HStack {
+                        Text("Stock quantity")
+                            .lineLimit(1)
+                        TextField("Stock quantity", value: $stockQuantity, formatter: decimalFormatter)
+                            .textFieldStyle(RoundedTextFieldStyle())
+                    }
+                }
+                
+                Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
+                Dropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                
+                HStack {
+                    Spacer()
+                    Button("Create ingredient") {
+                        print("TODO: Create ingredient!")
+                    }
+                    .padding(10)
+                    .background(Color.darkRed)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
+            .padding()
         }
-        .padding()
     }
 }
 

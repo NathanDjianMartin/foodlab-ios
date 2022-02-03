@@ -20,7 +20,7 @@ struct Authentication: View {
                         .foregroundColor(.white)
                     TextField("Email", text: $email)
                         .textFieldStyle(RoundedTextFieldStyle(color: .white))
-                    SecureField("Password", text: $email)
+                    SecureField("Password", text: $password)
                         .textFieldStyle(RoundedTextFieldStyle(color: .white))
                     Button("Login") {
                         print("TODO: login")

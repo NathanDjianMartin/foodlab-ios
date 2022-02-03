@@ -1,10 +1,3 @@
-//
-//  Dropdown.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 02/02/2022.
-//
-
 import SwiftUI
 
 struct Dropdown: View {

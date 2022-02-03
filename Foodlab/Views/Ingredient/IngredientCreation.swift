@@ -1,10 +1,3 @@
-//
-//  IngredientCreation.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 02/02/2022.
-//
-
 import SwiftUI
 
 struct IngredientCreation: View {
@@ -66,10 +59,7 @@ struct IngredientCreation: View {
                     Button("Create ingredient") {
                         print("TODO: Create ingredient!")
                     }
-                    .padding(10)
-                    .background(Color.darkRed)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .buttonStyle(DarkRedButtonStyle())
                 }
                 
                 Spacer()

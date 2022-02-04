@@ -3,16 +3,12 @@ import SwiftUI
 struct Authentication: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var isAuthenticated = false
     
     var body: some View {
         
-        GeometryReader { geometry in
-            ZStack {
-                Image("login-bg")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .ignoresSafeArea()
-                    .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
+        NavigationView {
+            VStack {
                 VStack {
                     Text("Welcome")
                         .font(.title)
@@ -23,17 +19,28 @@ struct Authentication: View {
                     SecureField("Password", text: $password)
                         .textFieldStyle(RoundedTextFieldStyle(color: .white))
                     Button("Login") {
-                        print("TODO: login")
+                        print("TODO: loginnnnn")
+                        self.isAuthenticated = true
                     }
                     .buttonStyle(DarkRedButtonStyle())
+                    NavigationLink(destination: IngredientCreation(), isActive: $isAuthenticated) {
+                        EmptyView()
+                    }
                 }
-                .frame(maxWidth: geometry.size.width - 100)
                 .padding()
                 .background(
                     .ultraThinMaterial,
                     in: RoundedRectangle(cornerRadius: 10)
                 )
+                Spacer()
             }
+            .padding()
+            .background(
+                Image("login-bg")
+                    .aspectRatio(contentMode: .fit)
+                    .ignoresSafeArea()
+            )
+            .ignoresSafeArea(.keyboard)
         }
     }
 }

@@ -1,9 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var isAuthenticated: Bool = false
+    
     var body: some View {
-        Authentication()
-            .background(Color("BackgroundColor"))
+        if isAuthenticated {
+            MainView()
+        } else {
+            Authentication(isAuthenticated: $isAuthenticated)
+        }
     }
 }
 

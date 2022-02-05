@@ -66,11 +66,13 @@ struct IngredientCreation: View {
             }
             .padding()
         }
+        .background(Color("BackgroundColor"))
     }
 }
 
 struct IngredientCreation_Previews: PreviewProvider {
     static var previews: some View {
         IngredientCreation()
+            .preferredColorScheme(.dark)
     }
 }

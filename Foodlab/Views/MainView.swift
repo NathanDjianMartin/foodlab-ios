@@ -3,17 +3,13 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         TabView {
-            IngredientCreation()
+            IngredientList()
                 .tabItem {
                     Label("Ingredients", systemImage: "cup.and.saucer")
                 }
-            RecipesList()
+            RecipeList()
                 .tabItem {
                     Label("Recipes", systemImage: "list.dash")
-                }
-            StocksList()
-                .tabItem {
-                    Label("Stock", systemImage: "bag.fill")
                 }
         }
     }

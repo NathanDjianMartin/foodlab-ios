@@ -7,20 +7,19 @@
 
 import SwiftUI
 
-struct RecipesList: View {
+struct RecipeList: View {
     var body: some View {
         List {
             ForEach(1..<30) { number in
                 Text("Recipe n°\(number)")
             }
         }
-        .listStyle(.plain)
     }
 }
 
 struct RecipesList_Previews: PreviewProvider {
     static var previews: some View {
-        RecipesList()
+        RecipeList()
             .preferredColorScheme(.dark)
     }
 }

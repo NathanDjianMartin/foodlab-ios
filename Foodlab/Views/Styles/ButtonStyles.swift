@@ -13,7 +13,7 @@ struct DarkRedButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(10)
-            .background(Color.darkRed)
+            .background(Color.foodlabRed)
             .foregroundColor(.white)
             .cornerRadius(10)
     }

@@ -2,7 +2,7 @@ import Foundation
 
 extension Double {
     
-    func roundTo(decimals: Int) -> String {
+    func roundTo(_ decimals: Int) -> String {
         return String(format: "%.\(decimals)f", self)
     }
 }

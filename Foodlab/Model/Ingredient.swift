@@ -7,9 +7,9 @@ class Ingredient {
     var price: Double
     var stockQuantity: Double
     var ingredientCategory: String
-    var allergenCategory: String
+    var allergenCategory: String?
     
-    init(name: String, unit: String, price: Double, stockQuantity: Double, ingredientCategory: String, allergenCategory: String) {
+    init(name: String, unit: String, price: Double, stockQuantity: Double, ingredientCategory: String, allergenCategory: String? = nil) {
         self.name = name
         self.unit = unit
         self.price = price

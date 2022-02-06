@@ -4,21 +4,18 @@ struct IngredientList: View {
     @State private var ingredientCreation = false
     
     var body: some View {
-        NavigationView {
-            List {
-                Button(action: {
-                    ingredientCreation = true
-                }) {
-                    Image(systemName: "plus")
-                }
-                ForEach(MockData.ingredientList) { ingredient in
-                    IngredientRow(ingredient: ingredient)
-                }
+        List {
+            Button(action: {
+                ingredientCreation = true
+            }) {
+                Image(systemName: "plus")
             }
-            .sheet(isPresented: $ingredientCreation) {
-                IngredientCreation()
+            ForEach(MockData.ingredientList) { ingredient in
+                IngredientRow(ingredient: ingredient)
             }
-            
+        }
+        .sheet(isPresented: $ingredientCreation) {
+            IngredientCreation()
         }
         .navigationTitle("Ingredients")
     }

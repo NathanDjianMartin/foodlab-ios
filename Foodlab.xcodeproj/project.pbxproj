@@ -12,6 +12,8 @@
 		C141DFC327AE817200053369 /* IngredientList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC227AE817200053369 /* IngredientList.swift */; };
 		C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFD827AF1D5900053369 /* IngredientRow.swift */; };
 		C141DFDB27AF206500053369 /* AllergenBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFDA27AF206500053369 /* AllergenBadge.swift */; };
+		C16C160A27AFCCDD00E3B156 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16C160927AFCCDD00E3B156 /* UserList.swift */; };
+		C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16C160C27AFCD0400E3B156 /* SettingsSummary.swift */; };
 		C1721C1227AC569D008E6678 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1721C1127AC569D008E6678 /* Authentication.swift */; };
 		C1721C1427AC616F008E6678 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1721C1327AC616F008E6678 /* ViewExtension.swift */; };
 		C1721C1727AC64A5008E6678 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1721C1627AC64A5008E6678 /* ButtonStyles.swift */; };
@@ -34,6 +36,8 @@
 		C141DFC227AE817200053369 /* IngredientList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientList.swift; sourceTree = "<group>"; };
 		C141DFD827AF1D5900053369 /* IngredientRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientRow.swift; sourceTree = "<group>"; };
 		C141DFDA27AF206500053369 /* AllergenBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllergenBadge.swift; sourceTree = "<group>"; };
+		C16C160927AFCCDD00E3B156 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		C16C160C27AFCD0400E3B156 /* SettingsSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSummary.swift; sourceTree = "<group>"; };
 		C1721C1127AC569D008E6678 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		C1721C1327AC616F008E6678 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		C1721C1627AC64A5008E6678 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
@@ -62,6 +66,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C16C160727AFCCBE00E3B156 /* Recipe */ = {
+			isa = PBXGroup;
+			children = (
+				C141DFC027AE80D800053369 /* RecipeList.swift */,
+			);
+			path = Recipe;
+			sourceTree = "<group>";
+		};
+		C16C160827AFCCCD00E3B156 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				C16C160927AFCCDD00E3B156 /* UserList.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		C16C160B27AFCCF600E3B156 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C16C160C27AFCD0400E3B156 /* SettingsSummary.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		C1721C1527AC6462008E6678 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,8 +139,10 @@
 		C19ABB3F27AAD57B00D9387B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C16C160B27AFCCF600E3B156 /* Settings */,
+				C16C160827AFCCCD00E3B156 /* User */,
+				C16C160727AFCCBE00E3B156 /* Recipe */,
 				C19ABB3327AAC99900D9387B /* ContentView.swift */,
-				C141DFC027AE80D800053369 /* RecipeList.swift */,
 				C1721C1527AC6462008E6678 /* Styles */,
 				C19ABB4027AAD5A500D9387B /* Ingredient */,
 				C19ABB4B27AAEE8300D9387B /* Dropdown.swift */,
@@ -232,8 +262,10 @@
 				C141DFC327AE817200053369 /* IngredientList.swift in Sources */,
 				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
 				C1721C1427AC616F008E6678 /* ViewExtension.swift in Sources */,
+				C16C160A27AFCCDD00E3B156 /* UserList.swift in Sources */,
 				C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */,
 				C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */,
+				C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */,
 				C141DFC127AE80D800053369 /* RecipeList.swift in Sources */,
 				C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */,
 				C141DFDB27AF206500053369 /* AllergenBadge.swift in Sources */,

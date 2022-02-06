@@ -3,14 +3,38 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         TabView {
-            IngredientList()
-                .tabItem {
-                    Label("Ingredients", systemImage: "cup.and.saucer")
-                }
-            RecipeList()
-                .tabItem {
-                    Label("Recipes", systemImage: "list.dash")
-                }
+            
+            NavigationView {
+                IngredientList()
+                    .navigationTitle("Ingredients")
+            }
+            .tabItem {
+                Label("Ingredients", systemImage: "fork.knife")
+            }
+            
+            NavigationView {
+                RecipeList()
+                    .navigationTitle("Recipes")
+            }
+            .tabItem {
+                Label("Recipes", systemImage: "doc.text")
+            }
+            
+            NavigationView {
+                UserList()
+                    .navigationTitle("Users")
+            }
+            .tabItem {
+                Label("Users", systemImage: "person.2.fill")
+            }
+            
+            NavigationView {
+                SettingsSummary()
+                    .navigationTitle("Settings")
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gear")
+            }
         }
     }
 }

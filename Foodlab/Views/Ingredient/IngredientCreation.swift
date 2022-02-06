@@ -21,27 +21,27 @@ struct IngredientCreation: View {
             List {
                 HStack {
                     Text("Name")
+                    Divider()
                     TextField("Name", text: $name)
-                        .textFieldStyle(RoundedTextFieldStyle())
                 }
                 
                 HStack {
                     Text("Unit")
+                    Divider()
                     TextField("Unit", text: $unit)
-                        .textFieldStyle(RoundedTextFieldStyle())
                 }
                 
                 HStack {
                     Text("Price")
+                    Divider()
                     TextField("Price", value: $price, formatter: decimalFormatter)
-                        .textFieldStyle(RoundedTextFieldStyle())
                 }
                 
                 HStack {
                     Text("Stock quantity")
                         .lineLimit(1)
+                    Divider()
                     TextField("Stock quantity", value: $stockQuantity, formatter: decimalFormatter)
-                        .textFieldStyle(RoundedTextFieldStyle())
                 }
                 
                 Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)

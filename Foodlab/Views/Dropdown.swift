@@ -18,13 +18,9 @@ struct Dropdown: View {
                 Spacer()
                 Image(systemName: "chevron.down")
                     .foregroundColor(Color.gray)
-                    .font(Font.system(size: 20, weight: .bold))
+                    .font(Font.system(size: 20, weight: .medium))
             }
             .padding(5)
-            .overlay(
-                RoundedRectangle(cornerRadius: 3)
-                    .stroke(.gray, lineWidth: 0.5)
-            )
         }
     }
 }

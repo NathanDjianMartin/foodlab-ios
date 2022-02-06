@@ -1,10 +1,3 @@
-//
-//  UserList.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 06/02/2022.
-//
-
 import SwiftUI
 
 struct UserList: View {

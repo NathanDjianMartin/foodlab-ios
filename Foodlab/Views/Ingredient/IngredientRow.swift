@@ -8,7 +8,7 @@ struct IngredientRow: View {
             VStack(alignment: .leading) {
                 Text(ingredient.name)
                     .font(.headline)
-                Text("\(ingredient.stockQuantity.roundTo(2)) \(ingredient.unit) in stock")
+                Text("\(ingredient.stockQuantity.roundTo(2))  unit) in stock")
                     .font(.caption)
             }
             if ingredient.allergenCategory != nil {

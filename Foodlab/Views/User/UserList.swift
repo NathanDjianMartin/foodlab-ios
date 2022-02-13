@@ -1,8 +1,23 @@
 import SwiftUI
 
 struct UserList: View {
+    @State private var userCreation = false
+    
     var body: some View {
-        Text("User list")
+        List {
+            Button(action: {
+                userCreation = true
+            }) {
+                Image(systemName: "plus")
+            }
+            ForEach(MockData.usersList) { user in
+                UserRow(user: user)
+            }
+        }
+        .sheet(isPresented: $userCreation) {
+            UserCreation()
+        }
+        .navigationTitle("Users")
     }
 }
 

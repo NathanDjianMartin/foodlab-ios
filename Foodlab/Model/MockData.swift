@@ -1,6 +1,8 @@
 import Foundation
 
 struct MockData {
+    
+    //Ingredients
     static let ingredient = Ingredient(name: "Pommes",
                                        unit: "KG",
                                        price: 0.81,
@@ -18,4 +20,8 @@ struct MockData {
     
     static let ingredientCategories = ["Féculent", "Légume", "Fruit", "Produit laitier"]
     static let allergenCategories = ["Gluten", "Céréale", "Crustacé"]
+    
+    //Users
+    static let user = User(name: "Ruby", email: "ruby@gmail.com", password: "ruby", isAdmin: true)
+    static let usersList = [User](repeating: user, count: 6)
 }

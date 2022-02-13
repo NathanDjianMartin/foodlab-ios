@@ -23,6 +23,9 @@
 		C18B16ED27B9030E002D6D10 /* RecipeCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16EC27B9030E002D6D10 /* RecipeCategory.swift */; };
 		C18B16EF27B90340002D6D10 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16EE27B90340002D6D10 /* Recipe.swift */; };
 		C18B16F127B903C6002D6D10 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F027B903C6002D6D10 /* User.swift */; };
+		C18B16F327B90D56002D6D10 /* UserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F227B90D56002D6D10 /* UserRow.swift */; };
+		C18B16F527B90DBC002D6D10 /* AdminBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F427B90DBC002D6D10 /* AdminBadge.swift */; };
+		C18B16F727B90E70002D6D10 /* UserCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F627B90E70002D6D10 /* UserCreation.swift */; };
 		C18FC44027AD5135004428C0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18FC43F27AD5135004428C0 /* MainView.swift */; };
 		C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3127AAC99900D9387B /* FoodlabApp.swift */; };
 		C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3327AAC99900D9387B /* ContentView.swift */; };
@@ -53,6 +56,9 @@
 		C18B16EC27B9030E002D6D10 /* RecipeCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCategory.swift; sourceTree = "<group>"; };
 		C18B16EE27B90340002D6D10 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		C18B16F027B903C6002D6D10 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C18B16F227B90D56002D6D10 /* UserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRow.swift; sourceTree = "<group>"; };
+		C18B16F427B90DBC002D6D10 /* AdminBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBadge.swift; sourceTree = "<group>"; };
+		C18B16F627B90E70002D6D10 /* UserCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCreation.swift; sourceTree = "<group>"; };
 		C18FC43F27AD5135004428C0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C19ABB2E27AAC99900D9387B /* Foodlab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodlab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19ABB3127AAC99900D9387B /* FoodlabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodlabApp.swift; sourceTree = "<group>"; };
@@ -90,6 +96,9 @@
 			isa = PBXGroup;
 			children = (
 				C16C160927AFCCDD00E3B156 /* UserList.swift */,
+				C18B16F227B90D56002D6D10 /* UserRow.swift */,
+				C18B16F427B90DBC002D6D10 /* AdminBadge.swift */,
+				C18B16F627B90E70002D6D10 /* UserCreation.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -271,10 +280,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C19ABB4527AAD64800D9387B /* Ingredient.swift in Sources */,
+				C18B16F727B90E70002D6D10 /* UserCreation.swift in Sources */,
 				C18FC44027AD5135004428C0 /* MainView.swift in Sources */,
 				C18B16E727B90192002D6D10 /* IngredientCategory.swift in Sources */,
 				C18B16F127B903C6002D6D10 /* User.swift in Sources */,
 				C1721C1727AC64A5008E6678 /* ButtonStyles.swift in Sources */,
+				C18B16F327B90D56002D6D10 /* UserRow.swift in Sources */,
 				C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */,
 				C1A7D0C427AB2BEF009AB166 /* TextFieldStyles.swift in Sources */,
 				C1721C1227AC569D008E6678 /* Authentication.swift in Sources */,
@@ -288,6 +299,7 @@
 				C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */,
 				C18B16EF27B90340002D6D10 /* Recipe.swift in Sources */,
 				C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */,
+				C18B16F527B90DBC002D6D10 /* AdminBadge.swift in Sources */,
 				C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */,
 				C18B16ED27B9030E002D6D10 /* RecipeCategory.swift in Sources */,
 				C141DFC127AE80D800053369 /* RecipeList.swift in Sources */,

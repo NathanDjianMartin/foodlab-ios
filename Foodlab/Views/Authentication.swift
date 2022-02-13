@@ -13,11 +13,11 @@ struct Authentication: View {
                 Text("Welcome")
                     .font(.title)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .gradientForeground(colors: [.foodlabRed, .foodlabRed])
                 TextField("Email", text: $email)
-                    .textFieldStyle(RoundedTextFieldStyle(color: .white))
+                    .textFieldStyle(RoundedTextFieldStyle(color: .foodlabRed))
                 SecureField("Password", text: $password)
-                    .textFieldStyle(RoundedTextFieldStyle(color: .white))
+                    .textFieldStyle(RoundedTextFieldStyle(color: .foodlabRed))
                 Button("Login") {
                     print("TODO: loginnnnn")
                     self.isAuthenticated = true
@@ -25,21 +25,10 @@ struct Authentication: View {
                 .buttonStyle(DarkRedButtonStyle())
                 
             }
-            .padding()
-            .background(
-                .regularMaterial,
-                in: RoundedRectangle(cornerRadius: 10)
-            )
-            .frame(maxWidth: 700)
+            .frame(maxWidth: 400)
             Spacer()
         }
         .padding()
-        .background(
-            Image("login-bg")
-                .aspectRatio(contentMode: .fit)
-                .ignoresSafeArea()
-        )
-        .ignoresSafeArea(.keyboard)
     }
 }
 

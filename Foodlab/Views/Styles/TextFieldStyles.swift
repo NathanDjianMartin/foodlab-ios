@@ -11,7 +11,7 @@ struct RoundedTextFieldStyle: TextFieldStyle {
             .foregroundColor(color ?? .secondary)
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(color ?? .secondary, lineWidth: 0.5)
+                    .stroke(color ?? .secondary, lineWidth: 2)
             )
     }
     

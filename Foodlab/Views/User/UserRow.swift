@@ -1,10 +1,3 @@
-//
-//  UserRow.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 13/02/2022.
-//
-
 import Foundation
 import SwiftUI
 
@@ -21,7 +14,7 @@ struct UserRow: View {
             }
             if user.isAdmin {
                 Spacer()
-                AdminBadge()
+                Badge(text: "Admin")
             }
             Spacer()
             Button(action: {

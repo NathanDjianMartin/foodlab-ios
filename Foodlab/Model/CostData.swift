@@ -1,10 +1,3 @@
-//
-//  CostData.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 13/02/2022.
-//
-
 import Foundation
 
 class CostData: Identifiable {

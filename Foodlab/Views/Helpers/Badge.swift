@@ -1,15 +1,10 @@
-//
-//  AllergenBadge.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 05/02/2022.
-//
-
 import SwiftUI
 
-struct AllergenBadge: View {
+struct Badge: View {
+    var text: String
+    
     var body: some View {
-        Text("Allergen")
+        Text(text)
             .font(.caption)
             .foregroundColor(.white)
             .padding(5)
@@ -20,15 +15,14 @@ struct AllergenBadge: View {
     }
 }
 
-struct AllergenBadge_Previews: PreviewProvider {
+struct Badge_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AllergenBadge()
-                .previewLayout(.fixed(width: 100, height: 50))
-            AllergenBadge()
-                .previewLayout(.fixed(width: 100, height: 50))
+            Badge(text: "Badge")
+                .previewLayout(.fixed(width: 60, height: 30))
+            Badge(text: "Badge")
+                .previewLayout(.fixed(width: 60, height: 30))
                 .preferredColorScheme(.dark)
         }
-       
     }
 }

@@ -13,7 +13,7 @@ struct IngredientRow: View {
             }
             if ingredient.allergenCategory != nil {
                 Spacer()
-                AllergenBadge()
+                Badge(text: "Allergen")
             }
             Spacer()
             Button(action: {

@@ -53,7 +53,7 @@ struct UserCreation: View {
                 .padding(.bottom)
                 
             }
-            .navigationTitle("Add an user")
+            .navigationTitle("Add a user")
             .listStyle(.plain)
             .padding()
         }

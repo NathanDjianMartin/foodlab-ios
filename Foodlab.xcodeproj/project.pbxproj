@@ -26,6 +26,8 @@
 		C18B16F327B90D56002D6D10 /* UserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F227B90D56002D6D10 /* UserRow.swift */; };
 		C18B16F527B90DBC002D6D10 /* AdminBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F427B90DBC002D6D10 /* AdminBadge.swift */; };
 		C18B16F727B90E70002D6D10 /* UserCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F627B90E70002D6D10 /* UserCreation.swift */; };
+		C18B16FA27B920E0002D6D10 /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F927B920E0002D6D10 /* CategoryList.swift */; };
+		C18B16FC27B921DA002D6D10 /* CategoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16FB27B921DA002D6D10 /* CategoryProtocol.swift */; };
 		C18FC44027AD5135004428C0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18FC43F27AD5135004428C0 /* MainView.swift */; };
 		C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3127AAC99900D9387B /* FoodlabApp.swift */; };
 		C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3327AAC99900D9387B /* ContentView.swift */; };
@@ -59,6 +61,8 @@
 		C18B16F227B90D56002D6D10 /* UserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRow.swift; sourceTree = "<group>"; };
 		C18B16F427B90DBC002D6D10 /* AdminBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBadge.swift; sourceTree = "<group>"; };
 		C18B16F627B90E70002D6D10 /* UserCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCreation.swift; sourceTree = "<group>"; };
+		C18B16F927B920E0002D6D10 /* CategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
+		C18B16FB27B921DA002D6D10 /* CategoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryProtocol.swift; sourceTree = "<group>"; };
 		C18FC43F27AD5135004428C0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C19ABB2E27AAC99900D9387B /* Foodlab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodlab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19ABB3127AAC99900D9387B /* FoodlabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodlabApp.swift; sourceTree = "<group>"; };
@@ -120,6 +124,14 @@
 			path = Styles;
 			sourceTree = "<group>";
 		};
+		C18B16F827B920A0002D6D10 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				C18B16F927B920E0002D6D10 /* CategoryList.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		C19ABB2527AAC99900D9387B = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +172,7 @@
 		C19ABB3F27AAD57B00D9387B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C18B16F827B920A0002D6D10 /* Category */,
 				C16C160B27AFCCF600E3B156 /* Settings */,
 				C16C160827AFCCCD00E3B156 /* User */,
 				C16C160727AFCCBE00E3B156 /* Recipe */,
@@ -195,6 +208,7 @@
 				C18B16EC27B9030E002D6D10 /* RecipeCategory.swift */,
 				C18B16EE27B90340002D6D10 /* Recipe.swift */,
 				C18B16F027B903C6002D6D10 /* User.swift */,
+				C18B16FB27B921DA002D6D10 /* CategoryProtocol.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -302,9 +316,11 @@
 				C18B16F527B90DBC002D6D10 /* AdminBadge.swift in Sources */,
 				C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */,
 				C18B16ED27B9030E002D6D10 /* RecipeCategory.swift in Sources */,
+				C18B16FC27B921DA002D6D10 /* CategoryProtocol.swift in Sources */,
 				C141DFC127AE80D800053369 /* RecipeList.swift in Sources */,
 				C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */,
 				C141DFDB27AF206500053369 /* AllergenBadge.swift in Sources */,
+				C18B16FA27B920E0002D6D10 /* CategoryList.swift in Sources */,
 				C19ABB4227AAD5DE00D9387B /* IngredientCreation.swift in Sources */,
 				C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */,
 			);

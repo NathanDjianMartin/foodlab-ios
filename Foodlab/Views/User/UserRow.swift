@@ -16,7 +16,7 @@ struct UserRow: View {
             VStack(alignment: .leading) {
                 Text(user.name)
                     .font(.headline)
-                Text("\(user.email)")
+                Text(user.email)
                     .font(.caption)
             }
             if user.isAdmin {

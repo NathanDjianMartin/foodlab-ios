@@ -28,7 +28,7 @@ struct MainView: View {
             }
             
             NavigationView {
-                SettingsSummary()
+                SettingsSummary(user: MockData.user)
                     .navigationTitle("Settings")
             }
             .tabItem {

@@ -24,4 +24,15 @@ struct MockData {
     //Users
     static let user = User(name: "Ruby", email: "ruby@gmail.com", password: "ruby", isAdmin: true)
     static let usersList = [User](repeating: user, count: 6)
+    
+    //IngredientCategories
+    static let legume = Category(id: 1, name: "Légume")
+    static let crustace = Category(id: 1, name: "Crustacé")
+    static let entree = Category(id: 1, name: "Entrée")
+    
+    static let ingredientCategoriesModel = [Category](repeating: legume, count: 3)
+    static let allergenCategoriesModel = [Category](repeating: crustace, count: 2)
+    static let recipeCategoriesModel = [Category](repeating: entree, count: 2)
+    
+    
 }

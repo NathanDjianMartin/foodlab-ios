@@ -8,7 +8,7 @@ struct SettingsSummary: View {
             Section(header: Text("My account")) {
                 
                 HStack {
-                    //TODO: faire une vue dédié 
+                    //TODO: faire une vue dédié
                     Image(systemName: "person")
                         .padding(4)
                         .foregroundColor(Color.foodlabTeal)
@@ -29,16 +29,25 @@ struct SettingsSummary: View {
             }
             Section(header: Text("Settings")) {
                 NavigationLink {
-                    UserCreation()
+                    CategoryList(categories: MockData.ingredientCategoriesModel)
                 } label: {
                     Text("Ingredient Categories")
                 }
-                Text("Allergen Categories")
-                    .navigationTitle("")
-                Text("Recipe Categories")
-                    .navigationTitle("")
-                Text("Cost data")
-                    .navigationTitle("")
+                NavigationLink {
+                    CategoryList(categories: MockData.allergenCategoriesModel)
+                } label: {
+                    Text("Allergen Categories")
+                }
+                NavigationLink {
+                    CategoryList(categories: MockData.recipeCategoriesModel)
+                } label: {
+                    Text("Recipe Categories")
+                }
+                NavigationLink {
+                    CategoryList(categories: MockData.ingredientCategoriesModel)
+                } label: {
+                    Text("Cost Data")
+                }
                 
             }
             

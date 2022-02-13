@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RecipeCategory: Identifiable {
+class RecipeCategory: Identifiable, CategoryProtocol {
     
     var id: Int?
     var name: String

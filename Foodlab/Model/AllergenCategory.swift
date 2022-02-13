@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AllergenCategory: Identifiable {
+class AllergenCategory: Identifiable, CategoryProtocol {
     
     var id: Int?
     var name: String

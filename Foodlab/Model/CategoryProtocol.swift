@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol CategoryProtocol {
+    var name: String { get set }
+}

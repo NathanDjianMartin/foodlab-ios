@@ -7,7 +7,7 @@
 
 import Foundation
 
-class IngredientCategory: Identifiable {
+class IngredientCategory: Identifiable, CategoryProtocol {
     
     var id: Int?
     var name: String

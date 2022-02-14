@@ -16,6 +16,7 @@ struct RecipeList: View {
         .sheet(isPresented: $recipeCreation) {
             RecipeCreation()
         }
+        .navigationTitle("Recipes")
         .toolbar {
             Button(action: {
                 recipeCreation = true

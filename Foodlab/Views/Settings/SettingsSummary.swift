@@ -8,7 +8,7 @@ struct SettingsSummary: View {
             Section(header: Text("My account")) {
                 
                 HStack {
-                    //TODO: faire une vue dédié
+                    // TODO: faire une vue dédié
                     Image(systemName: "person")
                         .padding(4)
                         .foregroundColor(Color.foodlabTeal)
@@ -52,9 +52,8 @@ struct SettingsSummary: View {
             }
             
         }
-        Text("Settings Summary")
+        .navigationTitle("Settings")
     }
-    
 }
 
 struct SettingsSummary_Previews: PreviewProvider {

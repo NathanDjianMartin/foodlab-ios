@@ -1,10 +1,3 @@
-//
-//  UserCreation.swift
-//  Foodlab
-//
-//  Created by Nathan Djian Martin on 13/02/2022.
-//
-
 import SwiftUI
 
 struct UserCreation: View {
@@ -12,11 +5,21 @@ struct UserCreation: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isAdmin: Bool = false
+    @Binding var isPresented: Bool
     
-    private var columns = [GridItem(.adaptive(minimum: 300))]
+    var columns = [GridItem(.adaptive(minimum: 300))]
     
     var body: some View {
-        NavigationView {
+        VStack {
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.isPresented = false
+                }) {
+                    Text("Cancel")
+                }
+            }
+            .padding()
             List {
                 HStack {
                     Text("Name")
@@ -50,10 +53,7 @@ struct UserCreation: View {
                     }
                     .buttonStyle(DarkRedButtonStyle())
                 }
-                .padding(.bottom)
-                
             }
-            .navigationTitle("Add a user")
             .listStyle(.plain)
             .padding()
         }
@@ -62,7 +62,6 @@ struct UserCreation: View {
 
 struct UserCreation_Previews: PreviewProvider {
     static var previews: some View {
-        UserCreation()
-            .preferredColorScheme(.dark)
+        UserCreation(isPresented: .constant(true))
     }
 }

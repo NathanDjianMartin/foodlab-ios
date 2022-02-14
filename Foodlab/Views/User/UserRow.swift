@@ -17,13 +17,7 @@ struct UserRow: View {
                 Badge(text: "Admin")
             }
             Spacer()
-            Button(action: {
-                print("TODO: show confirmation modal")
-            }) {
-                Image(systemName: "square.and.pencil")
-                    .padding(4)
-                    .foregroundColor(Color.foodlabTeal)
-            }
+            // TODO: manage deletion with a swipe
         }
         .padding()
     }

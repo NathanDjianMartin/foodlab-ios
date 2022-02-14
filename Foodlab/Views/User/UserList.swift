@@ -1,23 +1,25 @@
 import SwiftUI
 
 struct UserList: View {
-    @State private var userCreation = false
+    @State private var showUserCreation = false
     
     var body: some View {
         List {
-            Button(action: {
-                userCreation = true
-            }) {
-                Image(systemName: "plus")
-            }
             ForEach(MockData.usersList) { user in
                 UserRow(user: user)
             }
         }
-        .sheet(isPresented: $userCreation) {
-            UserCreation()
+        .sheet(isPresented: $showUserCreation) {
+            UserCreation(isPresented: $showUserCreation)
         }
         .navigationTitle("Users")
+        .toolbar {
+            Button(action: {
+                showUserCreation = true
+            }) {
+                Image(systemName: "plus")
+            }
+        }
     }
 }
 

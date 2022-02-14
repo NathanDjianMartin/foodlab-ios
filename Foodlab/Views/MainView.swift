@@ -5,7 +5,6 @@ struct MainView: View {
         TabView {
             NavigationView {
                 IngredientList()
-                    .navigationTitle("Ingredients")
             }
             .tabItem {
                 Label("Ingredients", systemImage: "fork.knife")
@@ -13,7 +12,6 @@ struct MainView: View {
             
             NavigationView {
                 RecipeList()
-                    .navigationTitle("Recipes")
             }
             .tabItem {
                 Label("Recipes", systemImage: "doc.text")
@@ -21,7 +19,6 @@ struct MainView: View {
             
             NavigationView {
                 UserList()
-                    .navigationTitle("Users")
             }
             .tabItem {
                 Label("Users", systemImage: "person.2.fill")
@@ -29,7 +26,6 @@ struct MainView: View {
             
             NavigationView {
                 SettingsSummary(user: MockData.user)
-                    .navigationTitle("Settings")
             }
             .tabItem {
                 Label("Settings", systemImage: "gear")

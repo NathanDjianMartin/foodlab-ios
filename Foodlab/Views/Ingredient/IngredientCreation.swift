@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct IngredientCreation: View {
+    @Environment(\.presentationMode) var presentationMode
     @State private var name: String = ""
     @State private var unit: String = ""
     @State private var price: Double = 0
@@ -17,7 +18,16 @@ struct IngredientCreation: View {
     private var columns = [GridItem(.adaptive(minimum: 300))]
     
     var body: some View {
-        NavigationView {
+        VStack {
+            HStack {
+                Spacer()
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Cancel")
+                }
+            }
+            .padding()
             List {
                 HStack {
                     Text("Name")
@@ -47,19 +57,21 @@ struct IngredientCreation: View {
                 Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
                 Dropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
                 
-                HStack {
-                    Spacer()
-                    Button("Create ingredient") {
-                        print("TODO: Create ingredient!")
-                    }
-                    .buttonStyle(DarkRedButtonStyle())
-                }
-                .padding(.bottom)
                 
             }
             .navigationTitle("Add an ingredient")
             .listStyle(.plain)
-        .padding()
+            .padding()
+            
+            HStack {
+                Spacer()
+                Button("Create ingredient") {
+                    print("TODO: Create ingredient!")
+                }
+                .buttonStyle(DarkRedButtonStyle())
+            }
+            .padding(.bottom)
+            
         }
     }
 }
@@ -67,6 +79,5 @@ struct IngredientCreation: View {
 struct IngredientCreation_Previews: PreviewProvider {
     static var previews: some View {
         IngredientCreation()
-            .preferredColorScheme(.dark)
     }
 }

@@ -6,8 +6,10 @@ struct ContentView: View {
     var body: some View {
         if isAuthenticated {
             MainView()
+                .transition(.opacity)
         } else {
             Authentication(isAuthenticated: $isAuthenticated)
+                .transition(.opacity)
         }
     }
 }

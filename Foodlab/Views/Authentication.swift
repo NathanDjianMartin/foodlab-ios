@@ -19,8 +19,10 @@ struct Authentication: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedTextFieldStyle(color: .foodlabRed))
                 Button("Login") {
-                    print("TODO: loginnnnn")
-                    self.isAuthenticated = true
+                    withAnimation(.easeOut(duration: 0.5)) {
+                        print("TODO: loginnnnn")
+                        self.isAuthenticated = true
+                    }
                 }
                 .buttonStyle(DarkRedButtonStyle())
                 

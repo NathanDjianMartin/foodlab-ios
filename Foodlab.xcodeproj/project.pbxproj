@@ -11,6 +11,7 @@
 		C141DFC127AE80D800053369 /* RecipeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC027AE80D800053369 /* RecipeList.swift */; };
 		C141DFC327AE817200053369 /* IngredientList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC227AE817200053369 /* IngredientList.swift */; };
 		C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFD827AF1D5900053369 /* IngredientRow.swift */; };
+		C162BA8B27B976280049EA1D /* IsAuthenticadedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C162BA8A27B976280049EA1D /* IsAuthenticadedKey.swift */; };
 		C16C160A27AFCCDD00E3B156 /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16C160927AFCCDD00E3B156 /* UserList.swift */; };
 		C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16C160C27AFCD0400E3B156 /* SettingsSummary.swift */; };
 		C1721C1227AC569D008E6678 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1721C1127AC569D008E6678 /* Authentication.swift */; };
@@ -35,6 +36,8 @@
 		C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */; };
 		C1A7D0C427AB2BEF009AB166 /* TextFieldStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A7D0C327AB2BEF009AB166 /* TextFieldStyles.swift */; };
 		C1D1305327B946320091D98F /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1305227B946320091D98F /* Badge.swift */; };
+		C1EDD36727BA465100D02244 /* RecipeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EDD36627BA465100D02244 /* RecipeDetails.swift */; };
+		C1EDD36927BA487E00D02244 /* RecipeCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EDD36827BA487E00D02244 /* RecipeCreation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,7 @@
 		C141DFC027AE80D800053369 /* RecipeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeList.swift; sourceTree = "<group>"; };
 		C141DFC227AE817200053369 /* IngredientList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientList.swift; sourceTree = "<group>"; };
 		C141DFD827AF1D5900053369 /* IngredientRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientRow.swift; sourceTree = "<group>"; };
+		C162BA8A27B976280049EA1D /* IsAuthenticadedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsAuthenticadedKey.swift; sourceTree = "<group>"; };
 		C16C160927AFCCDD00E3B156 /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
 		C16C160C27AFCD0400E3B156 /* SettingsSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSummary.swift; sourceTree = "<group>"; };
 		C1721C1127AC569D008E6678 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 		C19ABB5027AAF4C200D9387B /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		C1A7D0C327AB2BEF009AB166 /* TextFieldStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyles.swift; sourceTree = "<group>"; };
 		C1D1305227B946320091D98F /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		C1EDD36627BA465100D02244 /* RecipeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetails.swift; sourceTree = "<group>"; };
+		C1EDD36827BA487E00D02244 /* RecipeCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCreation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,10 +86,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C162BA8927B975EA0049EA1D /* EnvironmentKeys */ = {
+			isa = PBXGroup;
+			children = (
+				C162BA8A27B976280049EA1D /* IsAuthenticadedKey.swift */,
+			);
+			path = EnvironmentKeys;
+			sourceTree = "<group>";
+		};
 		C16C160727AFCCBE00E3B156 /* Recipe */ = {
 			isa = PBXGroup;
 			children = (
 				C141DFC027AE80D800053369 /* RecipeList.swift */,
+				C1EDD36627BA465100D02244 /* RecipeDetails.swift */,
+				C1EDD36827BA487E00D02244 /* RecipeCreation.swift */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -149,6 +165,7 @@
 		C19ABB3027AAC99900D9387B /* Foodlab */ = {
 			isa = PBXGroup;
 			children = (
+				C162BA8927B975EA0049EA1D /* EnvironmentKeys */,
 				C19ABB4F27AAF4B100D9387B /* Extensions */,
 				C19ABB4327AAD63100D9387B /* Model */,
 				C19ABB3F27AAD57B00D9387B /* Views */,
@@ -309,6 +326,7 @@
 				C1721C1227AC569D008E6678 /* Authentication.swift in Sources */,
 				C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */,
 				C141DFC327AE817200053369 /* IngredientList.swift in Sources */,
+				C1EDD36727BA465100D02244 /* RecipeDetails.swift in Sources */,
 				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
 				C1721C1427AC616F008E6678 /* ViewExtension.swift in Sources */,
 				C18B16EB27B9024F002D6D10 /* CostData.swift in Sources */,
@@ -317,10 +335,12 @@
 				C18B16EF27B90340002D6D10 /* Recipe.swift in Sources */,
 				C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */,
 				C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */,
+				C162BA8B27B976280049EA1D /* IsAuthenticadedKey.swift in Sources */,
 				C1D1305327B946320091D98F /* Badge.swift in Sources */,
 				C141DFC127AE80D800053369 /* RecipeList.swift in Sources */,
 				C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */,
 				C18B16FA27B920E0002D6D10 /* CategoryList.swift in Sources */,
+				C1EDD36927BA487E00D02244 /* RecipeCreation.swift in Sources */,
 				C19ABB4227AAD5DE00D9387B /* IngredientCreation.swift in Sources */,
 				C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */,
 			);

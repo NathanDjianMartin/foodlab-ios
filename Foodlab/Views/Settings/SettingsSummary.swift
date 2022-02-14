@@ -22,10 +22,10 @@ struct SettingsSummary: View {
                 }
                 .navigationTitle("Account")
                 
-                Text("Sign out")
-                    .navigationTitle("Signout")
-                
-                
+                Button("Sign out") {
+                    withAnimation(.easeOut(duration: 0.5)) {
+                    }
+                }
             }
             Section(header: Text("Settings")) {
                 NavigationLink {

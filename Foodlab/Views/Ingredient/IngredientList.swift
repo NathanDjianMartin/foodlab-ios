@@ -5,11 +5,6 @@ struct IngredientList: View {
     
     var body: some View {
         List {
-            Button(action: {
-                ingredientCreation = true
-            }) {
-                Image(systemName: "plus")
-            }
             ForEach(MockData.ingredientList) { ingredient in
                 IngredientRow(ingredient: ingredient)
             }
@@ -18,6 +13,13 @@ struct IngredientList: View {
             IngredientCreation()
         }
         .navigationTitle("Ingredients")
+        .toolbar {
+            Button(action: {
+                ingredientCreation = true
+            }) {
+                Image(systemName: "plus")
+            }
+        }
     }
 }
 

@@ -5,9 +5,14 @@ struct IngredientList: View {
     
     var body: some View {
         List {
-            ForEach(MockData.ingredientList) { ingredient in
-                IngredientRow(ingredient: ingredient)
+            ForEach(MockData.ingredientCategoriesModel) { category in
+                Section(category.name) {
+                    ForEach(MockData.ingredientList) { ingredient in
+                        IngredientRow(ingredient: ingredient)
+                    }
+                }
             }
+            
         }
         .sheet(isPresented: $showIngredientCreation) {
             IngredientCreation(isPresented: $showIngredientCreation)

@@ -8,9 +8,7 @@ struct IngredientCreation: View {
     @State private var stockQuantity: Double = 0
     @State private var ingredientCategory: String = ""
     @State private var allergentCategory: String = ""
-    
-    var columns = [GridItem(.adaptive(minimum: 300))]
-    
+        
     var body: some View {
         VStack {
             HStack {

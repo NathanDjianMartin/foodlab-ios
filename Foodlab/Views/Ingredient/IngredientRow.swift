@@ -8,7 +8,9 @@ struct IngredientRow: View {
             VStack(alignment: .leading) {
                 Text(ingredient.name)
                     .font(.headline)
-                Text("\(ingredient.stockQuantity.roundTo(2))  unit) in stock")
+                Text("\(ingredient.stockQuantity.roundTo(2))  unit in stock")
+                    .font(.caption)
+                Text("\(ingredient.price.roundTo(2))$ per \(ingredient.unit)")
                     .font(.caption)
             }
             if ingredient.allergenCategory != nil {
@@ -16,13 +18,8 @@ struct IngredientRow: View {
                 Badge(text: "Allergen")
             }
             Spacer()
-            Button(action: {
-                print("TODO: show confirmation modal")
-            }) {
-                Image(systemName: "square.and.pencil")
-                    .padding(4)
-                    .foregroundColor(Color.foodlabTeal)
-            }
+            // TODO: swipe modification
+            // TODO: swipe delete
         }
         .padding()
     }

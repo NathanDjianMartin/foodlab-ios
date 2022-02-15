@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RecipeList: View {
-    @State private var recipeCreation = false
+    @State private var showRecipeCreation = false
 
     var body: some View {
         List {
@@ -13,13 +13,13 @@ struct RecipeList: View {
                 }
             }
         }
-        .sheet(isPresented: $recipeCreation) {
-            RecipeCreation()
+        .sheet(isPresented: $showRecipeCreation) {
+            RecipeCreation(isPresented: $showRecipeCreation)
         }
         .navigationTitle("Recipes")
         .toolbar {
             Button(action: {
-                recipeCreation = true
+                showRecipeCreation = true
             }) {
                 Image(systemName: "plus")
             }

@@ -4,12 +4,17 @@ struct RecipeList: View {
     @State private var showRecipeCreation = false
 
     var body: some View {
+        
         List {
-            ForEach(1..<30) { number in
-                NavigationLink {
-                    RecipeDetails()
-                } label: {
-                    Text("Recipe n°\(number)")
+            ForEach(MockData.recipeCategoriesModel) { category in
+                Section(category.name) {
+                    ForEach(1..<3) { number in
+                        NavigationLink {
+                            RecipeDetails()
+                        } label: {
+                            RecipeRow(recipe: MockData.recipe)
+                        }
+                    }
                 }
             }
         }

@@ -10,7 +10,10 @@ class Recipe: Identifiable {
     var recipeExecutionId: Int?
     var costDataId: Int
     
-    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategoryId: Int, recipeExecutionId: Int? = nil, costDataId: Int) {
+    //variable calculée
+    var duration : Int
+    
+    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategoryId: Int, recipeExecutionId: Int? = nil, costDataId: Int, duration: Int) {
         self.id = id
         self.name = name
         self.author = author
@@ -18,6 +21,7 @@ class Recipe: Identifiable {
         self.recipeCategoryId = recipeCategoryId
         self.recipeExecutionId = recipeExecutionId
         self.costDataId = costDataId
+        self.duration = duration 
     }
     
     

@@ -24,6 +24,6 @@ class IngredientDTO: Identifiable {
         self.price = price
         self.stockQuantity = stockQuantity
         self.ingredientCategoryId = ingredientCategoryId
-        self.allergenCategoryId = allergenCategory
+        self.allergenCategoryId = allergenCategoryId
     }
 }

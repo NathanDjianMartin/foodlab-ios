@@ -14,40 +14,36 @@ struct CostDataSettings: View {
     @State var coefWithCharges:  Double = 0.0
     @State var coefWithoutCharges:  Double = 0.0
     
+    var cols = [GridItem(.fixed(250)), GridItem(.flexible())]
+    
     var body: some View {
         List {
-            HStack {
+            LazyVGrid(columns: cols, alignment: .leading, spacing: 15) {
                 Text("Average hourly cost")
-                Divider()
+            
                 TextField("Name", value: $averageHourlyCost, formatter: Formatters.decimalFormatter)
-            }
-            
-            HStack {
+           
                 Text("Flatrate hourly cost")
-                Divider()
                 TextField("Email", value: $flatrateHourlyCost, formatter: Formatters.decimalFormatter)
-            }
-            
-            HStack {
+           
                 Text("Coefficient with charges")
-                Divider()
                 TextField("Password", value: $coefWithCharges, formatter: Formatters.decimalFormatter)
-            }
             
-            HStack {
                 Text("Coefficient without charges")
-                Divider()
                 TextField("Password", value: $coefWithoutCharges, formatter: Formatters.decimalFormatter)
             }
-            
+            //.padding()
+                    
             HStack {
                 Spacer()
                 Button("Update cost data") {
                     print("TODO: Create ingredient!")
                 }
                 .buttonStyle(DarkRedButtonStyle())
+                .padding(.top, 20)
             }
         }
+        .navigationTitle("Default cost data")
         .listStyle(.plain)
         .padding()
     }

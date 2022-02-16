@@ -20,7 +20,6 @@ struct SettingsSummary: View {
                             .font(.caption)
                     }
                 }
-                .navigationTitle("Account")
                 
                 Button("Sign out") {
                     withAnimation(.easeOut(duration: 0.5)) {
@@ -44,7 +43,7 @@ struct SettingsSummary: View {
                     Text("Recipe Categories")
                 }
                 NavigationLink {
-                    CategoryList(categories: MockData.ingredientCategoriesModel)
+                    CostDataSettings()
                 } label: {
                     Text("Cost Data")
                 }

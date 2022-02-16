@@ -6,21 +6,21 @@ class Recipe: Identifiable {
     var name: String
     var author: String
     var guestsNumber: Int
-    var recipeCategoryId: Int
-    var recipeExecutionId: Int?
-    var costDataId: Int
+    var recipeCategory: Category
+    var recipeExecution: RecipeExecution?
+    var costData: CostData
     
     //variable calculée
     var duration : Int
     
-    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategoryId: Int, recipeExecutionId: Int? = nil, costDataId: Int, duration: Int) {
+    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategory: Category, recipeExecution: RecipeExecution? = nil, costData: CostData, duration: Int) {
         self.id = id
         self.name = name
         self.author = author
         self.guestsNumber = guestsNumber
-        self.recipeCategoryId = recipeCategoryId
-        self.recipeExecutionId = recipeExecutionId
-        self.costDataId = costDataId
+        self.recipeCategory = recipeCategory
+        self.recipeExecution = recipeExecution
+        self.costData = costData
         self.duration = duration 
     }
     

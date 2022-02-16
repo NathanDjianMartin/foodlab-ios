@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RecipeDTO: Identifiable {
+struct RecipeDTO: Identifiable {
     
     var id: Int?
     var name: String

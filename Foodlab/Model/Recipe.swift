@@ -7,7 +7,7 @@ class Recipe: Identifiable {
     var author: String
     var guestsNumber: Int
     var recipeCategory: Category
-    var recipeExecution: RecipeExecution?
+    var recipeExecution: RecipeExecution? //TODO: changer avec une liste d'étapes 
     var costData: CostData
     
     //variable calculée

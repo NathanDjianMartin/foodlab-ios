@@ -34,5 +34,7 @@ struct MockData {
     static let allergenCategoriesModel = [Category](repeating: crustace, count: 2)
     static let recipeCategoriesModel = [Category](repeating: entree, count: 2)
     
+    //Recipes
+    static let recipe = Recipe(id: 1, name: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategoryId: 1, costDataId: 1, duration: 10)
     
 }

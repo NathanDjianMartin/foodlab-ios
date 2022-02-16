@@ -1,5 +1,5 @@
 //
-//  StepDTO.swift
+//  RecipeExecution.swift
 //  Foodlab
 //
 //  Created by m1 on 16/02/2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RecipeExecutionDTO: Identifiable {
+class RecipeExecution: Identifiable {
     var id: Int?
     var isStep: Bool
     var stepTitle: String

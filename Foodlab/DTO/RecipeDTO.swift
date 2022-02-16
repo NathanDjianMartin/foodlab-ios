@@ -1,6 +1,13 @@
+//
+//  RecipeDTO.swift
+//  Foodlab
+//
+//  Created by m1 on 16/02/2022.
+//
+
 import Foundation
 
-class Recipe: Identifiable {
+class RecipeDTO: Identifiable {
     
     var id: Int?
     var name: String
@@ -21,7 +28,7 @@ class Recipe: Identifiable {
         self.recipeCategoryId = recipeCategoryId
         self.recipeExecutionId = recipeExecutionId
         self.costDataId = costDataId
-        self.duration = duration 
+        self.duration = duration
     }
     
 }

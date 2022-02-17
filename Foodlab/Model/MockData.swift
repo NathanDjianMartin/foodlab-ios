@@ -40,4 +40,7 @@ struct MockData {
     //Recipes
     static let recipe = Recipe(id: 1, name: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, duration: 10)
     
+    //Step
+    static let step = SimpleStep(id: 1, stepTitle: "Etape1", stepDescription: "Mélanger les légumes", duration: 6)
+    
 }

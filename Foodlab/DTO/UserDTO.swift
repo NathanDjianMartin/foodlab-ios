@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserDTO: Identifiable {
+struct UserDTO: Identifiable, Decodable {
     
     var id: Int?
     var name: String

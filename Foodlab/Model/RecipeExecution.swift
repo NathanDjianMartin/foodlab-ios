@@ -7,19 +7,16 @@
 
 import Foundation
 
-class RecipeExecution: Identifiable {
+class RecipeExecution: Step {
     var id: Int?
-    var isStep: Bool
     var stepTitle: String
-    var stepDescription: String?
-    var duration: Int?
     
-    init(id: Int? = nil, isStep: Bool, stepTitle: String, stepDescription: String? = nil, duration: Int? = nil) {
+    //TODO: faire une collection 
+    //var steps: [Step] = []
+    
+    init(id: Int? = nil, stepTitle: String) {
         self.id = id
-        self.isStep = isStep
         self.stepTitle = stepTitle
-        self.stepDescription = stepDescription
-        self.duration = duration
     }
     
 }

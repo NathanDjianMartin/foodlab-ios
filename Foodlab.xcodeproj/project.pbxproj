@@ -17,6 +17,9 @@
 		6FA8904927BD41A90037E851 /* StepWithinRecipeExecutionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904827BD41A90037E851 /* StepWithinRecipeExecutionDTO.swift */; };
 		6FA8904B27BD42220037E851 /* IngredientWithinStepDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904A27BD42220037E851 /* IngredientWithinStepDTO.swift */; };
 		6FA8904D27BD4A060037E851 /* CategoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904C27BD4A060037E851 /* CategoryDTO.swift */; };
+		6FA8905027BE2C340037E851 /* StepRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904F27BE2C340037E851 /* StepRow.swift */; };
+		6FA8905227BE753E0037E851 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905127BE753E0037E851 /* Step.swift */; };
+		6FA8905427BE78410037E851 /* SimpleStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905327BE78410037E851 /* SimpleStep.swift */; };
 		6FA8905727BE85310037E851 /* IngredientDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905627BE85310037E851 /* IngredientDAO.swift */; };
 		6FA8905927BE87AE0037E851 /* RecipeDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905827BE87AE0037E851 /* RecipeDAO.swift */; };
 		6FA8905B27BE87C00037E851 /* CostDataDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905A27BE87C00037E851 /* CostDataDAO.swift */; };
@@ -66,6 +69,9 @@
 		6FA8904827BD41A90037E851 /* StepWithinRecipeExecutionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepWithinRecipeExecutionDTO.swift; sourceTree = "<group>"; };
 		6FA8904A27BD42220037E851 /* IngredientWithinStepDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientWithinStepDTO.swift; sourceTree = "<group>"; };
 		6FA8904C27BD4A060037E851 /* CategoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDTO.swift; sourceTree = "<group>"; };
+		6FA8904F27BE2C340037E851 /* StepRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRow.swift; sourceTree = "<group>"; };
+		6FA8905127BE753E0037E851 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		6FA8905327BE78410037E851 /* SimpleStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStep.swift; sourceTree = "<group>"; };
 		6FA8905627BE85310037E851 /* IngredientDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientDAO.swift; sourceTree = "<group>"; };
 		6FA8905827BE87AE0037E851 /* RecipeDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDAO.swift; sourceTree = "<group>"; };
 		6FA8905A27BE87C00037E851 /* CostDataDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostDataDAO.swift; sourceTree = "<group>"; };
@@ -139,6 +145,12 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		6FA8904E27BE2C100037E851 /* Step */ = {
+			isa = PBXGroup;
+			children = (
+				6FA8904F27BE2C340037E851 /* StepRow.swift */,
+			);
+			path = Step;
 		6FA8905527BE83100037E851 /* DAO */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +259,7 @@
 		C19ABB3F27AAD57B00D9387B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6FA8904E27BE2C100037E851 /* Step */,
 				6FA8903827BCF4F80037E851 /* CostData */,
 				C16C160B27AFCCF600E3B156 /* Settings */,
 				C1D1305127B946270091D98F /* Helpers */,
@@ -282,6 +295,8 @@
 				C18B16F027B903C6002D6D10 /* User.swift */,
 				C18B16FD27B925AB002D6D10 /* Category.swift */,
 				6FA8904627BD3B4B0037E851 /* RecipeExecution.swift */,
+				6FA8905127BE753E0037E851 /* Step.swift */,
+				6FA8905327BE78410037E851 /* SimpleStep.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -396,6 +411,7 @@
 				C1EDD36727BA465100D02244 /* RecipeDetails.swift in Sources */,
 				6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */,
 				6FA8904B27BD42220037E851 /* IngredientWithinStepDTO.swift in Sources */,
+				6FA8905227BE753E0037E851 /* Step.swift in Sources */,
 				6FA8904D27BD4A060037E851 /* CategoryDTO.swift in Sources */,
 				6FC8D58E27BC0388003DF43F /* RecipeRow.swift in Sources */,
 				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
@@ -406,7 +422,9 @@
 				C18B16EF27B90340002D6D10 /* Recipe.swift in Sources */,
 				C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */,
 				C16C160D27AFCD0400E3B156 /* SettingsSummary.swift in Sources */,
+				6FA8905027BE2C340037E851 /* StepRow.swift in Sources */,
 				6FA8904927BD41A90037E851 /* StepWithinRecipeExecutionDTO.swift in Sources */,
+				6FA8905427BE78410037E851 /* SimpleStep.swift in Sources */,
 				C1D1305327B946320091D98F /* Badge.swift in Sources */,
 				C141DFC127AE80D800053369 /* RecipeList.swift in Sources */,
 				C19ABB5127AAF4C200D9387B /* DoubleExtension.swift in Sources */,

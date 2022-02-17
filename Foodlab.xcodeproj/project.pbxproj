@@ -153,6 +153,8 @@
 				6FA8904F27BE2C340037E851 /* StepRow.swift */,
 			);
 			path = Step;
+			sourceTree = "<group>";
+		};
 		6FA8905527BE83100037E851 /* DAO */ = {
 			isa = PBXGroup;
 			children = (

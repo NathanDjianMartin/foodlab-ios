@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserDAO {
-    //TODO : mettre url en variable d'environnement 
+    //TODO : mettre url en variable d'environnement
     var stringUrl = ""
     
     func getAllUsers() async -> [User]? {
@@ -34,7 +34,29 @@ struct UserDAO {
                 return users
                 
             } catch {
-                print("Error while fetching tracks from internet: \(error)")
+                print("Error while fetching users from backend: \(error)")
+                return nil
+            }
+        }
+    
+    func getUserById(id: Int) async -> User? {
+            do {
+                
+                // faire la requête vers le backend
+                guard let url = URL(string: stringUrl + "detail+id")
+                else { return nil }
+                let (data, _) = try await URLSession.shared.data(from: url)
+                
+                
+                // decoder le JSON avec la fonction présente dans JSONHelper
+                guard let userDTO: UserDTO = JSONHelper.decode(UserDTO.self, data: data)
+                else { return nil }
+                
+                // retourner une liste de User
+                return getUserFromUserDTO(userDTO: userDTO)
+                
+            } catch {
+                print("Error while fetching users from backend: \(error)")
                 return nil
             }
         }

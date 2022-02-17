@@ -1,19 +1,15 @@
 import SwiftUI
 
-struct UserRow: View {
-    var user: User
+struct StepRow: View {
+    var step: SimpleStep
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(user.name)
+                Text(step.stepTitle)
                     .font(.headline)
-                Text(user.email)
+                Text(step.stepDescription)
                     .font(.caption)
-            }
-            if user.isAdmin {
-                Spacer()
-                Badge(text: "Admin")
             }
             Spacer()
             // TODO: manage deletion with a swipe
@@ -22,15 +18,12 @@ struct UserRow: View {
     }
 }
 
-struct UserRow_Previews: PreviewProvider {
+struct StepRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            UserRow(user: MockData.user)
+            StepRow(step: MockData.step)
                 .previewLayout(.fixed(width: 300, height: 70))
             
-            UserRow(user: MockData.user)
-                .previewLayout(.fixed(width: 300, height: 70))
-                .preferredColorScheme(.dark)
         }
     }
 }

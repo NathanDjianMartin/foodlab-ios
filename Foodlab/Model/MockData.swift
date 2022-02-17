@@ -45,5 +45,13 @@ struct MockData {
     static let allergenCategoriesModel = [Category](repeating: crustace, count: 2)
     static let recipeCategoriesModel = [Category](repeating: entree, count: 2)
     
+    //Cost data
+    static let costData = CostData(id: 1, averageHourlyCost: 7.0, flatrateHourlyCost: 8.0, coefWithCharges: 4.2, coefWithoutCharges: 5.6)
+    
+    //Recipes
+    static let recipe = Recipe(id: 1, name: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, duration: 10)
+    
+    //Step
+    static let step = SimpleStep(id: 1, stepTitle: "Etape1", stepDescription: "Mélanger les légumes", duration: 6)
     
 }

@@ -38,6 +38,7 @@ struct IngredientList: View {
                         }
                     }
             }
+            
         }
         .sheet(isPresented: $showIngredientForm) {
             IngredientForm(isPresented: $showIngredientForm)

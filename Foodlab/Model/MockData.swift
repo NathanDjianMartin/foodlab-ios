@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct MockData {
     
@@ -16,7 +17,17 @@ struct MockData {
                                        ingredientCategory: ingredientCategories[0],
                                        allergenCategory: allergenCategories[0])
     
-    static let ingredientList = [Ingredient](repeating: ingredient, count: 5)
+    static var ingredientList: [Ingredient] {
+        var list: [Ingredient] = []
+        for i in 1...15 {
+            if [3, 6, 9].contains(i) {
+                list.append(allergenIngredient)
+            } else {
+                list.append(ingredient)
+            }
+        }
+        return list
+    }
     
     static let ingredientCategories = ["Féculent", "Légume", "Fruit", "Produit laitier"]
     static let allergenCategories = ["Gluten", "Céréale", "Crustacé"]

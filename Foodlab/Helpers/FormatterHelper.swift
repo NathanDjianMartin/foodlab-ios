@@ -1,7 +1,7 @@
 import Foundation
 
 
-struct Formatters {
+struct FormatterHelper {
     
     static let decimalFormatter: NumberFormatter = {
         let formatter = NumberFormatter()

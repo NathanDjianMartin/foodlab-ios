@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct IngredientCreation: View {
+struct IngredientForm: View {
     @Binding var isPresented: Bool
     @State private var name: String = ""
     @State private var unit: String = ""
@@ -36,14 +36,14 @@ struct IngredientCreation: View {
                 HStack {
                     Text("Price")
                     Divider()
-                    TextField("Price", value: $price, formatter: Formatters.decimalFormatter)
+                    TextField("Price", value: $price, formatter: FormatterHelper.decimalFormatter)
                 }
                 
                 HStack {
                     Text("Stock quantity")
                         .lineLimit(1)
                     Divider()
-                    TextField("Stock quantity", value: $stockQuantity, formatter: Formatters.decimalFormatter)
+                    TextField("Stock quantity", value: $stockQuantity, formatter: FormatterHelper.decimalFormatter)
                 }
                 
                 Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
@@ -65,6 +65,6 @@ struct IngredientCreation: View {
 
 struct IngredientCreation_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientCreation(isPresented: .constant(true))
+        IngredientForm(isPresented: .constant(true))
     }
 }

@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct IngredientList: View {
-    @State private var showIngredientCreation = false
+    @State private var showIngredientForm = false
     @State private var showAlert = false
-    @State private var toggle = false
+    @State private var ingredient = Ingredient(name: "", unit: "", price: 0, stockQuantity: 0, ingredientCategory: "")
     
     var body: some View {
         List {
@@ -11,11 +11,18 @@ struct IngredientList: View {
                 IngredientRow(ingredient: MockData.ingredientList[ingredientIndex])
                     .swipeActions {
                         Button {
+                            self.ingredient = MockData.ingredientList[ingredientIndex]
+                            showIngredientForm = true
+                        } label: {
+                            Image(systemName: "square.and.pencil")
+                        }
+                        .tint(.foodlabTeal)
+                        Button {
                             self.showAlert = true
                         } label: {
                             Image(systemName: "trash")
                         }
-                        .tint(.red)
+                        .tint(.foodlabRed)
                     }
                     .alert("Delete ?", isPresented: $showAlert) {
                         Button(role: .cancel) {
@@ -23,29 +30,26 @@ struct IngredientList: View {
                             Text("No")
                         }
                         Button(role: .destructive) {
-                            self.toggle.toggle()
-                            deleteIngredient(at: ingredientIndex)
+                            self.showAlert = false
+                            // TODO: intentToRemoveIngredient
                         } label: {
                             Text("Yes")
+                            
                         }
                     }
             }
         }
-        .sheet(isPresented: $showIngredientCreation) {
-            IngredientCreation(isPresented: $showIngredientCreation)
+        .sheet(isPresented: $showIngredientForm) {
+            IngredientForm(isPresented: $showIngredientForm)
         }
         .navigationTitle("Ingredients")
         .toolbar {
             Button(action: {
-                showIngredientCreation = true
+                showIngredientForm = true
             }) {
                 Image(systemName: "plus")
             }
         }
-    }
-    
-    func deleteIngredient(at indexSet: Int) {
-        self.showAlert = true
     }
 }
 

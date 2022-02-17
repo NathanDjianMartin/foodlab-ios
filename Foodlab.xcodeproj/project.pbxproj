@@ -21,6 +21,7 @@
 		6FA8905927BE87AE0037E851 /* RecipeDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905827BE87AE0037E851 /* RecipeDAO.swift */; };
 		6FA8905B27BE87C00037E851 /* CostDataDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905A27BE87C00037E851 /* CostDataDAO.swift */; };
 		6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905C27BE87CC0037E851 /* UserDAO.swift */; };
+		6FA8905F27BE88610037E851 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905E27BE88610037E851 /* JSONHelper.swift */; };
 		6FC8D58E27BC0388003DF43F /* RecipeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC8D58D27BC0388003DF43F /* RecipeRow.swift */; };
 		C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C108924A27AAFE2800067819 /* ColorExtension.swift */; };
 		C141DFC127AE80D800053369 /* RecipeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC027AE80D800053369 /* RecipeList.swift */; };
@@ -70,6 +71,7 @@
 		6FA8905827BE87AE0037E851 /* RecipeDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDAO.swift; sourceTree = "<group>"; };
 		6FA8905A27BE87C00037E851 /* CostDataDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostDataDAO.swift; sourceTree = "<group>"; };
 		6FA8905C27BE87CC0037E851 /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
+		6FA8905E27BE88610037E851 /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		6FC8D58D27BC0388003DF43F /* RecipeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRow.swift; sourceTree = "<group>"; };
 		C108924A27AAFE2800067819 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		C141DFC027AE80D800053369 /* RecipeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeList.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				C146CFD327BA9C7F00407259 /* Formatters.swift */,
+				6FA8905E27BE88610037E851 /* JSONHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				6FA8903F27BD1C6B0037E851 /* RecipeDTO.swift in Sources */,
 				6FA8904727BD3B4B0037E851 /* RecipeExecution.swift in Sources */,
 				C1EDD36927BA487E00D02244 /* RecipeCreation.swift in Sources */,
+				6FA8905F27BE88610037E851 /* JSONHelper.swift in Sources */,
 				C19ABB4227AAD5DE00D9387B /* IngredientCreation.swift in Sources */,
 				C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */,
 				6FA8903D27BD1BC90037E851 /* IngredientDTO.swift in Sources */,

@@ -81,7 +81,7 @@ struct IngredientDAO {
             name: ingredientDTO.name,
             unit: ingredientDTO.unit,
             unitaryPrice: 0.0,
-            stockQuantity:0.0,
+            stockQuantity: 0.0,
             ingredientCategory: "test",
             allergenCategory: "test"
         )
@@ -89,6 +89,7 @@ struct IngredientDAO {
         if let price = Double(ingredientDTO.unitaryPrice) {
             ingredient.unitaryPrice = price
         }
+        //TODO: lever exception si problème de conversion
         if let stockQuantity = Double(ingredientDTO.stockQuantity) {
             ingredient.stockQuantity = stockQuantity
         }

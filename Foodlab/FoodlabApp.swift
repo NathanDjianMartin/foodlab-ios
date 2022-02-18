@@ -6,9 +6,9 @@ struct FoodlabApp: App {
         WindowGroup {
             ContentView()
                 .task {
-                    if let ingredients = await IngredientDAO.getAllIngredients() {
-                        IngredientList.ingredients = ingredients
-                        print(ingredients)
+                    if let ingredient = await IngredientDAO.getIngredientById(id: 30) {
+                        IngredientList.ingredients = [ingredient]
+                        print(ingredient)
                     } else {
                         print("nil GET")
                     }

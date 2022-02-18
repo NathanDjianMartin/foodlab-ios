@@ -55,7 +55,7 @@ struct IngredientDAO {
             do {
                 
                 // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "detail+id")
+                guard let url = URL(string: stringUrl + "ingredient/\(id)")
                 else { return nil }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 

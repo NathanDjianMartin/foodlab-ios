@@ -25,7 +25,7 @@ struct JSONHelper{
         
     }
     
-    static func decode<T: Decodable>(data: Data) -> T? {
+    static func decode<T: Decodable>(_ t: T.Type, data: Data) -> T? {
         
         let decoder = JSONDecoder() // création d'un décodeur
         if let decoded = try? decoder.decode(T.self, from:data) {

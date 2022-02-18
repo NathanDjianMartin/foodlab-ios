@@ -39,7 +39,7 @@ struct IngredientDAO {
                 // dans une boucle transformer chaque UserDTO en model User
                 var ingredients: [Ingredient] = []
                 for ingredientDTO in decoded {
-                    ingredients.append( getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO) )
+                    ingredients.append(await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO) )
                 }
                 
                 // retourner une liste de User
@@ -65,7 +65,7 @@ struct IngredientDAO {
                 else { return nil }
                 
                 // retourner une liste de User
-                return getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)
+                return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)
                 
             } catch {
                 print("Error while fetching ingredient from backend: \(error)")
@@ -74,7 +74,7 @@ struct IngredientDAO {
         }
 
     
-    static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) -> Ingredient {
+    static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Ingredient {
         //TODO : gérer catégorie ingrédient et allergen
         let ingredient = Ingredient(
             id: ingredientDTO.id,
@@ -92,6 +92,9 @@ struct IngredientDAO {
         //TODO: lever exception si problème de conversion
         if let stockQuantity = Double(ingredientDTO.stockQuantity) {
             ingredient.stockQuantity = stockQuantity
+        }
+        if let ingredientCategory = await CategoryDAO.getIngredientCategoriesById(id: ingredientDTO.ingredientCategoryId) {
+            ingredient.ingredientCategory = ingredientCategory.name
         }
         return ingredient
     }

@@ -8,17 +8,7 @@ struct SettingsSummary: View {
             Section(header: Text("My account")) {
                 
                 HStack {
-                    // TODO: faire une vue dédié
-                    Image(systemName: "person")
-                        .padding(4)
-                        .foregroundColor(Color.foodlabTeal)
-                        .font(.title)
-                    VStack(alignment: .leading) {
-                        Text(user.name)
-                            .font(.headline)
-                        Text(user.email)
-                            .font(.caption)
-                    }
+                    UserProfile(user: user)
                 }
                 
                 Button("Sign out") {

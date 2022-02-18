@@ -21,16 +21,16 @@ struct CostDataSettings: View {
             LazyVGrid(columns: cols, alignment: .leading, spacing: 15) {
                 Text("Average hourly cost")
             
-                TextField("Name", value: $averageHourlyCost, formatter: Formatters.decimalFormatter)
+                TextField("Name", value: $averageHourlyCost, formatter: FormatterHelper.decimalFormatter)
            
                 Text("Flatrate hourly cost")
-                TextField("Email", value: $flatrateHourlyCost, formatter: Formatters.decimalFormatter)
+                TextField("Email", value: $flatrateHourlyCost, formatter: FormatterHelper.decimalFormatter)
            
                 Text("Coefficient with charges")
-                TextField("Password", value: $coefWithCharges, formatter: Formatters.decimalFormatter)
+                TextField("Password", value: $coefWithCharges, formatter: FormatterHelper.decimalFormatter)
             
                 Text("Coefficient without charges")
-                TextField("Password", value: $coefWithoutCharges, formatter: Formatters.decimalFormatter)
+                TextField("Password", value: $coefWithoutCharges, formatter: FormatterHelper.decimalFormatter)
             }
             //.padding()
                     

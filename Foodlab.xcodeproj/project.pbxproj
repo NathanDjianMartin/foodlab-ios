@@ -26,6 +26,8 @@
 		6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905C27BE87CC0037E851 /* UserDAO.swift */; };
 		6FA8905F27BE88610037E851 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905E27BE88610037E851 /* JSONHelper.swift */; };
 		6FC8D58E27BC0388003DF43F /* RecipeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC8D58D27BC0388003DF43F /* RecipeRow.swift */; };
+		6FC929BD27BFBFE200B0C050 /* FormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC929BC27BFBFE200B0C050 /* FormatterHelper.swift */; };
+		6FC929BF27BFBFFE00B0C050 /* IngredientForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC929BE27BFBFFE00B0C050 /* IngredientForm.swift */; };
 		C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C108924A27AAFE2800067819 /* ColorExtension.swift */; };
 		C141DFC127AE80D800053369 /* RecipeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC027AE80D800053369 /* RecipeList.swift */; };
 		C141DFC327AE817200053369 /* IngredientList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC227AE817200053369 /* IngredientList.swift */; };
@@ -80,6 +82,8 @@
 		6FA8905C27BE87CC0037E851 /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		6FA8905E27BE88610037E851 /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		6FC8D58D27BC0388003DF43F /* RecipeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRow.swift; sourceTree = "<group>"; };
+		6FC929BC27BFBFE200B0C050 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
+		6FC929BE27BFBFFE00B0C050 /* IngredientForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientForm.swift; sourceTree = "<group>"; };
 		C108924A27AAFE2800067819 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		C141DFC027AE80D800053369 /* RecipeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeList.swift; sourceTree = "<group>"; };
 		C141DFC227AE817200053369 /* IngredientList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientList.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 		6FA8904E27BE2C100037E851 /* Step */ = {
 			isa = PBXGroup;
 			children = (
+				6FA8905127BE753E0037E851 /* Step.swift */,
 				6FA8904F27BE2C340037E851 /* StepRow.swift */,
 			);
 			path = Step;
@@ -172,6 +177,14 @@
 				6FA8905C27BE87CC0037E851 /* UserDAO.swift */,
 			);
 			path = DAO;
+			sourceTree = "<group>";
+		};
+		6FC929BB27BFBFE200B0C050 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6FC929BC27BFBFE200B0C050 /* FormatterHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		C146CFD227BA9C6F00407259 /* Utils */ = {
@@ -248,7 +261,6 @@
 		C19ABB3027AAC99900D9387B /* Foodlab */ = {
 			isa = PBXGroup;
 			children = (
-				6F3ECDFD27BFC8F10088C213 /* Helpers */,
 				C1ABB14A27BFED0100B1EAAE /* Helpers */,
 				6FA8905527BE83100037E851 /* DAO */,
 				6FA8903B27BD1BA80037E851 /* DTO */,
@@ -293,7 +305,6 @@
 		C19ABB4027AAD5A500D9387B /* Ingredient */ = {
 			isa = PBXGroup;
 			children = (
-				6F3ECDFB27BFC8410088C213 /* IngredientForm.swift */,
 				C1ABB14827BFECD800B1EAAE /* IngredientForm.swift */,
 				C141DFC227AE817200053369 /* IngredientList.swift */,
 				C141DFD827AF1D5900053369 /* IngredientRow.swift */,
@@ -311,7 +322,6 @@
 				C18B16F027B903C6002D6D10 /* User.swift */,
 				C18B16FD27B925AB002D6D10 /* Category.swift */,
 				6FA8904627BD3B4B0037E851 /* RecipeExecution.swift */,
-				6FA8905127BE753E0037E851 /* Step.swift */,
 				6FA8905327BE78410037E851 /* SimpleStep.swift */,
 			);
 			path = Model;

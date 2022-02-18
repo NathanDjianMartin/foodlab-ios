@@ -6,13 +6,13 @@ struct MockData {
     //Ingredients
     static let ingredient = Ingredient(name: "Pommes",
                                        unit: "KG",
-                                       price: 0.81,
+                                       unitaryPrice: 0.81,
                                        stockQuantity: 17.5,
                                        ingredientCategory: ingredientCategories[2])
     
     static let allergenIngredient = Ingredient(name: "Farine de blé",
                                        unit: "KG",
-                                       price: 0.54,
+                                       unitaryPrice: 0.54,
                                        stockQuantity: 4.3,
                                        ingredientCategory: ingredientCategories[0],
                                        allergenCategory: allergenCategories[0])

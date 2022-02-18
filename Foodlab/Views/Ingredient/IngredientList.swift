@@ -3,12 +3,15 @@ import SwiftUI
 struct IngredientList: View {
     @State private var showIngredientForm = false
     @State private var showAlert = false
-    @State private var ingredient = Ingredient(name: "", unit: "", price: 0, stockQuantity: 0, ingredientCategory: "")
+    @State private var ingredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: "")
+    static var ingredients : [Ingredient]?
     
     var body: some View {
+        
+        
         List {
-            ForEach(MockData.ingredientList.indices) { ingredientIndex in
-                IngredientRow(ingredient: MockData.ingredientList[ingredientIndex])
+            ForEach(IngredientList.ingredients!.indices) { ingredientIndex in
+                IngredientRow(ingredient: IngredientList.ingredients![ingredientIndex])
                     .swipeActions {
                         Button {
                             self.ingredient = MockData.ingredientList[ingredientIndex]

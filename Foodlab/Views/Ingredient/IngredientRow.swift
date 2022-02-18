@@ -10,7 +10,7 @@ struct IngredientRow: View {
                     .font(.headline)
                 Text("\(ingredient.stockQuantity.roundTo(2))  unit in stock")
                     .font(.caption)
-                Text("\(ingredient.price.roundTo(2))$ per \(ingredient.unit)")
+                Text("\(ingredient.unitaryPrice.roundTo(2))$ per \(ingredient.unit)")
                     .font(.caption)
             }
             if ingredient.allergenCategory != nil {

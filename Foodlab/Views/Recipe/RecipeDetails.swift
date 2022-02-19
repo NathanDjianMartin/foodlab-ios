@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RecipeDetails: View {
     var recipe: Recipe
+    @State private var selectedTab: String = "steps"
     
     var body: some View {
         VStack {
@@ -18,7 +19,28 @@ struct RecipeDetails: View {
             }
             .padding()
             
-            RecipeExecutionSteps(execution: recipe.execution)
+            Picker("Tab", selection: $selectedTab) {
+                Image(systemName: "list.dash").tag("steps")
+                Image(systemName: "fork.knife").tag("ingredients")
+                Image(systemName: "dollarsign.circle").tag("costs")
+            }
+            .colorMultiply(.foodlabLightBrown)
+            .pickerStyle(.segmented)
+            .padding()
+            
+            switch selectedTab {
+            case "steps":
+                RecipeExecutionSteps(execution: recipe.execution)
+            case "ingredients":
+                Text("RecipeIngredients")
+            case "costs":
+                Text("RecipeCosts")
+            default:
+                Text("ERROR, wrong selection \(selectedTab)")
+                    .font(.title)
+                    .foregroundColor(.red)
+            }
+            Spacer()
         }
     }
 }

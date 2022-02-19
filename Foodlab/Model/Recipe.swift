@@ -1,6 +1,6 @@
 import Foundation
 
-class Recipe: Identifiable {
+class Recipe: Identifiable, ObservableObject {
     
     var id: Int?
     var title: String

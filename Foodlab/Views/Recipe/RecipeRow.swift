@@ -13,7 +13,7 @@ struct RecipeRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(recipe.name)
+                Text(recipe.title)
                     .font(.headline)
                 Text("By \(recipe.author)")
                     .font(.caption)
@@ -29,6 +29,6 @@ struct RecipeRow: View {
 
 struct RecipeRow_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeRow(recipe: MockData.recipe)
+        RecipeRow(recipe: MockData.recipeCrepes)
     }
 }

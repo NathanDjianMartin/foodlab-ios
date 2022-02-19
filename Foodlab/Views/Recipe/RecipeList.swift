@@ -10,9 +10,9 @@ struct RecipeList: View {
                 Section(category.name) {
                     ForEach(1..<3) { number in
                         NavigationLink {
-                            RecipeDetails(recipe: MockData.recipe)
+                            RecipeDetails(recipe: MockData.recipePates)
                         } label: {
-                            RecipeRow(recipe: MockData.recipe)
+                            RecipeRow(recipe: MockData.recipePates)
                         }
                     }
                 }

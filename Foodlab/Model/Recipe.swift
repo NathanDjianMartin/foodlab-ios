@@ -3,25 +3,25 @@ import Foundation
 class Recipe: Identifiable {
     
     var id: Int?
-    var name: String
+    var title: String
     var author: String
     var guestsNumber: Int
     var recipeCategory: Category
-    var recipeExecution: RecipeExecution? //TODO: changer avec une liste d'étapes 
     var costData: CostData
+    var execution: RecipeExecution
     
-    //variable calculée
-    var duration : Int
+    var duration: Int {
+        0
+    }
     
-    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategory: Category, recipeExecution: RecipeExecution? = nil, costData: CostData, duration: Int) {
+    init(id: Int? = nil, title: String, author: String, guestsNumber: Int, recipeCategory: Category, costData: CostData, execution: RecipeExecution) {
         self.id = id
-        self.name = name
+        self.title = title
+        
         self.author = author
         self.guestsNumber = guestsNumber
         self.recipeCategory = recipeCategory
-        self.recipeExecution = recipeExecution
         self.costData = costData
-        self.duration = duration 
+        self.execution = execution
     }
-    
 }

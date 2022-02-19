@@ -2,6 +2,7 @@ import SwiftUI
 
 struct Badge: View {
     var text: String
+    var color: Color?
     
     var body: some View {
         Text(text)
@@ -10,7 +11,7 @@ struct Badge: View {
             .padding(5)
             .background(
                 RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(.foodlabRed)
+                    .foregroundColor(color != nil ? color : .foodlabRed)
             )
     }
 }

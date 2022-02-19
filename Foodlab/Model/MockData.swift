@@ -11,11 +11,11 @@ struct MockData {
                                        ingredientCategory: ingredientCategories[2])
     
     static let allergenIngredient = Ingredient(name: "Farine de blé",
-                                       unit: "KG",
-                                       unitaryPrice: 0.54,
-                                       stockQuantity: 4.3,
-                                       ingredientCategory: ingredientCategories[0],
-                                       allergenCategory: allergenCategories[0])
+                                               unit: "KG",
+                                               unitaryPrice: 0.54,
+                                               stockQuantity: 4.3,
+                                               ingredientCategory: ingredientCategories[0],
+                                               allergenCategory: allergenCategories[0])
     
     static var ingredientList: [Ingredient] {
         var list: [Ingredient] = []
@@ -38,8 +38,8 @@ struct MockData {
     
     //IngredientCategories
     static let legume = Category(id: 1, name: "Légume")
-    static let crustace = Category(id: 1, name: "Crustacé")
-    static let entree = Category(id: 1, name: "Entrée")
+    static let crustace = Category(id: 2, name: "Crustacé")
+    static let entree = Category(id: 3, name: "Entrée")
     
     static let ingredientCategoriesModel = [Category](repeating: legume, count: 3)
     static let allergenCategoriesModel = [Category](repeating: crustace, count: 2)
@@ -49,9 +49,42 @@ struct MockData {
     static let costData = CostData(id: 1, averageHourlyCost: 7.0, flatrateHourlyCost: 8.0, coefWithCharges: 4.2, coefWithoutCharges: 5.6)
     
     //Recipes
-    static let recipe = Recipe(id: 1, name: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, duration: 10)
+    
+    // Pates
+    static var executionPates: RecipeExecution {
+        let execution = RecipeExecution(id: 2, title: "Pâtes exec")
+        execution.addStep(step)
+        execution.addStep(step2)
+        execution.addStep(executionCrepes)
+        return execution
+    }
+    
+    static var recipePates: Recipe {
+        let recipe = Recipe(id: 1, title: "Pates", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, execution: executionPates)
+        return recipe
+    }
+    
+    // Crepes
+    
+    static var executionCrepes: RecipeExecution {
+        let execution = RecipeExecution(id: 1, title: "Crêpe exec")
+        execution.addStep(step3)
+        //execution.addStep(executionPates)
+        execution.addStep(step4)
+        return execution
+    }
+    
+    
+    static var recipeCrepes: Recipe {
+        let recipe = Recipe(id: 1, title: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, execution: executionCrepes)
+        return recipe
+    }
     
     //Step
-    static let step = SimpleStep(id: 1, stepTitle: "Etape1", stepDescription: "Mélanger les légumes", duration: 6)
+    static let step = SimpleStep(id: 3, title: "Faire bouillir l'eau", stepDescription: "Remplir un récipient d'eau et amener le récipient au dessus d'une source de chaleur", duration: 10)
+    static let step2 = SimpleStep(id: 4, title: "Égouter les pates", stepDescription: "Verser le contenu du récipient dans une passoire", duration: 1)
+    
+    static let step3 = SimpleStep(id: 5, title: "Mettre farine", stepDescription: "Mettre la farine et creuser un puit au milieu (comme un volcan)", duration: 2)
+    static let step4 = SimpleStep(id: 6, title: "Casser les oeufs", stepDescription: "Casser les oeufs et les disposer au centre du puit de farine", duration: 1)
     
 }

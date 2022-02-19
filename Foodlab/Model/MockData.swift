@@ -8,14 +8,14 @@ struct MockData {
                                        unit: "KG",
                                        unitaryPrice: 0.81,
                                        stockQuantity: 17.5,
-                                       ingredientCategory: ingredientCategories[2])
+                                       ingredientCategory: legume)
     
     static let allergenIngredient = Ingredient(name: "Farine de blé",
                                        unit: "KG",
                                        unitaryPrice: 0.54,
                                        stockQuantity: 4.3,
-                                       ingredientCategory: ingredientCategories[0],
-                                       allergenCategory: allergenCategories[0])
+                                       ingredientCategory: legume,
+                                       allergenCategory: crustace)
     
     static var ingredientList: [Ingredient] {
         var list: [Ingredient] = []

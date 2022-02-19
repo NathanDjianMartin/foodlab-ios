@@ -3,7 +3,7 @@ import SwiftUI
 struct IngredientList: View {
     @State private var showIngredientForm = false
     @State private var showAlert = false
-    @State private var ingredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: "")
+    @State private var ingredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: ""))
     static var ingredients : [Ingredient]?
     
     var body: some View {

@@ -67,8 +67,8 @@ struct IngredientDAO {
             unit: ingredientDTO.unit,
             unitaryPrice: 0.0,
             stockQuantity: 0.0,
-            ingredientCategory: "test",
-            allergenCategory: "test"
+            ingredientCategory: Category(id: 1, name: "test"),
+            allergenCategory: Category(id: 2, name: "test")
         )
         
         if let price = Double(ingredientDTO.unitaryPrice) {
@@ -79,7 +79,7 @@ struct IngredientDAO {
             ingredient.stockQuantity = stockQuantity
         }
         if let ingredientCategory = await CategoryDAO.getIngredientCategoriesById(id: ingredientDTO.ingredientCategoryId) {
-            ingredient.ingredientCategory = ingredientCategory.name
+            ingredient.ingredientCategory = ingredientCategory
         }
         return ingredient
     }

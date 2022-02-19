@@ -10,6 +10,11 @@ import Foundation
 
 class IngredientListViewModel: ObservableObject, Subscriber {
     
+    public var ingredients : [Ingredient]
+    
+    init(ingredients: [Ingredient]) {
+        self.ingredients = ingredients
+    }
     
     // MARK: -
     // MARK: Subscriber conformance

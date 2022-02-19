@@ -6,15 +6,17 @@ struct IngredientList: View {
     @State private var ingredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: ""))
     static var ingredients : [Ingredient]?
     
+    @ObservedObject var ingredientListVM: IngredientListViewModel
+    
     var body: some View {
         
         
         List {
-            ForEach(IngredientList.ingredients!.indices) { ingredientIndex in
-                IngredientRow(ingredient: IngredientList.ingredients![ingredientIndex])
+            ForEach(ingredientListVM.ingredients.indices) { ingredientIndex in
+                IngredientRow(ingredient: ingredientListVM.ingredients[ingredientIndex])
                     .swipeActions {
                         Button {
-                            self.ingredient = MockData.ingredientList[ingredientIndex]
+                            self.ingredient = ingredientListVM.ingredients[ingredientIndex]
                             showIngredientForm = true
                         } label: {
                             Image(systemName: "square.and.pencil")
@@ -44,7 +46,7 @@ struct IngredientList: View {
             
         }
         .sheet(isPresented: $showIngredientForm) {
-            IngredientForm(isPresented: $showIngredientForm)
+            IngredientForm(ingredientVM: IngredientFormViewModel(model: self.ingredient), ingredientListVM: ingredientListVM, isPresented: $showIngredientForm)
         }
         .navigationTitle("Ingredients")
         .toolbar {
@@ -59,7 +61,7 @@ struct IngredientList: View {
 
 struct StocksList_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientList()
+        IngredientList(ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList))
         
     }
 }

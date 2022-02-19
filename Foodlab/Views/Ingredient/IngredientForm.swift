@@ -1,14 +1,37 @@
 import SwiftUI
 
 struct IngredientForm: View {
+    
+    @State private var name: String
+    @State private var unit: String
+    @State private var unitaryPrice: Double
+    @State private var stockQuantity: Double
+    @State private var ingredientCategory: Category
+    @State private var allergentCategory: Category?
     @Binding var isPresented: Bool
-    @State private var name: String = ""
-    @State private var unit: String = ""
-    @State private var price: Double = 0
-    @State private var stockQuantity: Double = 0
-    @State private var ingredientCategory: String = ""
-    @State private var allergentCategory: String = ""
+    
+    @ObservedObject var ingredientVM: IngredientFormViewModel
+    var ingredientListVM: IngredientListViewModel
+    private var intent : IngredientIntent
+    
+    init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Bool>){
+        self.ingredientVM = ingredientVM
+        self.ingredientListVM = ingredientListVM
+        self.intent = IngredientIntent()
+        // le VM est enregistré comme souscrivant aux actions demandées (publications des modifs du state de l'Intent)
+        self.intent.addObserver(ingredientFormViewModel: ingredientVM)
+        self.intent.addObserver(ingredientListViewModel: ingredientListVM)
+        self._isPresented = isPresented
         
+        //
+        self.name = ingredientVM.name
+        self.unit = ingredientVM.unit
+        self.unitaryPrice = ingredientVM.unitaryPrice
+        self.stockQuantity = ingredientVM.stockQuantity
+        self.ingredientCategory = ingredientVM.ingredientCategory
+        self.allergentCategory = ingredientVM.allergenCategory
+    }
+    
     var body: some View {
         VStack {
             HStack {
@@ -36,7 +59,7 @@ struct IngredientForm: View {
                 HStack {
                     Text("Price")
                     Divider()
-                    TextField("Price", value: $price, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Price", value: $unitaryPrice, formatter: FormatterHelper.decimalFormatter)
                 }
                 
                 HStack {
@@ -52,7 +75,14 @@ struct IngredientForm: View {
                 HStack {
                     Spacer()
                     Button("Create ingredient") {
-                        print("TODO: Create ingredient!")
+                        self.intent.intentToChange(
+                            name: self.name,
+                            unit: self.unit,
+                            unitaryPrice: self.unitaryPrice,
+                            stockQuantity: self.stockQuantity,
+                            ingredientCategory: self.ingredientCategory,
+                            allergenCategory: self.allergentCategory)
+                        self.isPresented = false
                     }
                     .buttonStyle(DarkRedButtonStyle())
                 }                
@@ -64,7 +94,8 @@ struct IngredientForm: View {
 }
 
 struct IngredientCreation_Previews: PreviewProvider {
+
     static var previews: some View {
-        IngredientForm(isPresented: .constant(true))
+        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: .constant(true))
     }
 }

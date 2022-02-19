@@ -4,7 +4,7 @@ struct MainView: View {
     var body: some View {
         TabView {
             NavigationView {
-                IngredientList()
+                IngredientList(ingredientListVM: IngredientListViewModel(ingredients: IngredientList.ingredients!))
             }
             .tabItem {
                 Label("Ingredients", systemImage: "fork.knife")

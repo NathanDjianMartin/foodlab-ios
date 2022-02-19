@@ -104,4 +104,15 @@ struct IngredientIntent {
         self.state.send(.allergenCategoryChanging(allergenCategory)) // emits an object of type IntentState
         self.listState.send(.needToBeUpdated)
     }
+    
+    func intentToChange(name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category?) {
+        self.state.send(.nameChanging(name))
+        self.state.send(.unitChanging(unit))
+        self.state.send(.unitaryPriceChanging(unitaryPrice))
+        self.state.send(.stockQuantityChanging(stockQuantity))
+        self.state.send(.ingredientCategoryChanging(ingredientCategory))
+        self.state.send(.allergenCategoryChanging(allergenCategory))
+        self.listState.send(.needToBeUpdated)
+        
+    }
 }

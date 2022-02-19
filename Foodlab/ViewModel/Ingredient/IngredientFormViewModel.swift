@@ -8,7 +8,12 @@
 import Combine
 import Foundation
 
-class IngredientFormViewModel : ObservableObject, Subscribers, IngredientObserver {
+enum InputIngredientError: Error {
+    case UnitaryPriceInputError(String)
+    case StockQuantityInputError(String)
+}
+
+class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver {
     
     private var model: Ingredient
     @Published var name: String
@@ -52,7 +57,7 @@ class IngredientFormViewModel : ObservableObject, Subscribers, IngredientObserve
         self.ingredientCategory = ingredientCategory
     }
     
-    func changed(allergenCategory: Category) {
+    func changed(allergenCategory: Category?) {
         self.allergenCategory = allergenCategory
     }
     
@@ -78,24 +83,33 @@ class IngredientFormViewModel : ObservableObject, Subscribers, IngredientObserve
         switch input{
         case .ready:
             break
-        case .trackNameChanging(let name):
+        case .nameChanging(let name):
             let nameClean = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            print("vm: change track name to '\(nameClean)'")
-            self.model.trackName = nameClean
-            print("vm: track name changed to '\(self.model.trackName)'")
-        case .artistNameChanging(let name):
-            let nameClean = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            print("vm: change artist name to '\(nameClean)'")
-            self.model.artistName = nameClean
-            print("vm: track artist changed to '\(self.model.artistName)'")
-        case .collectionNameChanging(let name):
-            let nameClean = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            print("vm: change collection name to '\(nameClean)'")
-            self.model.collectionName = nameClean
-            print("vm: track collection changed to '\(self.model.collectionName)'")
+            print("vm: change ingredient name to '\(nameClean)'")
+            self.model.name = nameClean
+            print("vm: ingredient name changed to '\(self.model.name)'")
+        case .unitChanging(let unit):
+            let unitClean = unit.trimmingCharacters(in: .whitespacesAndNewlines)
+            print("vm: change ingridient unit to '\(unitClean)'")
+            self.model.unit = unitClean
+            print("vm: ingredient unit changed to '\(self.model.unit)'")
+        case .unitaryPriceChanging(let unitaryPrice):
+            let unitaryPriceClean = Double(unitaryPrice)
+            print("vm: change ingredient unitary price to '\(unitaryPriceClean)'")
+            self.model.unitaryPrice = unitaryPriceClean
+            print("vm: ingredient unitary price changed to '\(self.model.unitaryPrice)'")
+        case .stockQuantityChanging(let stockQuantity):
+            let stockQuantityClean = Double(stockQuantity) 
+            print("vm: change ingredient stock quantity to '\(stockQuantityClean)'")
+            self.model.stockQuantity = stockQuantityClean
+            print("vm: ingredient stock quantity changed to '\(self.model.stockQuantity)'")
+        case .ingredientCategoryChanging(let ingredientCategory):
+            print("vm: change ingredient category to '\(ingredientCategory.name)'")
+            self.model.ingredientCategory = ingredientCategory
+            print("vm: ingredient category changed to '\(self.model.ingredientCategory)'")
+        case .allergenCategoryChanging(let allergenCategory):
+            self.model.allergenCategory = allergenCategory
         }
-        return .none // on arrête de traiter cette demande et on attend un nouveau send
-    }
+    return .none // on arrête de traiter cette demande et on attend un nouveau send
 }
-
 }

@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-class IngredientListViewModel: ObservableObject, Subscribers {
+class IngredientListViewModel: ObservableObject, Subscriber {
     
     
     // MARK: -

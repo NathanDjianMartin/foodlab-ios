@@ -6,18 +6,42 @@ protocol IngredientObserver {
     func changed(unitaryPrice: Double)
     func changed(stockQuantity: Double)
     func changed(ingredientCategory: Category)
-    func changed(allergenCategory: Category)
+    func changed(allergenCategory: Category?)
 }
 
 class Ingredient: Identifiable {
     
     var id: Int?
-    var name: String
-    var unit: String
-    var unitaryPrice: Double
-    var stockQuantity: Double
-    var ingredientCategory: Category
-    var allergenCategory: Category?
+    var name: String {
+        didSet { // if name was set, we should warn our observer
+            self.observer?.changed(name: self.name) // this call makes possible observer to observe
+        }
+    }
+    var unit: String {
+        didSet { // if name was set, we should warn our observer
+            self.observer?.changed(unit: self.unit) // this call makes possible observer to observe
+        }
+    }
+    var unitaryPrice: Double {
+        didSet {
+            self.observer?.changed(unitaryPrice: self.unitaryPrice)
+        }
+    }
+    var stockQuantity: Double {
+        didSet {
+            self.observer?.changed(stockQuantity: self.stockQuantity)
+        }
+    }
+    var ingredientCategory: Category {
+        didSet {
+            self.observer?.changed(ingredientCategory: self.ingredientCategory)
+        }
+    }
+    var allergenCategory: Category? {
+        didSet {
+            self.observer?.changed(allergenCategory: self.allergenCategory)
+        }
+    }
     
     var observer: IngredientObserver?
     

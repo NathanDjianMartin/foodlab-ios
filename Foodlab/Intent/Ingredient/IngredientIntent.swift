@@ -15,7 +15,7 @@ enum IntentIngredientState {
     case unitaryPriceChanging(Double)
     case stockQuantityChanging(Double)
     case ingredientCategoryChanging(Category)
-    case allergenCategoryChanging(Category)
+    case allergenCategoryChanging(Category?)
     
     var description: String {
         switch self {

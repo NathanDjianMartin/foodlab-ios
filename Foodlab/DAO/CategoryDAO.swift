@@ -17,7 +17,7 @@ struct CategoryDAO {
     
     //TODO: mettre un singleton? Bonne pratique?
     
-    static var stringUrl = "http://51.75.248.77:3000/"
+    static var stringUrl = "http://localhost:3000/"
     
     //Ingredient
     static func getAllIngredientCategories() async -> [Category]? {
@@ -32,7 +32,7 @@ struct CategoryDAO {
             do {
                 
                 // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "\(type)")
+                guard let url = URL(string: stringUrl + "\(type.rawValue)")
                 else { return nil }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 
@@ -60,12 +60,14 @@ struct CategoryDAO {
             do {
                 
                 // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "\(type)/\(id)")
+                print(stringUrl + "\(type.rawValue)/\(id)")
+                guard let url = URL(string: stringUrl + "\(type.rawValue)/\(id)")
                 else { return nil }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
+                print(data)
                 guard let categoryDTO: CategoryDTO = JSONHelper.decode(CategoryDTO.self, data: data)
                 else { return nil }
                 

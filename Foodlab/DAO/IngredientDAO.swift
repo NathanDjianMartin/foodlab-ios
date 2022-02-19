@@ -26,23 +26,15 @@ struct IngredientDAO {
     static func getAllIngredients() async -> [Ingredient]? {
             do {
                 
-                // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "ingredient")
-                else { return nil }
-                let (data, _) = try await URLSession.shared.data(from: url)
+                let decoded = try await URLSession.shared.getJSON([IngredientDTO].self, from: stringUrl + "ingredient")
                 
-                
-                // decoder le JSON avec la fonction présente dans JSONHelper
-                guard let decoded: [IngredientDTO] = JSONHelper.decode([IngredientDTO].self, data: data)
-                else { return nil }
-                
-                // dans une boucle transformer chaque UserDTO en model User
+                // dans une boucle transformer chaque IngredientDTO en model Ingredient
                 var ingredients: [Ingredient] = []
                 for ingredientDTO in decoded {
                     ingredients.append(await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO) )
                 }
                 
-                // retourner une liste de User
+                // retourner une liste de Ingredient
                 return ingredients
                 
             } catch {
@@ -53,16 +45,9 @@ struct IngredientDAO {
     
     static func getIngredientById(id: Int) async -> Ingredient? {
             do {
-                
-                // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "ingredient/\(id)")
-                else { return nil }
-                let (data, _) = try await URLSession.shared.data(from: url)
-                
-                
+    
                 // decoder le JSON avec la fonction présente dans JSONHelper
-                guard let ingredientDTO: IngredientDTO = JSONHelper.decode(IngredientDTO.self, data: data)
-                else { return nil }
+                let ingredientDTO = try await URLSession.shared.getJSON(IngredientDTO.self, from: stringUrl + "ingredient/\(id)")
                 
                 // retourner une liste de User
                 return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)

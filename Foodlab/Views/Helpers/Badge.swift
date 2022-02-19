@@ -7,6 +7,7 @@ struct Badge: View {
     var body: some View {
         Text(text)
             .font(.caption)
+            .bold()
             .foregroundColor(.white)
             .padding(5)
             .background(

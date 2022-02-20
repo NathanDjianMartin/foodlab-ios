@@ -12,6 +12,7 @@ struct StepForm: View {
     //TODO: changer par SimpleStepVM
     @ObservedObject var step: SimpleStep
     @Binding var isPresented: Bool
+    var ingredients: [Ingredient] = MockData.ingredientList
     
     var body: some View {
         VStack {
@@ -40,7 +41,16 @@ struct StepForm: View {
                     Text(" \(step.duration) minute\(step.duration > 1 ? "s" : "")")
                 }
             }
-            .listStyle(.plain)
+            List {
+                ForEach(ingredients) { ingredient in
+                    
+                    HStack {
+                        Text("un ingredient")
+                        Spacer()
+                        Text("3 kg")
+                    }
+                }
+            }
         }
     }
 }

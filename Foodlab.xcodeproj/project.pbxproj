@@ -22,6 +22,7 @@
 		6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905C27BE87CC0037E851 /* UserDAO.swift */; };
 		6FA8905F27BE88610037E851 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905E27BE88610037E851 /* JSONHelper.swift */; };
 		6FADC13627C28805000DD56D /* StepForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FADC13527C28805000DD56D /* StepForm.swift */; };
+		6FADC13827C28F36000DD56D /* IngredientWithinStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FADC13727C28F36000DD56D /* IngredientWithinStep.swift */; };
 		6FC8D58E27BC0388003DF43F /* RecipeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC8D58D27BC0388003DF43F /* RecipeRow.swift */; };
 		C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C108924A27AAFE2800067819 /* ColorExtension.swift */; };
 		C12A262F27C01D0900C27B38 /* SimpleStepRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A262E27C01D0900C27B38 /* SimpleStepRow.swift */; };
@@ -81,6 +82,7 @@
 		6FA8905C27BE87CC0037E851 /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		6FA8905E27BE88610037E851 /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		6FADC13527C28805000DD56D /* StepForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepForm.swift; sourceTree = "<group>"; };
+		6FADC13727C28F36000DD56D /* IngredientWithinStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientWithinStep.swift; sourceTree = "<group>"; };
 		6FC8D58D27BC0388003DF43F /* RecipeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRow.swift; sourceTree = "<group>"; };
 		C108924A27AAFE2800067819 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		C12A262E27C01D0900C27B38 /* SimpleStepRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStepRow.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 				C18B16F027B903C6002D6D10 /* User.swift */,
 				C18B16FD27B925AB002D6D10 /* Category.swift */,
 				6FA8905327BE78410037E851 /* SimpleStep.swift */,
+				6FADC13727C28F36000DD56D /* IngredientWithinStep.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */,
 				6FA8904D27BD4A060037E851 /* CategoryDTO.swift in Sources */,
 				6FC8D58E27BC0388003DF43F /* RecipeRow.swift in Sources */,
+				6FADC13827C28F36000DD56D /* IngredientWithinStep.swift in Sources */,
 				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
 				C1721C1427AC616F008E6678 /* ViewExtension.swift in Sources */,
 				C18B16EB27B9024F002D6D10 /* CostData.swift in Sources */,

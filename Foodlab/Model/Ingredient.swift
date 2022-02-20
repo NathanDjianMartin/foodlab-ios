@@ -1,7 +1,6 @@
 import Foundation
 
 class Ingredient: Identifiable {
-    
     var id: Int?
     var name: String
     var unit: String
@@ -19,4 +18,5 @@ class Ingredient: Identifiable {
         self.ingredientCategory = ingredientCategory
         self.allergenCategory = allergenCategory
     }
+    
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-class SimpleStep: Step {
+class SimpleStep: Step, ObservableObject {
     
     var description: String
     var duration: Int

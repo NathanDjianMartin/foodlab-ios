@@ -7,11 +7,13 @@
 
 import Foundation
 
-class IngredientWithinStep {
+class IngredientWithinStep: Identifiable {
+    var id: Int?
     var ingredient: Ingredient
     var quantity: Double
     
-    init(ingredient: Ingredient, quantity: Double) {
+    init(id: Int? = nil, ingredient: Ingredient, quantity: Double) {
+        self.id = id
         self.ingredient = ingredient
         self.quantity = quantity
     }

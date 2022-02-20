@@ -6,9 +6,9 @@ struct StepRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(step.stepTitle)
+                Text(step.title)
                     .font(.headline)
-                Text(step.stepDescription)
+                Text(step.description)
                     .font(.caption)
             }
             Spacer()

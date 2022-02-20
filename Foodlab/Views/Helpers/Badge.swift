@@ -2,15 +2,17 @@ import SwiftUI
 
 struct Badge: View {
     var text: String
+    var color: Color?
     
     var body: some View {
         Text(text)
             .font(.caption)
+            .bold()
             .foregroundColor(.white)
             .padding(5)
             .background(
-                RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(.foodlabRed)
+                RoundedRectangle(cornerRadius: 7)
+                    .foregroundColor(color != nil ? color : .foodlabRed)
             )
     }
 }

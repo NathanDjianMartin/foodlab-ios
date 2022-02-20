@@ -82,9 +82,14 @@ struct IngredientForm: View {
                             stockQuantity: self.stockQuantity,
                             ingredientCategory: self.ingredientCategory,
                             allergenCategory: self.allergentCategory)
-                        self.isPresented = false
+                        
                     }
                     .buttonStyle(DarkRedButtonStyle())
+                    
+                    Button("retourner"){
+                        self.isPresented = false
+                    }
+                    
                 }                
             }
             .listStyle(.plain)

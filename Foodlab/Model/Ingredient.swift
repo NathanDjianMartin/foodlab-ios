@@ -1,6 +1,7 @@
 import Foundation
 
 protocol IngredientObserver {
+    
     func changed(name: String)
     func changed(unit: String)
     func changed(unitaryPrice: Double)

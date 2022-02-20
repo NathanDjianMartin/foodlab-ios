@@ -1,10 +1,3 @@
-//
-//  RecipeRow.swift
-//  Foodlab
-//
-//  Created by m1 on 15/02/2022.
-//
-
 import SwiftUI
 
 struct RecipeRow: View {

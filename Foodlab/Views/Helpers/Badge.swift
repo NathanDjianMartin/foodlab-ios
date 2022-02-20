@@ -11,7 +11,7 @@ struct Badge: View {
             .foregroundColor(.white)
             .padding(5)
             .background(
-                RoundedRectangle(cornerRadius: 5)
+                RoundedRectangle(cornerRadius: 7)
                     .foregroundColor(color != nil ? color : .foodlabRed)
             )
     }

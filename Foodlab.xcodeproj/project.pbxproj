@@ -26,7 +26,7 @@
 		C12A262F27C01D0900C27B38 /* SimpleStepRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A262E27C01D0900C27B38 /* SimpleStepRow.swift */; };
 		C12A263127C0221800C27B38 /* RecipeExecutionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A263027C0221800C27B38 /* RecipeExecutionRow.swift */; };
 		C12A263327C0248500C27B38 /* StepIndexCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A263227C0248500C27B38 /* StepIndexCircle.swift */; };
-		C12A263927C0ED0500C27B38 /* AnyStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A263827C0ED0500C27B38 /* AnyStep.swift */; };
+		C12A263927C0ED0500C27B38 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12A263827C0ED0500C27B38 /* Step.swift */; };
 		C141DFC127AE80D800053369 /* RecipeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC027AE80D800053369 /* RecipeList.swift */; };
 		C141DFC327AE817200053369 /* IngredientList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFC227AE817200053369 /* IngredientList.swift */; };
 		C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141DFD827AF1D5900053369 /* IngredientRow.swift */; };
@@ -84,7 +84,7 @@
 		C12A262E27C01D0900C27B38 /* SimpleStepRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStepRow.swift; sourceTree = "<group>"; };
 		C12A263027C0221800C27B38 /* RecipeExecutionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExecutionRow.swift; sourceTree = "<group>"; };
 		C12A263227C0248500C27B38 /* StepIndexCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIndexCircle.swift; sourceTree = "<group>"; };
-		C12A263827C0ED0500C27B38 /* AnyStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyStep.swift; sourceTree = "<group>"; };
+		C12A263827C0ED0500C27B38 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		C141DFC027AE80D800053369 /* RecipeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeList.swift; sourceTree = "<group>"; };
 		C141DFC227AE817200053369 /* IngredientList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientList.swift; sourceTree = "<group>"; };
 		C141DFD827AF1D5900053369 /* IngredientRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientRow.swift; sourceTree = "<group>"; };
@@ -189,15 +189,6 @@
 				C12A263227C0248500C27B38 /* StepIndexCircle.swift */,
 			);
 			path = Steps;
-			sourceTree = "<group>";
-		};
-		C12A263727C0ECF800C27B38 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				C12A263827C0ED0500C27B38 /* AnyStep.swift */,
-				C1A5A76627C10715009E2F52 /* RecipeExecution.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		C146CFD227BA9C6F00407259 /* Utils */ = {
@@ -331,7 +322,8 @@
 		C19ABB4327AAD63100D9387B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C12A263727C0ECF800C27B38 /* Protocols */,
+				C1A5A76627C10715009E2F52 /* RecipeExecution.swift */,
+				C12A263827C0ED0500C27B38 /* Step.swift */,
 				C19ABB4427AAD64800D9387B /* Ingredient.swift */,
 				C19ABB4D27AAF13E00D9387B /* MockData.swift */,
 				C18B16EA27B9024F002D6D10 /* CostData.swift */,
@@ -458,7 +450,7 @@
 				C18B16F327B90D56002D6D10 /* UserRow.swift in Sources */,
 				C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */,
 				C1A7D0C427AB2BEF009AB166 /* TextFieldStyles.swift in Sources */,
-				C12A263927C0ED0500C27B38 /* AnyStep.swift in Sources */,
+				C12A263927C0ED0500C27B38 /* Step.swift in Sources */,
 				C1721C1227AC569D008E6678 /* Authentication.swift in Sources */,
 				6FA8905927BE87AE0037E851 /* RecipeDAO.swift in Sources */,
 				C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */,

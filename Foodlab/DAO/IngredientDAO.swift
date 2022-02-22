@@ -59,6 +59,7 @@ struct IngredientDAO {
         }
 
     
+    
     static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Ingredient {
         //TODO : gérer catégorie ingrédient et allergen
         let ingredient = Ingredient(

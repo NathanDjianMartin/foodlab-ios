@@ -16,6 +16,9 @@ enum InputIngredientError: Error {
 class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver {
     
     private var model: Ingredient
+    // save model in case the modification is cancelled
+    private var modelCopy: Ingredient
+    
     @Published var name: String
     @Published var unit: String
     @Published var unitaryPrice: Double
@@ -31,6 +34,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
         self.ingredientCategory = model.ingredientCategory
         self.allergenCategory = model.allergenCategory
         self.model = model
+        self.modelCopy = model.copy()
         self.model.observer = self
     }
     

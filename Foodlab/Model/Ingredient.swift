@@ -10,7 +10,7 @@ protocol IngredientObserver {
     func changed(allergenCategory: Category?)
 }
 
-class Ingredient: Identifiable {
+class Ingredient: Identifiable, Hashable {
     
     var id: Int?
     var name: String {
@@ -55,4 +55,17 @@ class Ingredient: Identifiable {
         self.ingredientCategory = ingredientCategory
         self.allergenCategory = allergenCategory
     }
+    
+    func copy() -> Ingredient {
+        return Ingredient(id: self.id, name: self.name, unit: self.unit, unitaryPrice: self.unitaryPrice, stockQuantity: self.stockQuantity, ingredientCategory: self.ingredientCategory, allergenCategory: self.allergenCategory)
+    }
+    
+    static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
 }

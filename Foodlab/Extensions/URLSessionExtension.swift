@@ -34,7 +34,7 @@ extension URLSession {
         }
         do{
             var request = URLRequest(url: url)
-            request.httpMethod = "POST"
+            request.httpMethod = "PATCH"
             // append a value to a field
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             // set (replace) a value to a field

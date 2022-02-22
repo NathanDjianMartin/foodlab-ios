@@ -61,7 +61,7 @@ struct IngredientDAO {
     static func updateIngredient(ingredient: Ingredient) async -> Ingredient? {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
-        guard let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient", object: ingredientDTO) else {
+            guard let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id)", object: ingredientDTO) else {
             return nil
         }
         return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)

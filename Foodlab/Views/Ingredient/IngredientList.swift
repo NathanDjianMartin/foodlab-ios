@@ -3,20 +3,19 @@ import SwiftUI
 struct IngredientList: View {
     @State private var showIngredientForm = false
     @State private var showAlert = false
-    @State private var ingredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: ""))
+    @State private var selectedIndex = 0
     static var ingredients : [Ingredient]?
     
     @ObservedObject var ingredientListVM: IngredientListViewModel
     
     var body: some View {
         
-        
         List {
             ForEach(ingredientListVM.ingredients.indices) { ingredientIndex in
-                IngredientRow(ingredient: ingredientListVM.ingredients[ingredientIndex])
+                IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[ingredientIndex]))
                     .swipeActions {
                         Button {
-                            self.ingredient = ingredientListVM.ingredients[ingredientIndex]
+                            self.selectedIndex = ingredientIndex
                             showIngredientForm = true
                         } label: {
                             Image(systemName: "square.and.pencil")
@@ -46,7 +45,7 @@ struct IngredientList: View {
             
         }
         .sheet(isPresented: $showIngredientForm) {
-            IngredientForm(ingredientVM: IngredientFormViewModel(model: self.ingredient), ingredientListVM: ingredientListVM, isPresented: $showIngredientForm)
+            IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[selectedIndex]), ingredientListVM: ingredientListVM, isPresented: $showIngredientForm)
         }
         .navigationTitle("Ingredients")
         .toolbar {

@@ -6,7 +6,7 @@ enum RecipeFormIntentState {
     case recipeTitleChanging(String)
     case recipeAuthorChanging(String)
     case recipeGuestNumberChanging(Int)
-    //case validateChanges
+    case validateChanges
 }
 
 struct RecipeFormIntent {
@@ -30,5 +30,9 @@ struct RecipeFormIntent {
     
     func intentToChange(guestNumber: Int) {
         self.recipeFormStateSubject.send(.recipeGuestNumberChanging(guestNumber))
+    }
+    
+    func intentToValidate() {
+        self.recipeFormStateSubject.send(.validateChanges)
     }
 }

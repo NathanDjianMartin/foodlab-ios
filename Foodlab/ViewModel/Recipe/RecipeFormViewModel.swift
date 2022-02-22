@@ -33,9 +33,9 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
         self.guestNumber = model.guestsNumber
         self.model.addSubscriber(self)
     }
-
     
-    func validate() {
+    
+    private func validate() {
         self.model.title = self.modelCopy.title
         self.model.author = self.modelCopy.author
         self.model.guestsNumber = self.modelCopy.guestsNumber
@@ -61,7 +61,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     
     // MARK: --
     // MARK: Combine subscriber conformance
-        
+    
     typealias Input = RecipeFormIntentState
     typealias Failure = Never
     
@@ -77,39 +77,41 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     
     // 4
     // Called each time the RecipeFormIntent changes its state
+    //    func receive(_ input: RecipeFormIntentState) -> Subscribers.Demand {
+    //        print("RecipeFormViewModel intent = \(input)")
+    //        switch input {
+    //        case .ready:
+    //            break
+    //        case .recipeTitleChanging(let newTitle):
+    //            self.model.title = newTitle
+    //            if self.model.title != newTitle { // the model's property did not change, there was an error
+    //
+    //            }
+    //        case .recipeAuthorChanging(let newAuthor):
+    //            self.model.author = newAuthor
+    //        case .recipeGuestNumberChanging(let newGuestNumber):
+    //            self.model.guestsNumber = newGuestNumber
+    //        }
+    //        return .none // on arrête de traiter cette demande et on attend un nouveau send
+    //    }
+    
     func receive(_ input: RecipeFormIntentState) -> Subscribers.Demand {
         print("RecipeFormViewModel intent = \(input)")
         switch input {
         case .ready:
             break
         case .recipeTitleChanging(let newTitle):
-            self.model.title = newTitle
-            if self.model.title != newTitle { // the model's property did not change, there was an error
+            self.modelCopy.title = newTitle
+            if self.modelCopy.title != newTitle { // the model's property did not change, there was an error
                 
             }
         case .recipeAuthorChanging(let newAuthor):
-            self.model.author = newAuthor
+            self.modelCopy.author = newAuthor
         case .recipeGuestNumberChanging(let newGuestNumber):
-            self.model.guestsNumber = newGuestNumber
+            self.modelCopy.guestsNumber = newGuestNumber
+        case .validateChanges:
+            self.validate()
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }
-    
-//    func receive(_ input: RecipeFormIntentState) -> Subscribers.Demand {
-//        print("RecipeFormViewModel intent = \(input)")
-//        switch input {
-//        case .ready:
-//            break
-//        case .recipeTitleChanging(let newTitle):
-//            self.modelCopy.title = newTitle
-//            if self.modelCopy.title != newTitle { // the model's property did not change, there was an error
-//
-//            }
-//        case .recipeAuthorChanging(let newAuthor):
-//            self.modelCopy.author = newAuthor
-//        case .recipeGuestNumberChanging(let newGuestNumber):
-//            self.modelCopy.guestsNumber = newGuestNumber
-//        }
-//        return .none // on arrête de traiter cette demande et on attend un nouveau send
-//    }
 }

@@ -54,8 +54,8 @@ struct RecipeForm: View {
                 HStack {
                     Spacer()
                     Button {
-                        // TODO: intentToUpdate recipe list
-                        
+                        self.intent.intentToValidate()
+                        self.isPresented = false
                     } label: {
                         Text(creationMode ? "Create recipe" : "Confirm changes")
                     }

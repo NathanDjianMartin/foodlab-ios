@@ -9,12 +9,14 @@ import Foundation
 import SwiftUI
 
 struct DarkRedButtonStyle: ButtonStyle {
-        
+    
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(10)
-            .background(Color.foodlabRed)
-            .foregroundColor(.white)
-            .cornerRadius(10)
+        withAnimation {
+            configuration.label
+                .padding(10)
+                .background(configuration.isPressed ? Color.foodlabRed.opacity(0.8) : Color.foodlabRed)
+                .cornerRadius(10)
+                .foregroundColor(.white)
+        }
     }
 }

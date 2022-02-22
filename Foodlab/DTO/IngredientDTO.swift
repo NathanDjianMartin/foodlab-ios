@@ -11,27 +11,27 @@ enum StringOrDouble : Codable {
     case post(Double)
     case get(String)
     
-    private enum CodingKeys: String, CodingKey {
-        case post
-        case get
-    }
-    
-    enum PostTypeCodingError: Error {
-        case decoding(String)
-    }
+//    private enum CodingKeys: String, CodingKey {
+//        case post
+//        case get
+//    }
+//
+//    enum PostTypeCodingError: Error {
+//        case decoding(String)
+//    }
     
     init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            if let value = try? values.decode(Double.self, forKey: .post) {
-                self = .post(value)
-                return
-            }
-            if let value = try? values.decode(String.self, forKey: .get) {
-                self = .get(value)
-                return
-            }
-            throw PostTypeCodingError.decoding("Whoops! \(dump(values))")
+        let values = try decoder.singleValueContainer()
+        if let string = try? values.decode(String.self){
+            self = .get(string)
         }
+        else{
+            guard let double = try? values.decode(Double.self) else {
+                throw NetworkError.decodedError("toto")
+            }
+            self = .post(double)
+        }
+    }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()

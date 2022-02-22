@@ -13,37 +13,49 @@ struct IngredientList: View {
         List {
             ForEach(ingredientListVM.ingredients.indices) { ingredientIndex in
                 IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[ingredientIndex]))
-                        .swipeActions {
-                            Button {
-                                self.selectedIndex = ingredientIndex
-                                showIngredientForm = true
-                            } label: {
-                                Image(systemName: "square.and.pencil")
-                            }
-                            .tint(.foodlabTeal)
-                            Button {
-                                self.showAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                            .tint(.foodlabRed)
+                    .swipeActions {
+                        Button {
+                            self.selectedIndex = ingredientIndex
+                            showIngredientForm = true
+                        } label: {
+                            Image(systemName: "square.and.pencil")
                         }
-                        .alert("Delete ?", isPresented: $showAlert) {
-                            Button(role: .cancel) {
-                            } label: {
-                                Text("No")
-                            }
-                            Button(role: .destructive) {
-                                self.showAlert = false
-                                // TODO: intentToRemoveIngredient
-                            } label: {
-                                Text("Yes")
-                                
-                            }
+                        .tint(.foodlabTeal)
+                        Button {
+                            self.showAlert = true
+                        } label: {
+                            Image(systemName: "trash")
                         }
+                        .tint(.foodlabRed)
+                    }
+                    .alert("Delete ?", isPresented: $showAlert) {
+                        Button(role: .cancel) {
+                        } label: {
+                            Text("No")
+                        }
+                        Button(role: .destructive) {
+                            self.showAlert = false
+                            // TODO: intentToRemoveIngredient
+                        } label: {
+                            Text("Yes")
+                            
+                        }
+                    }
+            }
+            
+            
+        }
+        .onAppear {
+            Task{
+            if ( ingredientListVM.ingredients.count == 0 ){
+                if let ingredients = await IngredientDAO.getAllIngredients() {
+                    self.ingredientListVM.ingredients = ingredients
+                    ingredientListVM.objectWillChange.send()
+                } else {
+                    print("nil GET")
                 }
-            
-            
+            }
+            }
         }
         .sheet(isPresented: $showIngredientForm) {
             IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[selectedIndex]), ingredientListVM: ingredientListVM, isPresented: $showIngredientForm)
@@ -57,16 +69,6 @@ struct IngredientList: View {
             }) {
                 Image(systemName: "plus")
             }
-        }
-        .task {
-            if ( ingredientListVM.ingredients.count == 0 ){
-            if let ingredients = await IngredientDAO.getAllIngredients() {
-                ingredientListVM.ingredients = ingredients
-            } else {
-                print("nil GET")
-            }
-        }
-            
         }
     }
 }

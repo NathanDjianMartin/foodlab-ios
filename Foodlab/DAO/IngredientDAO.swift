@@ -61,7 +61,7 @@ struct IngredientDAO {
     static func updateIngredient(ingredient: Ingredient) async -> Ingredient? {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
-            //TODO : verifier id 
+            //TODO : verifier id
             print(stringUrl+"ingredient/\(ingredient.id!)")
             guard let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO) else {
                 return nil
@@ -108,10 +108,10 @@ struct IngredientDAO {
                 ingredient.stockQuantity = double
             }
         }
-        
+        /*
         if let ingredientCategory = await CategoryDAO.getIngredientCategoriesById(id: ingredientDTO.ingredientCategoryId) {
             ingredient.ingredientCategory = ingredientCategory
-        }
+        }*/
         return ingredient
     }
     

@@ -1,17 +1,19 @@
 import Foundation
 
-class RecipeRowViewModel: ObservableObject, RecipeSubscriber {
-    
+class RecipeDetailsViewModel: ObservableObject, RecipeSubscriber {
+
     private var model: Recipe
     @Published var title: String
     @Published var author: String
-    @Published var duration: Int
+    @Published var category: Category
+    @Published var guestNumber: Int
     
     init(model: Recipe) {
         self.model = model
         self.title = model.title
         self.author = model.author
-        self.duration = model.duration
+        self.category = model.recipeCategory
+        self.guestNumber = model.guestsNumber
         self.model.addSubscriber(self)
     }
     
@@ -24,6 +26,6 @@ class RecipeRowViewModel: ObservableObject, RecipeSubscriber {
     }
     
     func changed(guestNumber: Int) {
-        return 
+        self.guestNumber = guestNumber
     }
 }

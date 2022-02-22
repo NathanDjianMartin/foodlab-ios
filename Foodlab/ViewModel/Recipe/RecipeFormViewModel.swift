@@ -31,6 +31,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
         self.recipeTitle = model.title
         self.recipeAuthor = model.author
         self.recipeGuestNumber = model.guestsNumber
+        self.model.addSubscriber(self)
     }
 
     

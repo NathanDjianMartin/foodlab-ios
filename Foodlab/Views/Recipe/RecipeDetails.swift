@@ -2,21 +2,27 @@ import SwiftUI
 
 struct RecipeDetails: View {
     var recipe: Recipe // TODO: use a VM
+    @ObservedObject var viewModel: RecipeDetailsViewModel
     @State private var selectedTab: String = "steps"
     @State private var showRecipeForm = false
+    
+    init(recipe: Recipe) {
+        self.recipe = recipe
+        self.viewModel = RecipeDetailsViewModel(model: recipe)
+    }
     
     var body: some View {
         VStack {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(recipe.title)
+                    Text(viewModel.title)
                         .font(.largeTitle)
                         .bold()
-                    Text("by \(recipe.author)")
+                    Text("by \(viewModel.author)")
                 }
                 Spacer()
-                Badge(text: recipe.recipeCategory.name, color: .foodlabTeal)
-                Badge(text: "For \(recipe.guestsNumber) persons", color: .foodlabLightBrown)
+                Badge(text: viewModel.category.name, color: .foodlabTeal)
+                Badge(text: "For \(viewModel.guestNumber) persons", color: .foodlabLightBrown)
             }
             .padding()
             

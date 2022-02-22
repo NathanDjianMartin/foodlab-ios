@@ -8,25 +8,31 @@ protocol RecipeSubscriber {
 
 class Recipe: Identifiable, ObservableObject, NSCopying {
     
-    var subscriber: RecipeSubscriber?
+    private var subscribers: [RecipeSubscriber]
     var id: Int?
     var title: String {
         didSet {
             if title.count <= 0 {
                 title = oldValue
             } else {
-                self.subscriber?.changed(title: self.title) // TODO: vérifier si on appelle la fonction de l'observer systématiquement
+                for subscriber in self.subscribers {
+                    subscriber.changed(title: self.title)
+                }
             }
         }
     }
     var author: String {
         didSet {
-            self.subscriber?.changed(author: self.author)
+            for subscriber in self.subscribers {
+                subscriber.changed(author: self.author)
+            }
         }
     }
     var guestsNumber: Int {
         didSet {
-            self.subscriber?.changed(guestNumber: self.guestsNumber)
+            for subscriber in self.subscribers {
+                subscriber.changed(guestNumber: self.guestsNumber)
+            }
         }
     }
     var recipeCategory: Category
@@ -41,11 +47,16 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
         self.id = id
         self.title = title
         
+        self.subscribers = []
         self.author = author
         self.guestsNumber = guestsNumber
         self.recipeCategory = recipeCategory
         self.costData = costData
         self.execution = execution
+    }
+    
+    func addSubscriber(_ subscriber: RecipeSubscriber) {
+        self.subscribers.append(subscriber)
     }
     
     func copy(with zone: NSZone? = nil) -> Any {

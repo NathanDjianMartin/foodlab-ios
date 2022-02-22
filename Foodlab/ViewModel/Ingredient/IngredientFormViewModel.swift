@@ -17,7 +17,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     
     private var model: Ingredient
     // save model in case the modification is cancelled
-    private var modelCopy: Ingredient
+    private (set) var modelCopy: Ingredient
     
     @Published var name: String
     @Published var unit: String
@@ -90,29 +90,36 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
         case .nameChanging(let name):
             let nameClean = name.trimmingCharacters(in: .whitespacesAndNewlines)
             print("vm: change ingredient name to '\(nameClean)'")
-            self.model.name = nameClean
+            self.modelCopy.name = nameClean
             print("vm: ingredient name changed to '\(self.model.name)'")
         case .unitChanging(let unit):
             let unitClean = unit.trimmingCharacters(in: .whitespacesAndNewlines)
             print("vm: change ingridient unit to '\(unitClean)'")
-            self.model.unit = unitClean
+            self.modelCopy.unit = unitClean
             print("vm: ingredient unit changed to '\(self.model.unit)'")
         case .unitaryPriceChanging(let unitaryPrice):
             let unitaryPriceClean = Double(unitaryPrice)
             print("vm: change ingredient unitary price to '\(unitaryPriceClean)'")
-            self.model.unitaryPrice = unitaryPriceClean
+            self.modelCopy.unitaryPrice = unitaryPriceClean
             print("vm: ingredient unitary price changed to '\(self.model.unitaryPrice)'")
         case .stockQuantityChanging(let stockQuantity):
             let stockQuantityClean = Double(stockQuantity) 
             print("vm: change ingredient stock quantity to '\(stockQuantityClean)'")
-            self.model.stockQuantity = stockQuantityClean
+            self.modelCopy.stockQuantity = stockQuantityClean
             print("vm: ingredient stock quantity changed to '\(self.model.stockQuantity)'")
         case .ingredientCategoryChanging(let ingredientCategory):
             print("vm: change ingredient category to '\(ingredientCategory.name)'")
-            self.model.ingredientCategory = ingredientCategory
+            self.modelCopy.ingredientCategory = ingredientCategory
             print("vm: ingredient category changed to '\(self.model.ingredientCategory)'")
         case .allergenCategoryChanging(let allergenCategory):
-            self.model.allergenCategory = allergenCategory
+            self.modelCopy.allergenCategory = allergenCategory
+        case .ingredientUpdatedInDatabase:
+            self.model.name = self.modelCopy.name
+            self.model.unit = self.modelCopy.unit
+            self.model.unitaryPrice = self.modelCopy.unitaryPrice
+            self.model.stockQuantity = self.modelCopy.stockQuantity
+            self.model.ingredientCategory = self.modelCopy.ingredientCategory
+            self.model.allergenCategory = self.modelCopy.allergenCategory
         }
     return .none // on arrête de traiter cette demande et on attend un nouveau send
 }

@@ -16,6 +16,7 @@ enum IntentIngredientState {
     case stockQuantityChanging(Double)
     case ingredientCategoryChanging(Category)
     case allergenCategoryChanging(Category?)
+    case ingredientUpdatedInDatabase
     
     var description: String {
         switch self {
@@ -32,7 +33,9 @@ enum IntentIngredientState {
         case .ingredientCategoryChanging(let ingredientCategory):
             return "state: ingredientCategoryChanging(\(ingredientCategory)"
         case .allergenCategoryChanging(let allergenCategory):
-            return "state: allergenCategoryChanging(\(allergenCategory)"
+            return "state: allergenCategoryChanging(\(String(describing: allergenCategory))"
+        case .ingredientUpdatedInDatabase:
+            return "state: ingredientUpdatedInDatabase"
         }
     }
 }
@@ -67,42 +70,49 @@ struct IngredientIntent {
         // Notify subscribers that the state changed
         // (they can use their receive method to react to those changes)
         self.state.send(.nameChanging(name)) // emits an object of type IntentState
-        self.listState.send(.needToBeUpdated)
     }
     
     func intentToChange(unit: String) {
         // Notify subscribers that the state changed
         // (they can use their receive method to react to those changes)
         self.state.send(.unitChanging(unit)) // emits an object of type IntentState
-        self.listState.send(.needToBeUpdated)
     }
     
     func intentToChange(unitaryPrice: Double) {
         // Notify subscribers that the state changed
         // (they can use their receive method to react to those changes)
         self.state.send(.unitaryPriceChanging(unitaryPrice)) // emits an object of type IntentState
-        self.listState.send(.needToBeUpdated)
     }
     
     func intentToChange(stockQuantity: Double) {
         // Notify subscribers that the state changed
         // (they can use their receive method to react to those changes)
         self.state.send(.stockQuantityChanging(stockQuantity)) // emits an object of type IntentState
-        self.listState.send(.needToBeUpdated)
     }
     
     func intentToChange(ingredientCategory: Category) {
         // Notify subscribers that the state changed
         // (they can use their receive method to react to those changes)
         self.state.send(.ingredientCategoryChanging(ingredientCategory)) // emits an object of type IntentState
-        self.listState.send(.needToBeUpdated)
     }
     
     func intentToChange(allergenCategory: Category) {
         // Notify subscribers that the state changed
         // (they can use their receive method to react to those changes)
         self.state.send(.allergenCategoryChanging(allergenCategory)) // emits an object of type IntentState
+    }
+    
+    func intentToUpdate(ingredient: Ingredient) async {
+        guard let _ =  await IngredientDAO.updateIngredient(ingredient: ingredient)
+        else {
+            print("ERROR")
+            return
+        }
+        // si ça a marché : modifier le view model et le model
+        self.state.send(.ingredientUpdatedInDatabase)
         self.listState.send(.needToBeUpdated)
+        
+        
     }
     
     func intentToChange(name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category?) {

@@ -69,6 +69,12 @@ struct IngredientForm: View {
                     Spacer()
                     Button("Create ingredient") {
                         //intentToCreate
+                        if (ingredientVM.modelCopy.id != nil) {
+                            // update
+                            Task {
+                                await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)
+                            }
+                        }
                         
                     }
                     .buttonStyle(DarkRedButtonStyle())

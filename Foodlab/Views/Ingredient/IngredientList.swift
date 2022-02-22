@@ -51,6 +51,7 @@ struct IngredientList: View {
                 if let ingredients = await IngredientDAO.getAllIngredients() {
                     self.ingredientListVM.ingredients = ingredients
                     ingredientListVM.objectWillChange.send()
+                    print(self.ingredientListVM.ingredients)
                 } else {
                     print("nil GET")
                 }

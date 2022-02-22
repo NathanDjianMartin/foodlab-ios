@@ -9,14 +9,7 @@ struct FoodlabApp: App {
                     print("début")
                     await IngredientDAO.updateIngredient(ingredient: Ingredient(id: 30, name: "Crevettes", unit: "Kg", unitaryPrice: 2.0, stockQuantity: 2.0, ingredientCategory: Category(id: 19, name: "Poisson et crustacés"), allergenCategory: Category(id: 15, name: "Poisson et crustacés")))
                     print("fin")
-                    if(IngredientList.ingredients == nil || IngredientList.ingredients?.count == 0){
-                        if let ingredients = await IngredientDAO.getAllIngredients() {
-                            IngredientList.ingredients = ingredients
-                            //print(ingredient.ingredientCategory)
-                        } else {
-                            print("nil GET")
-                        }
-                    }
+                
                 }
         }
     }

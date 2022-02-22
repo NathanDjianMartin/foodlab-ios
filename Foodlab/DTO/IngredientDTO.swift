@@ -7,11 +7,16 @@
 
 import Foundation
 
+enum TPrice : Codable {
+    case post(Double)
+    case get(String)
+}
+
 struct IngredientDTO: Identifiable, Codable {
     
     var id: Int?
     var name: String
-    var unitaryPrice: String
+    var unitaryPrice: TPrice
     var stockQuantity: String
     var unit: String
     var ingredientCategoryId: Int

@@ -12,7 +12,7 @@ class IngredientListViewModel: ObservableObject, Subscriber {
     
     public var ingredients : [Ingredient]
     
-    init(ingredients: [Ingredient]) {
+    init(ingredients: [Ingredient] = []) {
         self.ingredients = ingredients
     }
     

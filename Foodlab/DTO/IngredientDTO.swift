@@ -7,17 +7,27 @@
 
 import Foundation
 
-enum TPrice : Codable {
+enum StringOrDouble : Codable {
     case post(Double)
     case get(String)
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self{
+        case .post(let double):
+            try container.encode(double)
+        case .get(let string):
+            try container.encode(string)
+        }
+    }
 }
 
 struct IngredientDTO: Identifiable, Codable {
     
     var id: Int?
     var name: String
-    var unitaryPrice: TPrice
-    var stockQuantity: String
+    var unitaryPrice: StringOrDouble
+    var stockQuantity: StringOrDouble
     var unit: String
     var ingredientCategoryId: Int
     var allergenCategoryId: Int?
@@ -33,7 +43,7 @@ struct IngredientDTO: Identifiable, Codable {
            
        },
     */
-    init(id: Int? = nil, name: String, unitaryPrice: String, unit: String, stockQuantity: String, ingredientCategoryId: Int, allergenCategoryId: Int? = nil) {
+    init(id: Int? = nil, name: String, unit: String, unitaryPrice: StringOrDouble, stockQuantity: StringOrDouble, ingredientCategoryId: Int, allergenCategoryId: Int? = nil) {
         self.id = id
         self.name = name
         self.unitaryPrice = unitaryPrice

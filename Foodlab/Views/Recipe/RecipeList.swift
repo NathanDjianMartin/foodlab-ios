@@ -24,7 +24,7 @@ struct RecipeList: View {
             .searchable(text: $searchText, prompt: "Search a recipe")
             .sheet(isPresented: $showRecipeCreation) {
                 let newRecipe = Recipe(title: "", author: "", guestsNumber: 1, recipeCategory: MockData.entree, costData: MockData.costData, execution: RecipeExecution(title: ""))
-                RecipeForm(recipe: newRecipe ,isPresented: $showRecipeCreation)
+                RecipeForm(viewModel: RecipeFormViewModel(model: newRecipe), isPresented: $showRecipeCreation)
             }
             .navigationTitle("Recipes")
             .toolbar {

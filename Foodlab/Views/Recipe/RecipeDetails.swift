@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct RecipeDetails: View {
-    var recipe: Recipe
+    var recipe: Recipe // TODO: use a VM
     @State private var selectedTab: String = "steps"
+    @State private var showRecipeForm = false
     
     var body: some View {
         VStack {
@@ -41,6 +42,16 @@ struct RecipeDetails: View {
                     .foregroundColor(.red)
             }
             Spacer()
+        }
+        .toolbar {
+            Button {
+                self.showRecipeForm = true
+            } label: {
+                Image(systemName: "square.and.pencil")
+            }
+        }
+        .sheet(isPresented: $showRecipeForm) {
+            RecipeForm(viewModel: RecipeFormViewModel(model: recipe), isPresented: $showRecipeForm)
         }
     }
 }

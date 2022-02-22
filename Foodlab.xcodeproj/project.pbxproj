@@ -43,6 +43,7 @@
 		C18B16FA27B920E0002D6D10 /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16F927B920E0002D6D10 /* CategoryList.swift */; };
 		C18B16FE27B925AB002D6D10 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B16FD27B925AB002D6D10 /* Category.swift */; };
 		C18FC44027AD5135004428C0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18FC43F27AD5135004428C0 /* MainView.swift */; };
+		C1912DA027C4EE3100DACBEC /* RecipeListIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1912D9F27C4EE3100DACBEC /* RecipeListIntent.swift */; };
 		C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3127AAC99900D9387B /* FoodlabApp.swift */; };
 		C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19ABB3327AAC99900D9387B /* ContentView.swift */; };
 		C19ABB3627AAC99900D9387B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19ABB3527AAC99900D9387B /* Assets.xcassets */; };
@@ -57,6 +58,8 @@
 		C1ABB14727BFEBD000B1EAAE /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ABB14627BFEBD000B1EAAE /* UserProfile.swift */; };
 		C1ABB14927BFECD800B1EAAE /* IngredientForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ABB14827BFECD800B1EAAE /* IngredientForm.swift */; };
 		C1ABB14C27BFED0100B1EAAE /* FormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ABB14B27BFED0100B1EAAE /* FormatterHelper.swift */; };
+		C1BCD95B27C2605B00D660FB /* RecipeFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BCD95A27C2605B00D660FB /* RecipeFormViewModel.swift */; };
+		C1BCD96127C267AC00D660FB /* RecipeFormIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BCD96027C267AC00D660FB /* RecipeFormIntent.swift */; };
 		C1D1305327B946320091D98F /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1305227B946320091D98F /* Badge.swift */; };
 		C1EDD36727BA465100D02244 /* RecipeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EDD36627BA465100D02244 /* RecipeDetails.swift */; };
 		C1EDD36927BA487E00D02244 /* RecipeForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EDD36827BA487E00D02244 /* RecipeForm.swift */; };
@@ -101,6 +104,7 @@
 		C18B16F927B920E0002D6D10 /* CategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
 		C18B16FD27B925AB002D6D10 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		C18FC43F27AD5135004428C0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		C1912D9F27C4EE3100DACBEC /* RecipeListIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListIntent.swift; sourceTree = "<group>"; };
 		C19ABB2E27AAC99900D9387B /* Foodlab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodlab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19ABB3127AAC99900D9387B /* FoodlabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodlabApp.swift; sourceTree = "<group>"; };
 		C19ABB3327AAC99900D9387B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 		C1ABB14627BFEBD000B1EAAE /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		C1ABB14827BFECD800B1EAAE /* IngredientForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientForm.swift; sourceTree = "<group>"; };
 		C1ABB14B27BFED0100B1EAAE /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
+		C1BCD95A27C2605B00D660FB /* RecipeFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFormViewModel.swift; sourceTree = "<group>"; };
+		C1BCD96027C267AC00D660FB /* RecipeFormIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFormIntent.swift; sourceTree = "<group>"; };
 		C1D1305227B946320091D98F /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		C1EDD36627BA465100D02244 /* RecipeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetails.swift; sourceTree = "<group>"; };
 		C1EDD36827BA487E00D02244 /* RecipeForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeForm.swift; sourceTree = "<group>"; };
@@ -268,6 +274,8 @@
 		C19ABB3027AAC99900D9387B /* Foodlab */ = {
 			isa = PBXGroup;
 			children = (
+				C1BCD95F27C264A800D660FB /* Intent */,
+				C1BCD95827C2603D00D660FB /* ViewModel */,
 				C1ABB14A27BFED0100B1EAAE /* Helpers */,
 				6FA8905527BE83100037E851 /* DAO */,
 				6FA8903B27BD1BA80037E851 /* DTO */,
@@ -351,6 +359,31 @@
 				C1ABB14B27BFED0100B1EAAE /* FormatterHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C1BCD95827C2603D00D660FB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C1BCD95927C2604A00D660FB /* Recipe */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C1BCD95927C2604A00D660FB /* Recipe */ = {
+			isa = PBXGroup;
+			children = (
+				C1BCD95A27C2605B00D660FB /* RecipeFormViewModel.swift */,
+			);
+			path = Recipe;
+			sourceTree = "<group>";
+		};
+		C1BCD95F27C264A800D660FB /* Intent */ = {
+			isa = PBXGroup;
+			children = (
+				C1BCD96027C267AC00D660FB /* RecipeFormIntent.swift */,
+				C1912D9F27C4EE3100DACBEC /* RecipeListIntent.swift */,
+			);
+			path = Intent;
 			sourceTree = "<group>";
 		};
 		C1D1305127B946270091D98F /* Helpers */ = {
@@ -461,9 +494,11 @@
 				6FC8D58E27BC0388003DF43F /* RecipeRow.swift in Sources */,
 				C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */,
 				C1721C1427AC616F008E6678 /* ViewExtension.swift in Sources */,
+				C1912DA027C4EE3100DACBEC /* RecipeListIntent.swift in Sources */,
 				C18B16EB27B9024F002D6D10 /* CostData.swift in Sources */,
 				C16C160A27AFCCDD00E3B156 /* UserList.swift in Sources */,
 				C12A262F27C01D0900C27B38 /* SimpleStepRow.swift in Sources */,
+				C1BCD95B27C2605B00D660FB /* RecipeFormViewModel.swift in Sources */,
 				C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */,
 				C18B16EF27B90340002D6D10 /* Recipe.swift in Sources */,
 				C19ABB4C27AAEE8300D9387B /* Dropdown.swift in Sources */,
@@ -479,6 +514,7 @@
 				C1EDD36927BA487E00D02244 /* RecipeForm.swift in Sources */,
 				C1A5A76927C11E3D009E2F52 /* RecipeExecutionSteps.swift in Sources */,
 				6FA8905F27BE88610037E851 /* JSONHelper.swift in Sources */,
+				C1BCD96127C267AC00D660FB /* RecipeFormIntent.swift in Sources */,
 				C141DFD927AF1D5900053369 /* IngredientRow.swift in Sources */,
 				6FA8903D27BD1BC90037E851 /* IngredientDTO.swift in Sources */,
 				6FA8903A27BCF5220037E851 /* CostDataSettings.swift in Sources */,

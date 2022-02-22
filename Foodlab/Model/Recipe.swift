@@ -1,11 +1,34 @@
 import Foundation
 
-class Recipe: Identifiable, ObservableObject {
+protocol RecipeSubscriber {
+    func changed(title: String)
+    func changed(author: String)
+    func changed(guestNumber: Int)
+}
+
+class Recipe: Identifiable, ObservableObject, NSCopying {
     
+    var subscriber: RecipeSubscriber?
     var id: Int?
-    var title: String
-    var author: String
-    var guestsNumber: Int
+    var title: String {
+        didSet {
+            if title.count <= 0 {
+                title = oldValue
+            } else {
+                self.subscriber?.changed(title: self.title) // TODO: vérifier si on appelle la fonction de l'observer systématiquement
+            }
+        }
+    }
+    var author: String {
+        didSet {
+            self.subscriber?.changed(author: self.author)
+        }
+    }
+    var guestsNumber: Int {
+        didSet {
+            self.subscriber?.changed(guestNumber: self.guestsNumber)
+        }
+    }
     var recipeCategory: Category
     var costData: CostData
     var execution: RecipeExecution
@@ -23,5 +46,15 @@ class Recipe: Identifiable, ObservableObject {
         self.recipeCategory = recipeCategory
         self.costData = costData
         self.execution = execution
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        return Recipe(id: self.id,
+                      title: self.title,
+                      author: self.author,
+                      guestsNumber: self.guestsNumber,
+                      recipeCategory: self.recipeCategory,
+                      costData: self.costData,
+                      execution: self.execution)
     }
 }

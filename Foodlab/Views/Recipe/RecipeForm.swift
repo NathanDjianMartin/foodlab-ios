@@ -1,8 +1,22 @@
 import SwiftUI
 
 struct RecipeForm: View {
-    @ObservedObject var recipe: Recipe
+    
+    @ObservedObject var viewModel: RecipeFormViewModel
     @Binding var isPresented: Bool
+    @State private var showErrorAlert = false
+    private var intent: RecipeFormIntent
+    
+    var creationMode: Bool {
+        self.viewModel.recipeId == nil
+    }
+    
+    init(viewModel: RecipeFormViewModel, isPresented: Binding<Bool>) {
+        self.viewModel = viewModel
+        self._isPresented = isPresented
+        self.intent = RecipeFormIntent()
+        self.intent.addObserver(self.viewModel)
+    }
     
     var body: some View {
         
@@ -11,6 +25,9 @@ struct RecipeForm: View {
                 Spacer()
                 Button(action: {
                     self.isPresented = false
+                    if creationMode == false { // we are in the case of a modification
+                        self.viewModel.rollback()
+                    }
                 }) {
                     Text("Cancel")
                 }
@@ -18,7 +35,7 @@ struct RecipeForm: View {
             .padding()
             
             HStack {
-                Text(recipe.id == nil ? "Recipe creation" : "Recipe modification")
+                Text(creationMode ? "Recipe creation" : "Recipe modification")
                     .font(.largeTitle)
                     .bold()
                 Spacer()
@@ -26,10 +43,26 @@ struct RecipeForm: View {
             .padding()
             
             List {
-                TextField("Recipe title", text: $recipe.title)
-                TextField("Author", text: $recipe.author)
-                Stepper(value: $recipe.guestsNumber) {
-                    Text("For \(recipe.guestsNumber) guest\(recipe.guestsNumber > 1 ? "s" : "")")
+                TextField("Recipe title", text: $viewModel.recipeTitle)
+                    .onSubmit {
+                        self.intent.intentToChange(recipeTitle: self.viewModel.recipeTitle)
+                    }
+                TextField("Author", text: $viewModel.recipeAuthor)
+                    .onSubmit {
+                        self.intent.intentToChange(author: self.viewModel.recipeAuthor)
+                    }
+                Stepper(value: $viewModel.recipeGuestNumber, in: 1...Int.max) {
+                    Text("For \(viewModel.recipeGuestNumber) guest\(viewModel.recipeGuestNumber > 1 ? "s" : "")")
+                }
+                HStack {
+                    Spacer()
+                    Button {
+                        // TODO: intentToUpdate recipe list
+                        
+                    } label: {
+                        Text(creationMode ? "Create recipe" : "Confirm changes")
+                    }
+                    .buttonStyle(DarkRedButtonStyle())
                 }
             }
             .listStyle(.plain)
@@ -39,6 +72,6 @@ struct RecipeForm: View {
 
 struct RecipeCreation_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeForm(recipe: MockData.recipePates, isPresented: .constant(true))
+        RecipeForm(viewModel: RecipeFormViewModel(model: MockData.recipePates), isPresented: .constant(true))
     }
 }

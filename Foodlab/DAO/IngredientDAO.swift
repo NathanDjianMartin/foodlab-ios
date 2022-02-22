@@ -58,10 +58,24 @@ struct IngredientDAO {
             }
         }
 
-    /*static func updateIngredient(ingredient: Ingredient) async -> Ingredient {
+    static func updateIngredient(ingredient: Ingredient) async -> Ingredient? {
+        let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
+        do {
+        guard let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient", object: ingredientDTO) else {
+            return nil
+        }
+        return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
+        }catch {
+            print("erreur")
+            return nil
+        }
         
-        
-    }*/
+    }
+    
+    static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
+        //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categorie id juste pour faire un premier test
+        return IngredientDTO(id: ingredient.id, name: ingredient.name, unitaryPrice: String(ingredient.unitaryPrice), unit: ingredient.unit, stockQuantity: String(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: ingredient.allergenCategory!.id!)
+    }
     
     static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Ingredient {
         //TODO : gérer catégorie ingrédient et allergen

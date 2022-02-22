@@ -13,7 +13,7 @@ struct StepForm: View {
     @ObservedObject var step: SimpleStep
     @Binding var isPresented: Bool
     //TODO: il faudra surement recopier les informations et ne modifier le modelView que si on valide avec le bouton
-    @State var currentIngredientToAdd: IngredientWithinStep = IngredientWithinStep(ingredient: Ingredient( name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: ""), quantity: 0)
+    @State var currentIngredientToAdd: IngredientWithinStep = IngredientWithinStep(ingredient: Ingredient( name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: "")), quantity: 0)
     //TODO: il y aura un probleme quand on va merge avec mon autre branche puisque les category ne sont plus des string mais des categories
     var body: some View {
         VStack {

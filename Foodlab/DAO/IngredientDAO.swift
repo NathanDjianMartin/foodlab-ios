@@ -25,8 +25,8 @@ struct IngredientDAO {
     
     static func getAllIngredients() async -> [Ingredient]? {
             do {
-                
-                let decoded = try await URLSession.shared.getJSON([IngredientDTO].self, from: stringUrl + "ingredient")
+                // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
+                let decoded : [IngredientDTO] = try await URLSession.shared.getJSON(from: stringUrl + "ingredient")
                 
                 // dans une boucle transformer chaque IngredientDTO en model Ingredient
                 var ingredients: [Ingredient] = []
@@ -47,7 +47,7 @@ struct IngredientDAO {
             do {
     
                 // decoder le JSON avec la fonction présente dans JSONHelper
-                let ingredientDTO = try await URLSession.shared.getJSON(IngredientDTO.self, from: stringUrl + "ingredient/\(id)")
+                let ingredientDTO : IngredientDTO = try await URLSession.shared.getJSON(from: stringUrl + "ingredient/\(id)")
                 
                 // retourner une liste de User
                 return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)
@@ -58,7 +58,10 @@ struct IngredientDAO {
             }
         }
 
-    
+    /*static func updateIngredient(ingredient: Ingredient) async -> Ingredient {
+        
+        
+    }*/
     
     static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Ingredient {
         //TODO : gérer catégorie ingrédient et allergen

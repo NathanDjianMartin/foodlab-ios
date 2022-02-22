@@ -21,7 +21,7 @@ struct UserDAO {
                 
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
-                guard let decoded: [UserDTO] = JSONHelper.decode([UserDTO].self, data: data)
+                guard let decoded: [UserDTO] = JSONHelper.decode(data: data)
                 else { return nil }
                 
                 // dans une boucle transformer chaque UserDTO en model User
@@ -49,7 +49,7 @@ struct UserDAO {
                 
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
-                guard let userDTO: UserDTO = JSONHelper.decode(UserDTO.self, data: data)
+                guard let userDTO: UserDTO = JSONHelper.decode(data: data)
                 else { return nil }
                 
                 // retourner une liste de User

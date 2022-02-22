@@ -38,7 +38,7 @@ struct CategoryDAO {
                 
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
-                guard let decoded: [CategoryDTO] = JSONHelper.decode([CategoryDTO].self, data: data)
+                guard let decoded: [CategoryDTO] = JSONHelper.decode(data: data)
                 else { return nil }
                 
                 // dans une boucle transformer chaque UserDTO en model User
@@ -68,7 +68,7 @@ struct CategoryDAO {
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
                 print(data)
-                guard let categoryDTO: CategoryDTO = JSONHelper.decode(CategoryDTO.self, data: data)
+                guard let categoryDTO: CategoryDTO = JSONHelper.decode(data: data)
                 else { return nil }
                 
                 // retourner une liste de User

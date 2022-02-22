@@ -56,6 +56,8 @@ struct RecipeDetails: View {
                 Image(systemName: "square.and.pencil")
             }
         }
+        .navigationBarTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showRecipeForm) {
             RecipeForm(viewModel: RecipeFormViewModel(model: recipe), isPresented: $showRecipeForm)
         }

@@ -6,6 +6,7 @@ enum RecipeFormIntentState {
     case recipeTitleChanging(String)
     case recipeAuthorChanging(String)
     case recipeGuestNumberChanging(Int)
+    //case validateChanges
 }
 
 struct RecipeFormIntent {

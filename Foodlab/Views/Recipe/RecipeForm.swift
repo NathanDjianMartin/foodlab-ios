@@ -8,7 +8,7 @@ struct RecipeForm: View {
     private var intent: RecipeFormIntent
     
     var creationMode: Bool {
-        self.viewModel.recipeId == nil
+        self.viewModel.id == nil
     }
     
     init(viewModel: RecipeFormViewModel, isPresented: Binding<Bool>) {
@@ -25,9 +25,6 @@ struct RecipeForm: View {
                 Spacer()
                 Button(action: {
                     self.isPresented = false
-                    if creationMode == false { // we are in the case of a modification
-                        self.viewModel.rollback()
-                    }
                 }) {
                     Text("Cancel")
                 }
@@ -43,16 +40,16 @@ struct RecipeForm: View {
             .padding()
             
             List {
-                TextField("Recipe title", text: $viewModel.recipeTitle)
+                TextField("Recipe title", text: $viewModel.title)
                     .onSubmit {
-                        self.intent.intentToChange(recipeTitle: self.viewModel.recipeTitle)
+                        self.intent.intentToChange(recipeTitle: self.viewModel.title)
                     }
-                TextField("Author", text: $viewModel.recipeAuthor)
+                TextField("Author", text: $viewModel.author)
                     .onSubmit {
-                        self.intent.intentToChange(author: self.viewModel.recipeAuthor)
+                        self.intent.intentToChange(author: self.viewModel.author)
                     }
-                Stepper(value: $viewModel.recipeGuestNumber, in: 1...Int.max) {
-                    Text("For \(viewModel.recipeGuestNumber) guest\(viewModel.recipeGuestNumber > 1 ? "s" : "")")
+                Stepper(value: $viewModel.guestNumber, in: 1...Int.max) {
+                    Text("For \(viewModel.guestNumber) guest\(viewModel.guestNumber > 1 ? "s" : "")")
                 }
                 HStack {
                     Spacer()

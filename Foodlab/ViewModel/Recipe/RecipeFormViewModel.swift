@@ -19,31 +19,26 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     
     private var model: Recipe
     private var modelCopy: Recipe
-    @Published var recipeId: Int?
-    @Published var recipeTitle: String // 7 (@Published)
-    @Published var recipeAuthor: String
-    @Published var recipeGuestNumber: Int
+    @Published var id: Int?
+    @Published var title: String // 7 (@Published)
+    @Published var author: String
+    @Published var guestNumber: Int
     
     init(model: Recipe) {
         self.model = model
         self.modelCopy = model.copy() as! Recipe
-        self.recipeId = model.id
-        self.recipeTitle = model.title
-        self.recipeAuthor = model.author
-        self.recipeGuestNumber = model.guestsNumber
+        self.id = model.id
+        self.title = model.title
+        self.author = model.author
+        self.guestNumber = model.guestsNumber
         self.model.addSubscriber(self)
     }
 
     
-    /**
-     Rollbacks the changes made in the view model's view.
-     */
-    func rollback() {
-        self.model = modelCopy
-        self.recipeId = model.id
-        self.recipeTitle = model.title
-        self.recipeAuthor = model.author
-        self.recipeGuestNumber = model.guestsNumber
+    func validate() {
+        self.model.title = self.modelCopy.title
+        self.model.author = self.modelCopy.author
+        self.model.guestsNumber = self.modelCopy.guestsNumber
     }
     
     
@@ -53,15 +48,15 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     
     // 5
     func changed(title: String) {
-        self.recipeTitle = title // 6
+        self.title = title // 6
     }
     
     func changed(author: String) {
-        self.recipeAuthor = author
+        self.author = author
     }
     
     func changed(guestNumber: Int) {
-        self.recipeGuestNumber = guestNumber
+        self.guestNumber = guestNumber
     }
     
     // MARK: --
@@ -99,4 +94,22 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }
+    
+//    func receive(_ input: RecipeFormIntentState) -> Subscribers.Demand {
+//        print("RecipeFormViewModel intent = \(input)")
+//        switch input {
+//        case .ready:
+//            break
+//        case .recipeTitleChanging(let newTitle):
+//            self.modelCopy.title = newTitle
+//            if self.modelCopy.title != newTitle { // the model's property did not change, there was an error
+//
+//            }
+//        case .recipeAuthorChanging(let newAuthor):
+//            self.modelCopy.author = newAuthor
+//        case .recipeGuestNumberChanging(let newGuestNumber):
+//            self.modelCopy.guestsNumber = newGuestNumber
+//        }
+//        return .none // on arrête de traiter cette demande et on attend un nouveau send
+//    }
 }

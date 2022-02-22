@@ -33,15 +33,36 @@ struct RecipeList: View {
                 let newRecipe = Recipe(title: "", author: "", guestsNumber: 1, recipeCategory: MockData.entree, costData: MockData.costData, execution: RecipeExecution(title: ""))
                 RecipeForm(viewModel: RecipeFormViewModel(model: newRecipe), isPresented: $showRecipeCreation)
             }
-            .navigationTitle("Recipes")
-            .toolbar {
-                Button(action: {
-                    showRecipeCreation = true
-                }) {
-                    Image(systemName: "plus")
-                }
+        }
+        .navigationTitle("Recipes")
+        .toolbar {
+            Button(action: {
+                self.showRecipeCreation = true
+            }) {
+                Image(systemName: "plus")
             }
         }
+//        .overlay {
+//            VStack {
+//                Spacer()
+//                HStack {
+//                    Spacer()
+//                    Button(action: {
+//                        self.showRecipeCreation = true
+//                    }) {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: 50, height: 50)
+//                            .foregroundColor(.foodlabRed)
+//                            .overlay {
+//                                Image(systemName: "plus")
+//                                    .foregroundColor(.white)
+//                                    .font(.title)
+//                            }
+//                    }
+//                }
+//            }
+//            .padding()
+//        }
     }
 }
 

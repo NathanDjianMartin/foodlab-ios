@@ -2,11 +2,12 @@ import SwiftUI
 
 struct SimpleStepRow: View {
     var step: SimpleStep
+    var index: Int
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                StepIndexCircle(stepNumber: 1)
+                StepIndexCircle(stepNumber: index)
                 Text(step.title)
                     .bold()
                 Spacer()
@@ -19,6 +20,6 @@ struct SimpleStepRow: View {
 
 struct SimpleStepRow_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleStepRow(step: MockData.step)
+        SimpleStepRow(step: MockData.step, index: 1)
     }
 }

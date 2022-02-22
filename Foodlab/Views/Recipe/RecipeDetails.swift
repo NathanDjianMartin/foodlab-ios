@@ -1,9 +1,15 @@
 import SwiftUI
 
+enum RecipePickerSelection: String {
+    case steps = "steps"
+    case ingredients = "ingredients"
+    case costs = "costs"
+}
+
 struct RecipeDetails: View {
     var recipe: Recipe // TODO: use a VM
     @ObservedObject var viewModel: RecipeDetailsViewModel
-    @State private var selectedTab: String = "steps"
+    @State private var selectedTab: RecipePickerSelection = .steps
     @State private var showRecipeForm = false
     
     init(recipe: Recipe) {
@@ -24,28 +30,25 @@ struct RecipeDetails: View {
                 Badge(text: viewModel.category.name, color: .foodlabTeal)
                 Badge(text: "For \(viewModel.guestNumber) persons", color: .foodlabLightBrown)
             }
-            .padding()
+            .padding(.leading)
+            .padding(.trailing)
             
             Picker("Tab", selection: $selectedTab) {
-                Image(systemName: "list.dash").tag("steps")
-                Image(systemName: "fork.knife").tag("ingredients")
-                Image(systemName: "dollarsign.circle").tag("costs")
+                Image(systemName: "list.dash").tag(RecipePickerSelection.steps)
+                Image(systemName: "fork.knife").tag(RecipePickerSelection.ingredients)
+                Image(systemName: "dollarsign.circle").tag(RecipePickerSelection.costs)
             }
             .colorMultiply(.foodlabLightBrown)
             .pickerStyle(.segmented)
             .padding()
             
             switch selectedTab {
-            case "steps":
+            case .steps:
                 RecipeExecutionSteps(execution: recipe.execution)
-            case "ingredients":
+            case .ingredients:
                 Text("RecipeIngredients")
-            case "costs":
+            case .costs:
                 Text("RecipeCosts")
-            default:
-                Text("ERROR, wrong selection \(selectedTab)")
-                    .font(.title)
-                    .foregroundColor(.red)
             }
             Spacer()
         }

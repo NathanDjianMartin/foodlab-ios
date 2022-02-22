@@ -76,25 +76,6 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     }
     
     // 4
-    // Called each time the RecipeFormIntent changes its state
-    //    func receive(_ input: RecipeFormIntentState) -> Subscribers.Demand {
-    //        print("RecipeFormViewModel intent = \(input)")
-    //        switch input {
-    //        case .ready:
-    //            break
-    //        case .recipeTitleChanging(let newTitle):
-    //            self.model.title = newTitle
-    //            if self.model.title != newTitle { // the model's property did not change, there was an error
-    //
-    //            }
-    //        case .recipeAuthorChanging(let newAuthor):
-    //            self.model.author = newAuthor
-    //        case .recipeGuestNumberChanging(let newGuestNumber):
-    //            self.model.guestsNumber = newGuestNumber
-    //        }
-    //        return .none // on arrête de traiter cette demande et on attend un nouveau send
-    //    }
-    
     func receive(_ input: RecipeFormIntentState) -> Subscribers.Demand {
         print("RecipeFormViewModel intent = \(input)")
         switch input {

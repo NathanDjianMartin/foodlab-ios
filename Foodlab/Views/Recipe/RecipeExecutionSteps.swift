@@ -6,16 +6,17 @@ struct RecipeExecutionSteps: View {
     
     var body: some View {
         List {
-            ForEach(execution.steps, id: \.id) { step in
-                if let simpleStep = step as? SimpleStep {
-                    SimpleStepRow(step: simpleStep)
+            ForEach(execution.steps.indices) { index in
+                let displayIndex = index + 1
+                if let simpleStep = execution.steps[index] as? SimpleStep {
+                    SimpleStepRow(step: simpleStep, index: displayIndex)
                         .fixedSize(horizontal: false, vertical: true) 
-                } else if let execution = step as? RecipeExecution {
+                } else if let execution = execution.steps[index] as? RecipeExecution {
                     NavigationLink {
                         RecipeExecutionSteps(execution: execution)
                             .navigationTitle(execution.title)
                     } label: {
-                        RecipeExecutionRow(execution: execution)
+                        RecipeExecutionRow(execution: execution, index: displayIndex)
                     }
                 }
             }

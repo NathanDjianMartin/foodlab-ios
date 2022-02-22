@@ -32,7 +32,7 @@ struct RecipeForm: View {
             .padding()
             
             HStack {
-                Text(creationMode ? "Recipe creation" : "Recipe modification")
+                Text(creationMode ? "Create recipe" : "Edit recipe")
                     .font(.largeTitle)
                     .bold()
                 Spacer()
@@ -57,7 +57,7 @@ struct RecipeForm: View {
                         self.intent.intentToValidate()
                         self.isPresented = false
                     } label: {
-                        Text(creationMode ? "Create recipe" : "Confirm changes")
+                        Text("OK")
                     }
                     .buttonStyle(DarkRedButtonStyle())
                 }

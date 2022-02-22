@@ -23,7 +23,7 @@ struct IngredientDAO {
     
     static var stringUrl = "http://51.75.248.77:3000/"
     
-    static func getAllIngredients() async -> [Ingredient]? {
+    static func getAllIngredients() async -> Result<[Ingredient], Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
             let decoded : [IngredientDTO] = try await URLSession.shared.getJSON(from: stringUrl + "ingredient")
@@ -31,19 +31,24 @@ struct IngredientDAO {
             // dans une boucle transformer chaque IngredientDTO en model Ingredient
             var ingredients: [Ingredient] = []
             for ingredientDTO in decoded {
-                ingredients.append(await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO) )
+                switch await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO) {
+                case .failure(let error):
+                    return .failure(error)
+                case .success(let ingredient):
+                    ingredients.append(ingredient)
+                }
             }
             
             // retourner une liste de Ingredient
-            return ingredients
+            return .success(ingredients)
             
         } catch {
             print("Error while fetching ingredients from backend: \(error)")
-            return nil
+            return .failure(NetworkError.URLError("encore une erreur a changer"))
         }
     }
     
-    static func getIngredientById(id: Int) async -> Ingredient? {
+    static func getIngredientById(id: Int) async -> Result<Ingredient, Error> {
         do {
             
             // decoder le JSON avec la fonction présente dans JSONHelper
@@ -54,23 +59,22 @@ struct IngredientDAO {
             
         } catch {
             print("Error while fetching ingredient from backend: \(error)")
-            return nil
+            return .failure(NetworkError.URLError("cest toujours pas la bonne erreur"))
         }
     }
     
-    static func updateIngredient(ingredient: Ingredient) async -> Ingredient? {
+    static func updateIngredient(ingredient: Ingredient) async -> Result<Ingredient, Error> {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
             //TODO : verifier id
             print(stringUrl+"ingredient/\(ingredient.id!)")
             guard let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO) else {
-                return nil
+                return .failure(NetworkError.URLError("cest toujours pas la bonne erreur"))
             }
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
         }catch {
             print("erreur")
-            return nil
-        }
+            return .failure(NetworkError.URLError("cest toujours pas la bonne erreur"))        }
         
     }
     
@@ -79,40 +83,62 @@ struct IngredientDAO {
         return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: ingredient.allergenCategory!.id!)
     }
     
-    static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Ingredient {
-        //TODO : gérer catégorie ingrédient et allergen
+    static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Result<Ingredient, Error> {
+        // manage unitary price
+        let unitaryPrice: Double
+        switch ingredientDTO.unitaryPrice {
+        case .post(let double):
+            unitaryPrice = double
+        case .get(let string):
+            guard let double = Double(string) else {
+                return .failure(NetworkError.URLError("erreur conversion double a changer "))
+            }
+            unitaryPrice = double
+        }
+        
+        // manage stock quantity
+        let stockQuantity: Double
+        switch ingredientDTO.stockQuantity {
+        case .post(let double):
+            stockQuantity = double
+        case .get(let string):
+            guard let double = Double(string) else {
+                return .failure(NetworkError.URLError("erreur conversion double a changer "))
+            }
+            stockQuantity = double
+        }
+        
+        // manage ingredient category
+        let ingredientCategory: Category
+        switch await CategoryDAO.getIngredientCategoriesById(id: ingredientDTO.ingredientCategoryId){
+        case .failure(let error):
+            return .failure(error)
+        case .success(let category):
+            ingredientCategory = category
+        }
+        
+        // manage ingredient category
+        var allergenCategory: Category? = nil
+        if let allergen = ingredientDTO.allergenCategoryId {
+            switch await CategoryDAO.getAllergenCategoriesById(id: allergen){
+            case .failure(let error):
+                return .failure(error)
+            case .success(let category):
+                allergenCategory = category
+            }
+        }
+        
         let ingredient = Ingredient(
             id: ingredientDTO.id,
             name: ingredientDTO.name,
             unit: ingredientDTO.unit,
-            unitaryPrice: 0.0,
-            stockQuantity: 0.0,
-            ingredientCategory: Category(id: 1, name: "test"),
-            allergenCategory: Category(id: 2, name: "test")
+            unitaryPrice: unitaryPrice,
+            stockQuantity: stockQuantity,
+            ingredientCategory: ingredientCategory,
+            allergenCategory: allergenCategory
         )
         
-        switch ingredientDTO.unitaryPrice {
-        case .post(let double):
-            ingredient.unitaryPrice = double
-        case .get(let string):
-            if let double = Double(string) {
-                ingredient.unitaryPrice = double
-            }
-        }
-        
-        switch ingredientDTO.stockQuantity {
-        case .post(let double):
-            ingredient.stockQuantity = double
-        case .get(let string):
-            if let double = Double(string) {
-                ingredient.stockQuantity = double
-            }
-        }
-        /*
-        if let ingredientCategory = await CategoryDAO.getIngredientCategoriesById(id: ingredientDTO.ingredientCategoryId) {
-            ingredient.ingredientCategory = ingredientCategory
-        }*/
-        return ingredient
+        return .success(ingredient)
     }
     
     

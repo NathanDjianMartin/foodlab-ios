@@ -103,14 +103,15 @@ struct IngredientIntent {
     }
     
     func intentToUpdate(ingredient: Ingredient) async {
-        guard let _ =  await IngredientDAO.updateIngredient(ingredient: ingredient)
-        else {
-            print("ERROR")
-            return
+        switch await IngredientDAO.updateIngredient(ingredient: ingredient) {
+        case .failure(let error):
+            //TODO: gérer
+            break
+        case .success(let ingredient):
+            // si ça a marché : modifier le view model et le model
+            self.state.send(.ingredientUpdatedInDatabase)
+            self.listState.send(.needToBeUpdated)
         }
-        // si ça a marché : modifier le view model et le model
-        self.state.send(.ingredientUpdatedInDatabase)
-        self.listState.send(.needToBeUpdated)
         
         
     }

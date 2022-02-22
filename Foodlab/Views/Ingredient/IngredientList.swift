@@ -47,15 +47,17 @@ struct IngredientList: View {
         }
         .onAppear {
             Task{
-            if ( ingredientListVM.ingredients.count == 0 ){
-                if let ingredients = await IngredientDAO.getAllIngredients() {
-                    self.ingredientListVM.ingredients = ingredients
-                    ingredientListVM.objectWillChange.send()
-                    print(self.ingredientListVM.ingredients)
-                } else {
-                    print("nil GET")
+                if ( ingredientListVM.ingredients.count == 0 ){
+                    switch  await IngredientDAO.getAllIngredients() {
+                    case .failure(let error):
+                        print(error)
+                        break
+                    case .success(let ingredients):
+                        self.ingredientListVM.ingredients = ingredients
+                        ingredientListVM.objectWillChange.send()
+                        print(self.ingredientListVM.ingredients)
+                    }
                 }
-            }
             }
         }
         .sheet(isPresented: $showIngredientForm) {

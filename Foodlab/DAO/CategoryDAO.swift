@@ -19,13 +19,22 @@ struct CategoryDAO {
     
     static var stringUrl = "http://localhost:3000/"
     
-    //Ingredient
+    // Ingredient
     static func getAllIngredientCategories() async -> [Category]? {
         return await getAllCategories(type: CategoryType.ingredient )
     }
     
-    static func getIngredientCategoriesById(id: Int) async -> Category? {
+    static func getIngredientCategoriesById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.ingredient, id: id)
+    }
+    
+    // Allergen
+    static func getAllAllergenCategories() async -> [Category]? {
+        return await getAllCategories(type: CategoryType.allergen )
+    }
+    
+    static func getAllergenCategoriesById(id: Int) async -> Result<Category, Error> {
+        return await getCategoryById(type: CategoryType.allergen, id: id)
     }
     
     static func getAllCategories(type: CategoryType) async -> [Category]? {
@@ -56,27 +65,28 @@ struct CategoryDAO {
             }
         }
     
-    static func getCategoryById(type: CategoryType ,id: Int) async -> Category? {
+    static func getCategoryById(type: CategoryType, id: Int) async -> Result<Category, Error> {
             do {
+                // TODO: utiliser fonction de l'extension URLSession
                 
                 // faire la requête vers le backend
                 print(stringUrl + "\(type.rawValue)/\(id)")
                 guard let url = URL(string: stringUrl + "\(type.rawValue)/\(id)")
-                else { return nil }
+                else { return .failure(NetworkError.URLError("problem url")) }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
                 print(data)
                 guard let categoryDTO: CategoryDTO = JSONHelper.decode(data: data)
-                else { return nil }
+                else { return .failure(NetworkError.decodedError("Error when decoding data")) }
                 
                 // retourner une liste de User
-                return getCategoryFromCategoryDTO(categoryDTO: categoryDTO)
+                return .success(getCategoryFromCategoryDTO(categoryDTO: categoryDTO))
                 
             } catch {
                 print("Error while fetching ingredient from backend: \(error)")
-                return nil
+                return .failure(NetworkError.URLError("cest pas url \(stringUrl) \(type.rawValue)/\(id)"))
             }
         }
 

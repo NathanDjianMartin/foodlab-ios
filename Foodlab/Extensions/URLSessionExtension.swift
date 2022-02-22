@@ -13,6 +13,7 @@ enum NetworkError: Error {
 }
 
 extension URLSession {
+    // TODO: renommer la fonction par get par exemple
     func getJSON<T: Decodable> (from url: String) async throws -> T {
         
         guard let url = URL(string: url) else {

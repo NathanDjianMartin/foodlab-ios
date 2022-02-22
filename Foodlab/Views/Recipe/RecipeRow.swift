@@ -1,16 +1,16 @@
 import SwiftUI
 
 struct RecipeRow: View {
-    var recipe: Recipe
+    @ObservedObject var viewModel: RecipeRowViewModel
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(recipe.title)
+                Text(viewModel.title)
                     .font(.headline)
-                Text("By \(recipe.author)")
+                Text("By \(viewModel.author)")
                     .font(.caption)
-                Text("Duration: \(recipe.duration) minutes")
+                Text("Duration: \(viewModel.duration) minutes")
                     .font(.caption)
             }
             Spacer()
@@ -22,6 +22,6 @@ struct RecipeRow: View {
 
 struct RecipeRow_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeRow(recipe: MockData.recipeCrepes)
+        RecipeRow(viewModel: RecipeRowViewModel(model: MockData.recipeCrepes))
     }
 }

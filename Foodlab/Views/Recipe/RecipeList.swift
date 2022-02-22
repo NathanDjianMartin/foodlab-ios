@@ -9,17 +9,24 @@ struct RecipeList: View {
         VStack {
             Text(searchText)
             List {
-                ForEach(MockData.recipeCategoriesModel) { category in
-                    Section(category.name) {
-                        ForEach(1..<3) { number in
-                            NavigationLink {
-                                RecipeDetails(recipe: MockData.recipePates)
-                            } label: {
-                                RecipeRow(recipe: MockData.recipePates)
-                            }
-                        }
+                ForEach(MockData.recipeList) { recipe in
+                    NavigationLink {
+                        RecipeDetails(recipe: recipe)
+                    } label: {
+                        RecipeRow(viewModel: RecipeRowViewModel(model: recipe))
                     }
                 }
+                //                ForEach(MockData.recipeCategoriesModel) { category in
+                //                    Section(category.name) {
+                //                        ForEach(1..<3) { number in
+                //                            NavigationLink {
+                //                                RecipeDetails(recipe: MockData.recipePates)
+                //                            } label: {
+                //                                RecipeRow(recipe: MockData.recipePates)
+                //                            }
+                //                        }
+                //                    }
+                //                }
             }
             .searchable(text: $searchText, prompt: "Search a recipe")
             .sheet(isPresented: $showRecipeCreation) {

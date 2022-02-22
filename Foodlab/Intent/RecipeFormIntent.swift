@@ -17,7 +17,6 @@ struct RecipeFormIntent {
         self.recipeFormStateSubject.subscribe(observer)
     }
     
-    
     // MARK: intent to change state functions
     
     func intentToChange(recipeTitle: String) {

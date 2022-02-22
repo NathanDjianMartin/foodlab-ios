@@ -87,4 +87,8 @@ struct MockData {
     static let step3 = SimpleStep(id: 5, title: "Mettre farine", stepDescription: "Mettre la farine et creuser un puit au milieu (comme un volcan)", duration: 2)
     static let step4 = SimpleStep(id: 6, title: "Casser les oeufs", stepDescription: "Casser les oeufs et les disposer au centre du puit de farine", duration: 1)
     
+    static var recipeList: [Recipe] {
+        return [recipeCrepes, recipeCrepes]
+    }
+    
 }

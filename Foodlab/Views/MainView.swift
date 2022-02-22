@@ -9,21 +9,21 @@ struct MainView: View {
             .tabItem {
                 Label("Ingredients", systemImage: "fork.knife")
             }
-            
+
             NavigationView {
                 RecipeList()
             }
             .tabItem {
                 Label("Recipes", systemImage: "doc.text")
             }
-            
+
             NavigationView {
                 UserList()
             }
             .tabItem {
                 Label("Users", systemImage: "person.2.fill")
             }
-            
+
             NavigationView {
                 SettingsSummary(user: MockData.user)
             }

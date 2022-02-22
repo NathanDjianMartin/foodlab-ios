@@ -1,22 +1,21 @@
-//
-//  RecipeExecution.swift
-//  Foodlab
-//
-//  Created by m1 on 16/02/2022.
-//
-
 import Foundation
 
 class RecipeExecution: Step {
-    var id: Int?
-    var stepTitle: String
     
-    //TODO: faire une collection 
-    //var steps: [Step] = []
+    var steps: [Step]
     
-    init(id: Int? = nil, stepTitle: String) {
-        self.id = id
-        self.stepTitle = stepTitle
+    override init(id: Int? = nil, title: String) {
+        self.steps = []
+        super.init(id: id, title: title)
     }
     
+    func addStep(_ step: Step) {
+        self.steps.append(step)
+    }
+    
+    func removeStep(at index: Int) {
+        self.steps.remove(at: index)
+    }
 }
+
+

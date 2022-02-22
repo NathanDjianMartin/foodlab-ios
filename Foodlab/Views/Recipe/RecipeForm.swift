@@ -1,9 +1,7 @@
 import SwiftUI
 
-struct RecipeCreation: View {
-    @State private var recipeName: String = ""
-    @State private var authorName: String = ""
-    @State private var guestNumber: Int = 1
+struct RecipeForm: View {
+    @ObservedObject var recipe: Recipe
     @Binding var isPresented: Bool
     
     var body: some View {
@@ -20,7 +18,7 @@ struct RecipeCreation: View {
             .padding()
             
             HStack {
-                Text("Recipe creation")
+                Text(recipe.id == nil ? "Recipe creation" : "Recipe modification")
                     .font(.largeTitle)
                     .bold()
                 Spacer()
@@ -28,19 +26,20 @@ struct RecipeCreation: View {
             .padding()
             
             List {
-                TextField("Recipe name", text: $recipeName)
-                TextField("Author", text: $authorName)
-                Stepper(value: $guestNumber) {
-                    Text("For \(guestNumber) guest\(guestNumber > 1 ? "s" : "")")
+                TextField("Recipe title", text: $recipe.title)
+                TextField("Author", text: $recipe.author)
+                Stepper(value: $recipe.guestsNumber) {
+                    Text("For \(recipe.guestsNumber) guest\(recipe.guestsNumber > 1 ? "s" : "")")
                 }
             }
             .listStyle(.plain)
         }
+        //TODO: add button validate? 
     }
 }
 
 struct RecipeCreation_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeCreation(isPresented: .constant(true))
+        RecipeForm(recipe: MockData.recipePates, isPresented: .constant(true))
     }
 }

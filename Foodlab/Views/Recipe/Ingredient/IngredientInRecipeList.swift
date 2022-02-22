@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct IngredientInRecipeList: View {
-    var ingredients: [IngredientWithinStep]?
+    var ingredients: [Ingredient: Double]?
     
     var body: some View {
         List {
             if let ingredients = ingredients {
-                ForEach(ingredients) { ingredient in
+                ForEach(ingredients.sorted(by: >), id: \.key) { key, value in
                     HStack {
-                        Text("\(ingredient.ingredient.name)")
+                        Text("\(key.name)")
                         Spacer()
-                        Text("\(ingredient.quantity)\(ingredient.ingredient.unit)")
+                        Text("\(value)\(key.unit)")
                     }
                 }
             }

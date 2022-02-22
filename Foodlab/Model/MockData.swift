@@ -83,7 +83,7 @@ struct MockData {
     //Step
     static let ingredientWithinStep = IngredientWithinStep(id: 1, ingredient: ingredient, quantity: 2)
     
-    static let step = SimpleStep(id: 3, title: "Faire bouillir l'eau", stepDescription: "Remplir un récipient d'eau et amener le récipient au dessus d'une source de chaleur", duration: 10, ingredients: [ingredientWithinStep])
+    static let step = SimpleStep(id: 3, title: "Faire bouillir l'eau", stepDescription: "Remplir un récipient d'eau et amener le récipient au dessus d'une source de chaleur", duration: 10, ingredients: [ingredient: 2])
     static let step2 = SimpleStep(id: 4, title: "Égouter les pates", stepDescription: "Verser le contenu du récipient dans une passoire", duration: 1)
     
     static let step3 = SimpleStep(id: 5, title: "Mettre farine", stepDescription: "Mettre la farine et creuser un puit au milieu (comme un volcan)", duration: 2)

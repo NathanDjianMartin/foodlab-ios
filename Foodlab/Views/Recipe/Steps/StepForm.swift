@@ -47,11 +47,11 @@ struct StepForm: View {
                 Text("Ingredients in step")
                 if let ingredients = step.ingredients {
                     List {
-                        ForEach(ingredients) { ingredient in
+                        ForEach(ingredients.sorted(by: >), id: \.key) { key, value in
                             HStack {
-                                Text("\(ingredient.ingredient.name)")
+                                Text("\(key.name)")
                                 Spacer()
-                                Text("\(ingredient.quantity)\(ingredient.ingredient.unit)")
+                                Text("\(value)\(key.unit)")
                             }
                         }
                     }

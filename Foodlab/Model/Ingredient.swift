@@ -10,8 +10,8 @@ protocol IngredientObserver {
     func changed(allergenCategory: Category?)
 }
 
-class Ingredient: Identifiable, Hashable {
-    
+class Ingredient: Identifiable, Hashable, Comparable {
+
     var id: Int?
     var name: String {
         didSet { // if name was set, we should warn our observer
@@ -60,6 +60,7 @@ class Ingredient: Identifiable, Hashable {
         return Ingredient(id: self.id, name: self.name, unit: self.unit, unitaryPrice: self.unitaryPrice, stockQuantity: self.stockQuantity, ingredientCategory: self.ingredientCategory, allergenCategory: self.allergenCategory)
     }
     
+    // Comform to Hashable protocol
     static func == (lhs: Ingredient, rhs: Ingredient) -> Bool {
         return lhs.id == rhs.id
     }
@@ -68,4 +69,8 @@ class Ingredient: Identifiable, Hashable {
         hasher.combine(id)
     }
     
+    // Comform to Comparable protocol
+    static func < (lhs: Ingredient, rhs: Ingredient) -> Bool {
+        return lhs.id < rhs.id
+    }
 }

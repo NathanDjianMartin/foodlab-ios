@@ -1,10 +1,7 @@
 import SwiftUI
 
 struct IngredientList: View {
-    @State private var showIngredientForm = false
     @State private var showAlert = false
-    
-    @State private var selectedIndex = 0
     @State var selectedIngredient : Ingredient? = nil
     
     @ObservedObject var ingredientListVM: IngredientListViewModel = IngredientListViewModel()
@@ -17,8 +14,6 @@ struct IngredientList: View {
                     .swipeActions {
                         Button {
                             self.selectedIngredient = ingredient
-                            selectedIndex = ingredientIndex
-                            showIngredientForm = true
                         } label: {
                             Image(systemName: "square.and.pencil")
                         }
@@ -56,7 +51,6 @@ struct IngredientList: View {
                         break
                     case .success(let ingredients):
                         self.ingredientListVM.ingredients = ingredients
-//                        ingredientListVM.objectWillChange.send()
                         print(self.ingredientListVM.ingredients)
                     }
                 }
@@ -70,7 +64,7 @@ struct IngredientList: View {
         .navigationTitle("Ingredients")
         .toolbar {
             Button(action: {
-                showIngredientForm = true
+                self.selectedIngredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: ""))
             }) {
                 Image(systemName: "plus")
             }

@@ -80,6 +80,11 @@ struct IngredientForm: View {
                             Task {
                                 await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)
                             }
+                        }else {
+                            // create
+                            Task {
+                                await intent.intentToCreate(ingredient: ingredientVM.modelCopy)
+                            }
                         }
                         
                     }

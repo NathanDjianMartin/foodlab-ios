@@ -115,7 +115,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
             print("vm: ingredient category changed to '\(self.model.ingredientCategory)'")
         case .allergenCategoryChanging(let allergenCategory):
             self.modelCopy.allergenCategory = allergenCategory
-        case .ingredientUpdatedInDatabase:
+        case .ingredientUpdatedInDatabase :
             self.model.name = self.modelCopy.name
             self.model.unit = self.modelCopy.unit
             self.model.unitaryPrice = self.modelCopy.unitaryPrice

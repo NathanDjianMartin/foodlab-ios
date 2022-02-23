@@ -65,6 +65,20 @@ struct IngredientDAO {
         
     }
     
+    static func createIngredient(ingredient: Ingredient) async -> Result<Ingredient, Error> {
+        let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
+        do {
+            //TODO: verifier id
+            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.create(from: stringUrl+"ingredient", object: ingredientDTO)
+            return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
+        }catch {
+            // on propage l'erreur transmise par la fonction post
+            return .failure(error)
+        }
+        
+    }
+    
+    
     static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
         //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categories id juste pour faire un premier test
         if let allergen = ingredient.allergenCategory {

@@ -112,8 +112,18 @@ struct IngredientIntent {
             self.state.send(.ingredientUpdatedInDatabase)
             self.listState.send(.needToBeUpdated)
         }
-        
-        
+    }
+    
+    func intentToCreate(ingredient: Ingredient) async {
+        switch await IngredientDAO.createIngredient(ingredient: ingredient) {
+        case .failure(let error):
+            //TODO: gérer
+            break
+        case .success(let ingredient):
+            // si ça a marché : modifier le view model et le model
+            self.state.send(.ingredientUpdatedInDatabase)
+            self.listState.send(.needToBeUpdated)
+        }
     }
     
     func intentToChange(name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category?) {

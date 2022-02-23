@@ -9,7 +9,7 @@ import Foundation
 
 extension URLSession {
     // TODO: renommer la fonction par get par exemple
-    func getJSON<T: Decodable> (from url: String) async throws -> T {
+    func get<T: Decodable> (from url: String) async throws -> T {
         
         guard let url = URL(string: url) else {
             throw URLError.cast
@@ -23,7 +23,7 @@ extension URLSession {
         return decoded
     }
     
-    func postJSON<T: Codable> (from url: String, object: T) async throws -> T {
+    func update<T: Codable> (from url: String, object: T) async throws -> T {
         //TODO: gerer les erreur avec enum et pas de retour vide
         guard let url = URL(string: url) else {
             throw URLError.cast

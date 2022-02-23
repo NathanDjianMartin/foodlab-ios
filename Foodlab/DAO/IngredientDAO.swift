@@ -15,7 +15,7 @@ struct IngredientDAO {
     static func getAllIngredients() async -> Result<[Ingredient], Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : [IngredientDTO] = try await URLSession.shared.getJSON(from: stringUrl + "ingredient")
+            let decoded : [IngredientDTO] = try await URLSession.shared.get(from: stringUrl + "ingredient")
             
             // dans une boucle transformer chaque IngredientDTO en model Ingredient
             var ingredients: [Ingredient] = []
@@ -41,7 +41,7 @@ struct IngredientDAO {
         do {
             
             // decoder le JSON avec la fonction présente dans JSONHelper
-            let ingredientDTO : IngredientDTO = try await URLSession.shared.getJSON(from: stringUrl + "ingredient/\(id)")
+            let ingredientDTO : IngredientDTO = try await URLSession.shared.get(from: stringUrl + "ingredient/\(id)")
             
             // retourner un Result avec ingredient ou error
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)
@@ -56,7 +56,7 @@ struct IngredientDAO {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
             //TODO: verifier id
-            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
+            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.update(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
         }catch {
             // on propage l'erreur transmise par la fonction post

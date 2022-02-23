@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum URLError {
+enum URLError : Error {
     case cast
     
     public var description: String {
         switch self {
         case .cast:
-            return "Error while cast string in URL"
+            return "Error while creating url from string"
         }
     }
 }

@@ -10,16 +10,7 @@ import Foundation
 enum StringOrDouble : Codable {
     case post(Double)
     case get(String)
-    
-//    private enum CodingKeys: String, CodingKey {
-//        case post
-//        case get
-//    }
-//
-//    enum PostTypeCodingError: Error {
-//        case decoding(String)
-//    }
-    
+
     init(from decoder: Decoder) throws {
         let values = try decoder.singleValueContainer()
         if let string = try? values.decode(String.self){
@@ -27,7 +18,7 @@ enum StringOrDouble : Codable {
         }
         else{
             guard let double = try? values.decode(Double.self) else {
-                throw NetworkError.decodedError("toto")
+                throw JSONError.decode
             }
             self = .post(double)
         }

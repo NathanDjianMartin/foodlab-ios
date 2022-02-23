@@ -72,21 +72,21 @@ struct CategoryDAO {
                 // faire la requête vers le backend
                 print(stringUrl + "\(type.rawValue)/\(id)")
                 guard let url = URL(string: stringUrl + "\(type.rawValue)/\(id)")
-                else { return .failure(NetworkError.URLError("problem url")) }
+                else { return .failure(URLError.cast) }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 
                 
                 // decoder le JSON avec la fonction présente dans JSONHelper
                 print(data)
                 guard let categoryDTO: CategoryDTO = JSONHelper.decode(data: data)
-                else { return .failure(NetworkError.decodedError("Error when decoding data")) }
+                else { return .failure(JSONError.decode) }
                 
                 // retourner une liste de User
                 return .success(getCategoryFromCategoryDTO(categoryDTO: categoryDTO))
                 
             } catch {
                 print("Error while fetching ingredient from backend: \(error)")
-                return .failure(NetworkError.URLError("cest pas url \(stringUrl) \(type.rawValue)/\(id)"))
+                return .failure(UndefinedError.error("Error in get category by id"))
             }
         }
 

@@ -10,17 +10,6 @@ import Foundation
 struct IngredientDAO {
     //TODO: mettre un singleton? Bonne pratique?
     
-    /*
-     Se charge de créer à partir de la base de données un ingrédient, de récupérer la liste des ingrédients ...
-     Interface qui fait le lien avec la base de données
-     Va implémenter des fonctions :
-     - get(),
-     - getAll(),
-     - create(),
-     - update(),
-     - delete() ...
-     */
-    
     static var stringUrl = "http://51.75.248.77:3000/"
     
     static func getAllIngredients() async -> Result<[Ingredient], Error> {
@@ -39,12 +28,12 @@ struct IngredientDAO {
                 }
             }
             
-            // retourner une liste de Ingredient
+            // retourner une liste d'Ingredient
             return .success(ingredients)
             
         } catch {
             print("Error while fetching ingredients from backend: \(error)")
-            return .failure(NetworkError.URLError("encore une erreur a changer"))
+            return .failure(UndefinedError.error("Error in get all ingredients"))
         }
     }
     
@@ -59,7 +48,7 @@ struct IngredientDAO {
             
         } catch {
             print("Error while fetching ingredient from backend: \(error)")
-            return .failure(NetworkError.URLError("cest toujours pas la bonne erreur"))
+            return .failure(UndefinedError.error("Error in get ingredient by id"))
         }
     }
     
@@ -68,20 +57,19 @@ struct IngredientDAO {
         do {
             //TODO : verifier id
             print(stringUrl+"ingredient/\(ingredient.id!)")
-            guard let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO) else {
-                return .failure(NetworkError.URLError("cest toujours pas la bonne erreur"))
-            }
+            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
         }catch {
-            print("erreur")
-            return .failure(NetworkError.URLError("cest toujours pas la bonne erreur"))        }
+            // on propage l'erreur transmise par la fonction post
+            return .failure(error)
+        }
         
     }
     
     static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
         //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categorie id juste pour faire un premier test
         if let allergen = ingredient.allergenCategory {
-            return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: ingredient.allergenCategory!.id!)
+            return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: allergen.id!)
         }else {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: nil)
         }
@@ -95,7 +83,7 @@ struct IngredientDAO {
             unitaryPrice = double
         case .get(let string):
             guard let double = Double(string) else {
-                return .failure(NetworkError.URLError("erreur conversion double a changer "))
+                return .failure(ConversionError.stringToDouble)
             }
             unitaryPrice = double
         }
@@ -107,7 +95,7 @@ struct IngredientDAO {
             stockQuantity = double
         case .get(let string):
             guard let double = Double(string) else {
-                return .failure(NetworkError.URLError("erreur conversion double a changer "))
+                return .failure(ConversionError.stringToDouble)
             }
             stockQuantity = double
         }

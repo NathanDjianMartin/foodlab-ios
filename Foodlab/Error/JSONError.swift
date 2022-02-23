@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum JSONError {
+enum JSONError : Error {
     case decode
     case encode
     

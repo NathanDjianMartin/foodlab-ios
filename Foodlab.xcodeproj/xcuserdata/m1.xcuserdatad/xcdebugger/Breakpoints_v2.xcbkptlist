@@ -14,8 +14,8 @@
             filePath = "Foodlab/DAO/IngredientDAO.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "getAllIngredients()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Foodlab/DAO/IngredientDAO.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "getIngredientFromIngredientDTO(ingredientDTO:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "Foodlab/DAO/IngredientDAO.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "getAllIngredients()"
             landmarkType = "7">
             <Locations>
@@ -398,8 +398,8 @@
             filePath = "Foodlab/DAO/IngredientDAO.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "getAllIngredients()"
             landmarkType = "7">
             <Locations>

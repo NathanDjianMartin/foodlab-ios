@@ -106,11 +106,12 @@ struct IngredientIntent {
         switch await IngredientDAO.updateIngredient(ingredient: ingredient) {
         case .failure(let error):
             //TODO: gérer
+            print("Error while intenting to update ingredien  \(error)")
             break
         case .success(let ingredient):
             // si ça a marché : modifier le view model et le model
             self.state.send(.ingredientUpdatedInDatabase)
-            self.listState.send(.needToBeUpdated)
+            //self.listState.send(.needToBeUpdated)
         }
     }
     

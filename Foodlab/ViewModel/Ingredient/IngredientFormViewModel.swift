@@ -37,7 +37,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
         self.allergenCategory = model.allergenCategory
         self.model = model
         self.modelCopy = model.copy()
-        self.model.observer = self
+        self.model.addObserver(self)
     }
     
     // MARK: -
@@ -105,7 +105,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
             self.modelCopy.unitaryPrice = unitaryPriceClean
             print("vm: ingredient unitary price changed to '\(self.model.unitaryPrice)'")
         case .stockQuantityChanging(let stockQuantity):
-            let stockQuantityClean = Double(stockQuantity) 
+            let stockQuantityClean = Double(stockQuantity)
             print("vm: change ingredient stock quantity to '\(stockQuantityClean)'")
             self.modelCopy.stockQuantity = stockQuantityClean
             print("vm: ingredient stock quantity changed to '\(self.model.stockQuantity)'")
@@ -123,6 +123,6 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
             self.model.ingredientCategory = self.modelCopy.ingredientCategory
             self.model.allergenCategory = self.modelCopy.allergenCategory
         }
-    return .none // on arrête de traiter cette demande et on attend un nouveau send
-}
+        return .none // on arrête de traiter cette demande et on attend un nouveau send
+    }
 }

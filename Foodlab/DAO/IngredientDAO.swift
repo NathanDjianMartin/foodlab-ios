@@ -52,12 +52,12 @@ struct IngredientDAO {
         }
     }
     
-    static func updateIngredient(ingredient: Ingredient) async -> Result<Ingredient, Error> {
+    static func updateIngredient(ingredient: Ingredient) async -> Result<Bool, Error> {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
-            //TODO: verifier id
-            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.update(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
-            return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
+            // TODO: verifier id
+            let isUpdated = try await URLSession.shared.update(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
+            return .success(isUpdated)
         }catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)

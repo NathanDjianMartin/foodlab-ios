@@ -8,25 +8,26 @@
 import Foundation
 
 extension URLSession {
-    // TODO: renommer la fonction par get par exemple
+    
     func get<T: Decodable> (from url: String) async throws -> T {
         
         guard let url = URL(string: url) else {
-            throw URLError.cast
+            throw URLError.failedInit
         }
         
         let (data, _) = try await data(from: url)
-        //TODO: tester si data nul ou vide
+        // TODO: tester si data nul ou vide
+        // TODO: traiter response pour voir les http code
         guard let decoded: T = JSONHelper.decode(data: data) else {
             throw JSONError.decode
         }
         return decoded
     }
     
-    func update<T: Codable> (from url: String, object: T) async throws -> T {
+    func update<T: Codable> (from url: String, object: T) async throws -> Bool {
         //TODO: gerer les erreur avec enum et pas de retour vide
         guard let url = URL(string: url) else {
-            throw URLError.cast
+            throw URLError.failedInit
         }
         do{
             var request = URLRequest(url: url)
@@ -41,16 +42,21 @@ extension URLSession {
         
             //let sencoded = String(data: encoded, encoding: .utf8)
             
-            let (data, response) = try await URLSession.shared.upload(for: request, from: encoded)
+            let (data, response) = try await upload(for: request, from: encoded)
+            
             let sdata = String(data: data, encoding: .utf8)!
+            // TODO: risque ?
             let httpresponse = response as! HTTPURLResponse
-            if httpresponse.statusCode == 201 {
+            if httpresponse.statusCode == 200 {
                 print("GoRest Result: \(sdata)")
-                guard let decoded : T = JSONHelper.decode(data: data) else {
+                /*
+                 guard let decoded : T = JSONHelper.decode(data: data) else {
                     throw JSONError.decode
                 }
-                return decoded
+                 */
+                return true
                 //self.users.append(decoded.data)
+                 
             }
             else{
                 print("Error \(httpresponse.statusCode): \(HTTPURLResponse.localizedString(forStatusCode: httpresponse.statusCode))")
@@ -58,14 +64,15 @@ extension URLSession {
             }
         }
         catch{
-            throw UndefinedError.error("Error in POST resquest")
+            throw UndefinedError.error("Error in POST resquest: \(error)")
         }
     }
     
+    // TODO: factoriser fonction
     func create<T: Codable> (from url: String, object: T) async throws -> T {
         //TODO: factoriser la fonction avec la fonction créate pour éviter la duplication de code
         guard let url = URL(string: url) else {
-            throw URLError.cast
+            throw URLError.failedInit
         }
         do{
             var request = URLRequest(url: url)

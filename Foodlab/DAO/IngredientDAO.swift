@@ -33,7 +33,7 @@ struct IngredientDAO {
             
         } catch {
             print("Error while fetching ingredients from backend: \(error)")
-            return .failure(UndefinedError.error("Error in get all ingredients"))
+            return .failure(error)
         }
     }
     
@@ -43,20 +43,19 @@ struct IngredientDAO {
             // decoder le JSON avec la fonction présente dans JSONHelper
             let ingredientDTO : IngredientDTO = try await URLSession.shared.getJSON(from: stringUrl + "ingredient/\(id)")
             
-            // retourner une liste de User
+            // retourner un Result avec ingredient ou error
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)
             
         } catch {
             print("Error while fetching ingredient from backend: \(error)")
-            return .failure(UndefinedError.error("Error in get ingredient by id"))
+            return .failure(error)
         }
     }
     
     static func updateIngredient(ingredient: Ingredient) async -> Result<Ingredient, Error> {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
-            //TODO : verifier id
-            print(stringUrl+"ingredient/\(ingredient.id!)")
+            //TODO: verifier id
             let ingredientDTOresult : IngredientDTO = try await URLSession.shared.postJSON(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
         }catch {
@@ -67,7 +66,7 @@ struct IngredientDAO {
     }
     
     static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
-        //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categorie id juste pour faire un premier test
+        //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categories id juste pour faire un premier test
         if let allergen = ingredient.allergenCategory {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: allergen.id!)
         }else {

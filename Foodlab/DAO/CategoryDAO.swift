@@ -20,7 +20,7 @@ struct CategoryDAO {
     static var stringUrl = "http://localhost:3000/"
     
     // Ingredient
-    static func getAllIngredientCategories() async -> [Category]? {
+    static func getAllIngredientCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.ingredient )
     }
     
@@ -29,7 +29,7 @@ struct CategoryDAO {
     }
     
     // Allergen
-    static func getAllAllergenCategories() async -> [Category]? {
+    static func getAllAllergenCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.allergen )
     }
     
@@ -37,56 +37,36 @@ struct CategoryDAO {
         return await getCategoryById(type: CategoryType.allergen, id: id)
     }
     
-    static func getAllCategories(type: CategoryType) async -> [Category]? {
+    static func getAllCategories(type: CategoryType) async -> Result<[Category], Error> {
             do {
-                
-                // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "\(type.rawValue)")
-                else { return nil }
-                let (data, _) = try await URLSession.shared.data(from: url)
-                
-                
-                // decoder le JSON avec la fonction présente dans JSONHelper
-                guard let decoded: [CategoryDTO] = JSONHelper.decode(data: data)
-                else { return nil }
+                // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
+                let decoded : [CategoryDTO] = try await URLSession.shared.getJSON(from: stringUrl + "\(type.rawValue)")
                 
                 // dans une boucle transformer chaque UserDTO en model User
                 var categories: [Category] = []
                 for categoryDTO in decoded {
-                    categories.append( getCategoryFromCategoryDTO(categoryDTO: categoryDTO) )
+                    categories.append(getCategoryFromCategoryDTO(categoryDTO: categoryDTO))
                 }
                 
                 // retourner une liste de User
-                return categories
+                return .success(categories)
                 
             } catch {
-                print("Error while fetching categories from backend: \(error)")
-                return nil
+                return .failure(error)
             }
         }
     
     static func getCategoryById(type: CategoryType, id: Int) async -> Result<Category, Error> {
             do {
-                // TODO: utiliser fonction de l'extension URLSession
-                
-                // faire la requête vers le backend
-                print(stringUrl + "\(type.rawValue)/\(id)")
-                guard let url = URL(string: stringUrl + "\(type.rawValue)/\(id)")
-                else { return .failure(URLError.cast) }
-                let (data, _) = try await URLSession.shared.data(from: url)
-                
-                
-                // decoder le JSON avec la fonction présente dans JSONHelper
-                print(data)
-                guard let categoryDTO: CategoryDTO = JSONHelper.decode(data: data)
-                else { return .failure(JSONError.decode) }
-                
-                // retourner une liste de User
-                return .success(getCategoryFromCategoryDTO(categoryDTO: categoryDTO))
+                // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
+                let decoded : CategoryDTO = try await URLSession.shared.getJSON(from: stringUrl + "\(type.rawValue)/\(id)")
+        
+                // retourne Result avec Category ou Error
+                return .success(getCategoryFromCategoryDTO(categoryDTO: decoded))
                 
             } catch {
                 print("Error while fetching ingredient from backend: \(error)")
-                return .failure(UndefinedError.error("Error in get category by id"))
+                return .failure(error)
             }
         }
 

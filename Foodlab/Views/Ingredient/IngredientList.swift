@@ -5,17 +5,19 @@ struct IngredientList: View {
     @State private var showAlert = false
     
     @State private var selectedIndex = 0
+    @State var selectedIngredient : Ingredient? = nil
     
     @ObservedObject var ingredientListVM: IngredientListViewModel = IngredientListViewModel()
     
     var body: some View {
         
         List {
-            ForEach(ingredientListVM.ingredients.indices) { ingredientIndex in
-                IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[ingredientIndex]))
+            ForEach(Array(ingredientListVM.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in
+                IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredient ))
                     .swipeActions {
                         Button {
-                            self.selectedIndex = ingredientIndex
+                            self.selectedIngredient = ingredient
+                            selectedIndex = ingredientIndex
                             showIngredientForm = true
                         } label: {
                             Image(systemName: "square.and.pencil")
@@ -54,14 +56,14 @@ struct IngredientList: View {
                         break
                     case .success(let ingredients):
                         self.ingredientListVM.ingredients = ingredients
-                        ingredientListVM.objectWillChange.send()
+//                        ingredientListVM.objectWillChange.send()
                         print(self.ingredientListVM.ingredients)
                     }
                 }
             }
         }
-        .sheet(isPresented: $showIngredientForm) {
-            IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[selectedIndex]), ingredientListVM: ingredientListVM, isPresented: $showIngredientForm)
+        .sheet(item: self.$selectedIngredient) { ingredient in
+            IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredient), ingredientListVM: ingredientListVM, isPresented: $selectedIngredient)
             
         }
         

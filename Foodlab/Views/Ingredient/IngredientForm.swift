@@ -1,15 +1,17 @@
 import SwiftUI
 
 struct IngredientForm: View {
-    @Binding var isPresented: Bool
-    
+//    @Binding var isPresented: Bool
+    @Binding var isPresented: Ingredient?
+
     @ObservedObject var ingredientVM: IngredientFormViewModel
     var ingredientListVM: IngredientListViewModel
     private var intent : IngredientIntent
     
-    init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Bool>){
+    init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Ingredient?>){
         self.ingredientVM = ingredientVM
         self.ingredientListVM = ingredientListVM
+//        self._isPresented = isPresented
         self._isPresented = isPresented
 
         self.intent = IngredientIntent()
@@ -23,7 +25,7 @@ struct IngredientForm: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    self.isPresented = false
+                    self.isPresented = nil
                 }) {
                     Text("Cancel")
                 }
@@ -91,9 +93,9 @@ struct IngredientForm: View {
     }
 }
 
-struct IngredientCreation_Previews: PreviewProvider {
-
-    static var previews: some View {
-        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: .constant(true))
-    }
-}
+//struct IngredientCreation_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: nil)
+//    }
+//}

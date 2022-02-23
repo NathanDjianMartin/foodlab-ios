@@ -10,7 +10,7 @@ protocol IngredientObserver {
     func changed(allergenCategory: Category?)
 }
 
-class Ingredient: Identifiable, Hashable, Comparable {
+class Ingredient: Identifiable, Hashable, Comparable, CustomStringConvertible {
 
     var id: Int?
     var name: String {
@@ -44,6 +44,9 @@ class Ingredient: Identifiable, Hashable, Comparable {
         }
     }
     
+    var description: String{
+        return self.name
+    }
     var observer: IngredientObserver?
     
     init(id: Int? = nil, name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category? = nil) {

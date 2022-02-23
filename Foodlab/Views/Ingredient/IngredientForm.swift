@@ -8,6 +8,10 @@ struct IngredientForm: View {
     var ingredientListVM: IngredientListViewModel
     private var intent : IngredientIntent
     
+    var creationMode: Bool {
+        self.ingredientVM.id == nil
+    }
+    
     init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Ingredient?>){
         self.ingredientVM = ingredientVM
         self.ingredientListVM = ingredientListVM
@@ -69,9 +73,9 @@ struct IngredientForm: View {
                 
                 HStack {
                     Spacer()
-                    Button("Create ingredient") {
+                    Button(creationMode ? "Create ingredient" : "Edit ingredient") {
                         //intentToCreate
-                        if (ingredientVM.modelCopy.id != nil) {
+                        if (!creationMode) {
                             // update
                             Task {
                                 await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)

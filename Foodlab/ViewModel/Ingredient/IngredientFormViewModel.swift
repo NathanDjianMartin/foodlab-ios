@@ -19,6 +19,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     // save model in case the modification is cancelled
     private (set) var modelCopy: Ingredient
     
+    var id: Int?
     @Published var name: String
     @Published var unit: String
     @Published var unitaryPrice: Double
@@ -27,6 +28,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     @Published var allergenCategory: Category?
     
     init(model: Ingredient) {
+        self.id = model.id
         self.name = model.name
         self.unit = model.unit
         self.unitaryPrice = model.unitaryPrice

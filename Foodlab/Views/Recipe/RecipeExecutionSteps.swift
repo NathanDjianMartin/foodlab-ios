@@ -24,7 +24,7 @@ struct RecipeExecutionSteps: View {
                 self.showSheet = true
             }
             .sheet(isPresented: $showSheet) {
-                Text("Ok")
+                StepForm(step: MockData.step, isPresented: $showSheet)
             }
         }
         .listStyle(.plain)

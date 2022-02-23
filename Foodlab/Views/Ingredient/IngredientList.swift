@@ -3,18 +3,19 @@ import SwiftUI
 struct IngredientList: View {
     @State private var showIngredientForm = false
     @State private var showAlert = false
-    @State private var ingredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: "")
-    static var ingredients : [Ingredient]?
+    
+    @State private var selectedIndex = 0
+    
+    @ObservedObject var ingredientListVM: IngredientListViewModel = IngredientListViewModel()
     
     var body: some View {
         
-        
         List {
-            ForEach(IngredientList.ingredients!.indices) { ingredientIndex in
-                IngredientRow(ingredient: IngredientList.ingredients![ingredientIndex])
+            ForEach(ingredientListVM.ingredients.indices) { ingredientIndex in
+                IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[ingredientIndex]))
                     .swipeActions {
                         Button {
-                            self.ingredient = MockData.ingredientList[ingredientIndex]
+                            self.selectedIndex = ingredientIndex
                             showIngredientForm = true
                         } label: {
                             Image(systemName: "square.and.pencil")
@@ -42,10 +43,28 @@ struct IngredientList: View {
                     }
             }
             
+            
+        }
+        .onAppear {
+            Task{
+                if ( ingredientListVM.ingredients.count == 0 ){
+                    switch  await IngredientDAO.getAllIngredients() {
+                    case .failure(let error):
+                        print(error)
+                        break
+                    case .success(let ingredients):
+                        self.ingredientListVM.ingredients = ingredients
+                        ingredientListVM.objectWillChange.send()
+                        print(self.ingredientListVM.ingredients)
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showIngredientForm) {
-            IngredientForm(isPresented: $showIngredientForm)
+            IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredientListVM.ingredients[selectedIndex]), ingredientListVM: ingredientListVM, isPresented: $showIngredientForm)
+            
         }
+        
         .navigationTitle("Ingredients")
         .toolbar {
             Button(action: {

@@ -1,19 +1,19 @@
 import SwiftUI
 
 struct IngredientRow: View {
-    var ingredient: Ingredient
+    @ObservedObject var ingredientVM: IngredientFormViewModel
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(ingredient.name)
+                Text(ingredientVM.name)
                     .font(.headline)
-                Text("\(ingredient.stockQuantity.roundTo(2))  unit in stock")
+                Text("\(ingredientVM.stockQuantity.roundTo(2))  unit in stock")
                     .font(.caption)
-                Text("\(ingredient.unitaryPrice.roundTo(2))$ per \(ingredient.unit)")
+                Text("\(ingredientVM.unitaryPrice.roundTo(2))$ per \(ingredientVM.unit)")
                     .font(.caption)
             }
-            if ingredient.allergenCategory != nil {
+            if ingredientVM.allergenCategory != nil {
                 Spacer()
                 Badge(text: "Allergen")
             }
@@ -28,14 +28,14 @@ struct IngredientRow: View {
 struct IngredientRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            IngredientRow(ingredient: MockData.ingredient)
+            IngredientRow(ingredientVM: IngredientFormViewModel(model: MockData.ingredient))
                 .previewLayout(.fixed(width: 300, height: 70))
-            IngredientRow(ingredient: MockData.ingredient)
+            IngredientRow(ingredientVM: IngredientFormViewModel(model: MockData.ingredient))
                 .previewLayout(.fixed(width: 300, height: 70))
                 .preferredColorScheme(.dark)
-            IngredientRow(ingredient: MockData.allergenIngredient)
+            IngredientRow(ingredientVM: IngredientFormViewModel(model: MockData.ingredient))
                 .previewLayout(.fixed(width: 300, height: 70))
-            IngredientRow(ingredient: MockData.allergenIngredient)
+            IngredientRow(ingredientVM:IngredientFormViewModel(model: MockData.ingredient))
                 .previewLayout(.fixed(width: 300, height: 70))
                 .preferredColorScheme(.dark)
         }

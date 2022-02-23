@@ -64,6 +64,7 @@ struct RecipeForm: View {
             }
             .listStyle(.plain)
         }
+        //TODO: add button validate? 
     }
 }
 

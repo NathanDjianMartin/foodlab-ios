@@ -8,14 +8,14 @@ struct MockData {
                                        unit: "KG",
                                        unitaryPrice: 0.81,
                                        stockQuantity: 17.5,
-                                       ingredientCategory: ingredientCategories[2])
+                                       ingredientCategory: legume)
     
     static let allergenIngredient = Ingredient(name: "Farine de blé",
-                                               unit: "KG",
-                                               unitaryPrice: 0.54,
-                                               stockQuantity: 4.3,
-                                               ingredientCategory: ingredientCategories[0],
-                                               allergenCategory: allergenCategories[0])
+                                       unit: "KG",
+                                       unitaryPrice: 0.54,
+                                       stockQuantity: 4.3,
+                                       ingredientCategory: legume,
+                                       allergenCategory: crustace)
     
     static var ingredientList: [Ingredient] {
         var list: [Ingredient] = []
@@ -38,8 +38,8 @@ struct MockData {
     
     //IngredientCategories
     static let legume = Category(id: 1, name: "Légume")
-    static let crustace = Category(id: 2, name: "Crustacé")
-    static let entree = Category(id: 3, name: "Entrée")
+    static let crustace = Category(id: 1, name: "Crustacé")
+    static let entree = Category(id: 1, name: "Entrée")
     
     static let ingredientCategoriesModel = [Category](repeating: legume, count: 3)
     static let allergenCategoriesModel = [Category](repeating: crustace, count: 2)
@@ -81,7 +81,9 @@ struct MockData {
     }
     
     //Step
-    static let step = SimpleStep(id: 3, title: "Faire bouillir l'eau", stepDescription: "Remplir un récipient d'eau et amener le récipient au dessus d'une source de chaleur", duration: 10)
+    static let ingredientWithinStep = IngredientWithinStep(id: 1, ingredient: ingredient, quantity: 2)
+    
+    static let step = SimpleStep(id: 3, title: "Faire bouillir l'eau", stepDescription: "Remplir un récipient d'eau et amener le récipient au dessus d'une source de chaleur", duration: 10, ingredients: [ingredient: 2])
     static let step2 = SimpleStep(id: 4, title: "Égouter les pates", stepDescription: "Verser le contenu du récipient dans une passoire", duration: 1)
     
     static let step3 = SimpleStep(id: 5, title: "Mettre farine", stepDescription: "Mettre la farine et creuser un puit au milieu (comme un volcan)", duration: 2)

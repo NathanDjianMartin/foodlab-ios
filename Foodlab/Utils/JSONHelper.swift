@@ -12,24 +12,24 @@ import Foundation
 
 struct JSONHelper{
     
-    static func encode<T:Codable>(data : T){
+    static func encode<T:Codable> (data : T) -> Data?{
         
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         let json = try? encoder.encode(data)
         
-        guard let jsonData = json else {
+        guard json != nil else {
             print("json is empty")
-            return
+            return nil
         }
+        return json
         
     }
     
-    static func decode<T: Decodable>(_ t: T.Type, data: Data) -> T? {
+    static func decode<T: Decodable>(data: Data) -> T? {
         
         let decoder = JSONDecoder() // création d'un décodeur
-        if let decoded = try? decoder.decode(T.self, from:data) {
-            // si on a réussit à décoder self.tracks = decoded
+        if let decoded = try? decoder.decode(T.self, from: data) {
             return decoded
         }
         return nil

@@ -18,6 +18,7 @@ enum IntentIngredientState {
     case allergenCategoryChanging(Category?)
     case ingredientUpdatedInDatabase
     
+    // TODO: à supprimer quand l'app sera en prod
     var description: String {
         switch self {
         case .ready:
@@ -40,28 +41,16 @@ enum IntentIngredientState {
     }
 }
 
-enum IntentIngredientListState {
-    case uptodate
-    case needToBeUpdated
-   
-}
-
 struct IngredientIntent {
     
     // A subject (publisher) which emits elements to its subscribers
     // IntentState = Output type
     // Never = error type
     private var state = PassthroughSubject<IntentIngredientState, Never>()
-    private var listState = PassthroughSubject<IntentIngredientListState, Never>()
     
     func addObserver(ingredientFormViewModel: IngredientFormViewModel) {
         // a view model wants to be notified when this intent changes so it subscribes
         self.state.subscribe(ingredientFormViewModel)
-    }
-    
-    func addObserver(ingredientListViewModel: IngredientListViewModel) {
-        // a view model wants to be notified when this intent changes so it subscribes
-        self.listState.subscribe(ingredientListViewModel)
     }
     
     // MARK: intentToChange functions
@@ -106,7 +95,7 @@ struct IngredientIntent {
         switch await IngredientDAO.updateIngredient(ingredient: ingredient) {
         case .failure(let error):
             //TODO: gérer
-            print("Error while intenting to update ingredien  \(error)")
+            print("Error while intenting to update ingredient  \(error)")
             break
         case .success(let ingredient):
             // si ça a marché : modifier le view model et le model
@@ -119,11 +108,11 @@ struct IngredientIntent {
         switch await IngredientDAO.createIngredient(ingredient: ingredient) {
         case .failure(let error):
             //TODO: gérer
+            print("Error while intenting to create ingredient  \(error)")
             break
         case .success(let ingredient):
             // si ça a marché : modifier le view model et le model
             self.state.send(.ingredientUpdatedInDatabase)
-            self.listState.send(.needToBeUpdated)
         }
     }
     
@@ -133,8 +122,6 @@ struct IngredientIntent {
         self.state.send(.unitaryPriceChanging(unitaryPrice))
         self.state.send(.stockQuantityChanging(stockQuantity))
         self.state.send(.ingredientCategoryChanging(ingredientCategory))
-        self.state.send(.allergenCategoryChanging(allergenCategory))
-        self.listState.send(.needToBeUpdated)
-        
+        self.state.send(.allergenCategoryChanging(allergenCategory))        
     }
 }

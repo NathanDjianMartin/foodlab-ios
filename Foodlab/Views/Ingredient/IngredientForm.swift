@@ -21,7 +21,6 @@ struct IngredientForm: View {
         self.intent = IngredientIntent()
         // le VM est enregistré comme souscrivant aux actions demandées (publications des modifs du state de l'Intent)
         self.intent.addObserver(ingredientFormViewModel: ingredientVM)
-        self.intent.addObserver(ingredientListViewModel: ingredientListVM)
     }
     
     var body: some View {

@@ -2,8 +2,8 @@ import Combine
 import Foundation
 
 enum InputIngredientError: Error {
-    case UnitaryPriceInputError(String)
-    case StockQuantityInputError(String)
+    case unitaryPriceInputError(String)
+    case stockQuantityInputError(String)
 }
 
 class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver {
@@ -19,6 +19,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     @Published var stockQuantity: Double
     @Published var ingredientCategory: Category
     @Published var allergenCategory: Category?
+    @Published var error: String?
     
     init(model: Ingredient) {
         self.id = model.id
@@ -78,37 +79,29 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     
     // Called each time the publisher calls the "send" method to notify about state modification
     func receive(_ input: IngredientFormIntentState) -> Subscribers.Demand {
-        print("vm -> intent \(input)")
         switch input{
         case .ready:
             break
         case .nameChanging(let name):
             let nameClean = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            print("vm: change ingredient name to '\(nameClean)'")
             self.modelCopy.name = nameClean
-            print("vm: ingredient name changed to '\(self.model.name)'")
+            if modelCopy.name != nameClean { // there was an error
+                self.error = "The name can't be empty!"
+            }
         case .unitChanging(let unit):
             let unitClean = unit.trimmingCharacters(in: .whitespacesAndNewlines)
-            print("vm: change ingridient unit to '\(unitClean)'")
             self.modelCopy.unit = unitClean
-            print("vm: ingredient unit changed to '\(self.model.unit)'")
         case .unitaryPriceChanging(let unitaryPrice):
             let unitaryPriceClean = Double(unitaryPrice)
-            print("vm: change ingredient unitary price to '\(unitaryPriceClean)'")
             self.modelCopy.unitaryPrice = unitaryPriceClean
-            print("vm: ingredient unitary price changed to '\(self.model.unitaryPrice)'")
         case .stockQuantityChanging(let stockQuantity):
             let stockQuantityClean = Double(stockQuantity)
-            print("vm: change ingredient stock quantity to '\(stockQuantityClean)'")
             self.modelCopy.stockQuantity = stockQuantityClean
-            print("vm: ingredient stock quantity changed to '\(self.model.stockQuantity)'")
         case .ingredientCategoryChanging(let ingredientCategory):
-            print("vm: change ingredient category to '\(ingredientCategory.name)'")
             self.modelCopy.ingredientCategory = ingredientCategory
-            print("vm: ingredient category changed to '\(self.model.ingredientCategory)'")
         case .allergenCategoryChanging(let allergenCategory):
             self.modelCopy.allergenCategory = allergenCategory
-        case .ingredientUpdatedInDatabase :
+        case .ingredientUpdatedInDatabase:
             self.model.name = self.modelCopy.name
             self.model.unit = self.modelCopy.unit
             self.model.unitaryPrice = self.modelCopy.unitaryPrice

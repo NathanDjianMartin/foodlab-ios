@@ -11,13 +11,17 @@ protocol IngredientObserver {
 }
 
 class Ingredient: Identifiable, Hashable, Comparable, CustomStringConvertible {
-
+    
     var id: Int?
     private var observers: [IngredientObserver]
     var name: String {
         didSet { // if name was set, we should warn our observer
-            for observer in observers {
-                observer.changed(name: self.name) // this call makes possible observer to observe
+            if name.count <= 0 {
+                name = oldValue
+            } else {
+                for observer in observers {
+                    observer.changed(name: self.name) // this call makes possible observer to observe
+                }
             }
         }
     }

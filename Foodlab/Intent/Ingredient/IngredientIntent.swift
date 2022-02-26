@@ -1,10 +1,3 @@
-//
-//  IngredientIntent.swift
-//  Foodlab
-//
-//  Created by m1 on 19/02/2022.
-//
-
 import Foundation
 import Combine
 
@@ -17,27 +10,6 @@ enum IngredientFormIntentState {
     case ingredientCategoryChanging(Category)
     case allergenCategoryChanging(Category?)
     case ingredientUpdatedInDatabase
-    
-    var description: String {
-        switch self {
-        case .ready:
-            return "state: ready"
-        case .nameChanging(let name):
-            return "state: trackNameChaging(\(name)"
-        case .unitChanging(let unit):
-            return "state: unitChanging(\(unit)"
-        case .unitaryPriceChanging(let unitaryPrice):
-            return "state: unitaryPriceChanging(\(unitaryPrice)"
-        case .stockQuantityChanging(let stockQuantity):
-            return "state: stockQuantityChanging(\(stockQuantity)"
-        case .ingredientCategoryChanging(let ingredientCategory):
-            return "state: ingredientCategoryChanging(\(ingredientCategory)"
-        case .allergenCategoryChanging(let allergenCategory):
-            return "state: allergenCategoryChanging(\(String(describing: allergenCategory))"
-        case .ingredientUpdatedInDatabase:
-            return "state: ingredientUpdatedInDatabase"
-        }
-    }
 }
 
 enum IngredientListIntentState {
@@ -106,7 +78,7 @@ struct IngredientIntent {
         switch await IngredientDAO.updateIngredient(ingredient: ingredient) {
         case .failure(let error):
             //TODO: gérer
-            print("Error while intenting to update ingredien  \(error)")
+            print("Error while intenting to update ingredient  \(error)")
             break
         case .success(let ingredient):
             // si ça a marché : modifier le view model et le model
@@ -124,7 +96,6 @@ struct IngredientIntent {
             // si ça a marché : modifier le view model et le model
             self.formState.send(.ingredientUpdatedInDatabase)
             self.listState.send(.addingIngredient(ingredient))
-//            self.listState.send(.needToBeUpdated)
         }
     }
     
@@ -135,7 +106,5 @@ struct IngredientIntent {
         self.formState.send(.stockQuantityChanging(stockQuantity))
         self.formState.send(.ingredientCategoryChanging(ingredientCategory))
         self.formState.send(.allergenCategoryChanging(allergenCategory))
-//        self.listState.send(.needToBeUpdated)
-        
     }
 }

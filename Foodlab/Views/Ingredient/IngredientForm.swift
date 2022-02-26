@@ -1,12 +1,11 @@
 import SwiftUI
 
 struct IngredientForm: View {
-//    @Binding var isPresented: Bool
     @Binding var isPresented: Ingredient?
-
+    
     @ObservedObject var ingredientVM: IngredientFormViewModel
     var ingredientListVM: IngredientListViewModel
-    private var intent : IngredientIntent
+    private var intent: IngredientIntent
     
     var creationMode: Bool {
         self.ingredientVM.id == nil
@@ -15,11 +14,9 @@ struct IngredientForm: View {
     init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Ingredient?>){
         self.ingredientVM = ingredientVM
         self.ingredientListVM = ingredientListVM
-//        self._isPresented = isPresented
         self._isPresented = isPresented
-
+        
         self.intent = IngredientIntent()
-        // le VM est enregistré comme souscrivant aux actions demandées (publications des modifs du state de l'Intent)
         self.intent.addObserver(ingredientFormViewModel: ingredientVM)
         self.intent.addObserver(ingredientListViewModel: ingredientListVM)
     }
@@ -35,6 +32,7 @@ struct IngredientForm: View {
                 }
             }
             .padding()
+            ErrorView(error: $ingredientVM.error)
             List {
                 HStack {
                     Text("Name")
@@ -94,10 +92,10 @@ struct IngredientForm: View {
                     .buttonStyle(DarkRedButtonStyle())
                     
                     /*Button("retourner"){
-                        self.isPresented = false
-                    }*/
+                     self.isPresented = false
+                     }*/
                     
-                }                
+                }
             }
             .listStyle(.plain)
             .padding()
@@ -105,9 +103,9 @@ struct IngredientForm: View {
     }
 }
 
-//struct IngredientCreation_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: nil)
-//    }
-//}
+struct IngredientCreation_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: .constant(MockData.ingredient))
+    }
+}

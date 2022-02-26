@@ -31,8 +31,6 @@ class IngredientListViewModel: ObservableObject, Subscriber {
         switch input{
         case .uptodate:
             break
-//        case .needToBeUpdated:
-//            self.objectWillChange.send()
         case .addingIngredient(let ingredient):
             self.ingredients.append(ingredient)
         }

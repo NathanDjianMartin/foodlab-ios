@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CostDataDTO: Identifiable {
+struct CostDataDTO: Identifiable, Codable {
     
     var id: Int?
     var averageHourlyCost: Double

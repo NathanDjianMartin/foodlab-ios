@@ -11,6 +11,8 @@
 		6F1B753A27CA23E400C8A16F /* StepDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753927CA23E400C8A16F /* StepDAO.swift */; };
 		6F1B753C27CA3D0200C8A16F /* StepWithinRecipeExecutionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753B27CA3D0200C8A16F /* StepWithinRecipeExecutionDTO.swift */; };
 		6F1B753E27CA3E6600C8A16F /* StepWithinRecipeExecutionDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753D27CA3E6600C8A16F /* StepWithinRecipeExecutionDAO.swift */; };
+		6F1B754027CA486D00C8A16F /* IngredientWithinStepDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753F27CA486D00C8A16F /* IngredientWithinStepDTO.swift */; };
+		6F1B754227CA491400C8A16F /* IngredientWithinStepDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B754127CA491400C8A16F /* IngredientWithinStepDAO.swift */; };
 		6F3ECE0227C01B4C0088C213 /* CategoryDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0127C01B4C0088C213 /* CategoryDAO.swift */; };
 		6F3ECE0427C0E2AA0088C213 /* URLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0327C0E2AA0088C213 /* URLSessionExtension.swift */; };
 		6F3ECE0827C100DC0088C213 /* IngredientListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0727C100DC0088C213 /* IngredientListViewModel.swift */; };
@@ -88,6 +90,8 @@
 		6F1B753927CA23E400C8A16F /* StepDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDAO.swift; sourceTree = "<group>"; };
 		6F1B753B27CA3D0200C8A16F /* StepWithinRecipeExecutionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepWithinRecipeExecutionDTO.swift; sourceTree = "<group>"; };
 		6F1B753D27CA3E6600C8A16F /* StepWithinRecipeExecutionDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepWithinRecipeExecutionDAO.swift; sourceTree = "<group>"; };
+		6F1B753F27CA486D00C8A16F /* IngredientWithinStepDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientWithinStepDTO.swift; sourceTree = "<group>"; };
+		6F1B754127CA491400C8A16F /* IngredientWithinStepDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientWithinStepDAO.swift; sourceTree = "<group>"; };
 		6F3ECDFB27BFC8410088C213 /* IngredientForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientForm.swift; sourceTree = "<group>"; };
 		6F3ECDFE27BFC8F10088C213 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
 		6F3ECE0127C01B4C0088C213 /* CategoryDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDAO.swift; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 				6FA8904427BD34EE0037E851 /* StepDTO.swift */,
 				6FA8904C27BD4A060037E851 /* CategoryDTO.swift */,
 				6F1B753B27CA3D0200C8A16F /* StepWithinRecipeExecutionDTO.swift */,
+				6F1B753F27CA486D00C8A16F /* IngredientWithinStepDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 				6F3ECE0127C01B4C0088C213 /* CategoryDAO.swift */,
 				6F1B753927CA23E400C8A16F /* StepDAO.swift */,
 				6F1B753D27CA3E6600C8A16F /* StepWithinRecipeExecutionDAO.swift */,
+				6F1B754127CA491400C8A16F /* IngredientWithinStepDAO.swift */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -599,6 +605,7 @@
 				C1EDD36727BA465100D02244 /* RecipeDetails.swift in Sources */,
 				6F1B753A27CA23E400C8A16F /* StepDAO.swift in Sources */,
 				6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */,
+				6F1B754227CA491400C8A16F /* IngredientWithinStepDAO.swift in Sources */,
 				6F3ECE0427C0E2AA0088C213 /* URLSessionExtension.swift in Sources */,
 				6FA8904D27BD4A060037E851 /* CategoryDTO.swift in Sources */,
 				6FA1922527C6157B0031313D /* JSONError.swift in Sources */,
@@ -611,6 +618,7 @@
 				C18B16EB27B9024F002D6D10 /* CostData.swift in Sources */,
 				C16C160A27AFCCDD00E3B156 /* UserList.swift in Sources */,
 				C12A262F27C01D0900C27B38 /* SimpleStepRow.swift in Sources */,
+				6F1B754027CA486D00C8A16F /* IngredientWithinStepDTO.swift in Sources */,
 				C19ABB3227AAC99900D9387B /* FoodlabApp.swift in Sources */,
 				C18B16EF27B90340002D6D10 /* Recipe.swift in Sources */,
 				6F3ECE0227C01B4C0088C213 /* CategoryDAO.swift in Sources */,

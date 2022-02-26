@@ -34,29 +34,25 @@ struct IngredientForm: View {
             .padding()
             ErrorView(error: $ingredientVM.error)
             List {
-                HStack {
-                    Text("Name")
-                    Divider()
-                    TextField("Name", text: $ingredientVM.name)
-                        .onSubmit {
-                            intent.intentToChange(name: ingredientVM.name)
-                        }
-                }
+                
+                TextField("Name", text: $ingredientVM.name)
+                    .onSubmit {
+                        intent.intentToChange(name: ingredientVM.name)
+                    }
+                
+                TextField("Unit", text: $ingredientVM.unit)
+                    .onSubmit {
+                        intent.intentToChange(unit: ingredientVM.unit)
+                    }
                 
                 HStack {
-                    Text("Unit")
-                    Divider()
-                    TextField("Unit", text: $ingredientVM.unit)
-                        .onSubmit {
-                            intent.intentToChange(unit: ingredientVM.unit)
-                        }
-                }
-                
-                HStack {
-                    Text("Price")
+                    Text("Unitary price")
+                        .lineLimit(1)
                     Divider()
                     TextField("Price", value: $ingredientVM.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
-                    // TODO: submit
+                        .onSubmit {
+                            intent.intentToChange(unitaryPrice: ingredientVM.unitaryPrice)
+                        }
                 }
                 
                 HStack {
@@ -64,7 +60,9 @@ struct IngredientForm: View {
                         .lineLimit(1)
                     Divider()
                     TextField("Stock quantity", value: $ingredientVM.stockQuantity, formatter: FormatterHelper.decimalFormatter)
-                    // TODO: submit
+                        .onSubmit {
+                            intent.intentToChange(stockQuantity: ingredientVM.stockQuantity)
+                        }
                 }
                 
                 //TODO: gerer les categories
@@ -87,14 +85,8 @@ struct IngredientForm: View {
                                 await intent.intentToCreate(ingredient: ingredientVM.modelCopy)
                             }
                         }
-                        
                     }
                     .buttonStyle(DarkRedButtonStyle())
-                    
-                    /*Button("retourner"){
-                     self.isPresented = false
-                     }*/
-                    
                 }
             }
             .listStyle(.plain)

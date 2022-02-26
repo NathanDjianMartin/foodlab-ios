@@ -108,7 +108,10 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
             self.model.stockQuantity = self.modelCopy.stockQuantity
             self.model.ingredientCategory = self.modelCopy.ingredientCategory
             self.model.allergenCategory = self.modelCopy.allergenCategory
+        case .error(let errorMessage):
+            self.error = errorMessage
         }
+        
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }
 }

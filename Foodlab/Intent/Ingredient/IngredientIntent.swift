@@ -10,6 +10,7 @@ enum IngredientFormIntentState {
     case ingredientCategoryChanging(Category)
     case allergenCategoryChanging(Category?)
     case ingredientUpdatedInDatabase
+    case error(String)
 }
 
 enum IngredientListIntentState {
@@ -80,7 +81,7 @@ struct IngredientIntent {
             //TODO: gérer
             print("Error while intenting to update ingredient  \(error)")
             break
-        case .success(let ingredient):
+        case .success:
             // si ça a marché : modifier le view model et le model
             self.formState.send(.ingredientUpdatedInDatabase)
 //            self.listState.send(.needToBeUpdated)
@@ -90,7 +91,7 @@ struct IngredientIntent {
     func intentToCreate(ingredient: Ingredient) async {
         switch await IngredientDAO.createIngredient(ingredient: ingredient) {
         case .failure(let error):
-            //TODO: gérer
+            self.formState.send(.error("\(error.localizedDescription)"))
             break
         case .success(let ingredient):
             // si ça a marché : modifier le view model et le model

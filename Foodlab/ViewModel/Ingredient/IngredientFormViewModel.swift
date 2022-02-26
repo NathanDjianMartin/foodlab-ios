@@ -1,10 +1,3 @@
-//
-//  IngredientFormViewModel.swift
-//  Foodlab
-//
-//  Created by m1 on 19/02/2022.
-//
-
 import Combine
 import Foundation
 
@@ -70,7 +63,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     // MARK: -
     // MARK: Subscriber conformance
     
-    typealias Input = IntentIngredientState
+    typealias Input = IngredientFormIntentState
     typealias Failure = Never
     
     // Called by Subscriber protocol during subscription
@@ -84,7 +77,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     }
     
     // Called each time the publisher calls the "send" method to notify about state modification
-    func receive(_ input: IntentIngredientState) -> Subscribers.Demand {
+    func receive(_ input: IngredientFormIntentState) -> Subscribers.Demand {
         print("vm -> intent \(input)")
         switch input{
         case .ready:

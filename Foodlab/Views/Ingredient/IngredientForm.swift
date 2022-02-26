@@ -58,6 +58,7 @@ struct IngredientForm: View {
                     Text("Price")
                     Divider()
                     TextField("Price", value: $ingredientVM.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
+                    // TODO: submit
                 }
                 
                 HStack {
@@ -65,22 +66,24 @@ struct IngredientForm: View {
                         .lineLimit(1)
                     Divider()
                     TextField("Stock quantity", value: $ingredientVM.stockQuantity, formatter: FormatterHelper.decimalFormatter)
+                    // TODO: submit
                 }
                 
                 //TODO: gerer les categories
                 Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
+                // TODO: implement onSubmit
                 Dropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
                 
                 HStack {
                     Spacer()
                     Button(creationMode ? "Create ingredient" : "Edit ingredient") {
                         //intentToCreate
-                        if (!creationMode) {
+                        if !creationMode {
                             // update
                             Task {
                                 await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)
                             }
-                        }else {
+                        } else {
                             // create
                             Task {
                                 await intent.intentToCreate(ingredient: ingredientVM.modelCopy)

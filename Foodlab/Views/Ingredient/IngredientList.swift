@@ -8,7 +8,15 @@ struct IngredientList: View {
     
     var body: some View {
         
+        // if self.ingredientListVM.ingredients.count > 0 {
         List {
+            if self.ingredientListVM.ingredients.count <= 0 {
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                    Text("We're gathering the ingredients :)")
+                }
+            }
             ForEach(Array(ingredientListVM.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in
                 IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredient ))
                     .swipeActions {
@@ -44,7 +52,7 @@ struct IngredientList: View {
         }
         .onAppear {
             Task{
-                if ( ingredientListVM.ingredients.count == 0 ){
+                if ingredientListVM.ingredients.count == 0 {
                     switch  await IngredientDAO.getAllIngredients() {
                     case .failure(let error):
                         print(error)
@@ -60,7 +68,6 @@ struct IngredientList: View {
             IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredient), ingredientListVM: ingredientListVM, isPresented: $selectedIngredient)
             
         }
-        
         .navigationTitle("Ingredients")
         .toolbar {
             Button(action: {
@@ -69,6 +76,14 @@ struct IngredientList: View {
                 Image(systemName: "plus")
             }
         }
+        //        } else {
+        //            VStack {
+        //                ProgressView()
+        //                    .progressViewStyle(.circular)
+        //                Text("We're gathering the ingredients from the database :)")
+        //            }
+        //
+        //        }
     }
 }
 

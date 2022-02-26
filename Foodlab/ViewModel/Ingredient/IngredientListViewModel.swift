@@ -1,10 +1,3 @@
-//
-//  IngredientListViewModel.swift
-//  Foodlab
-//
-//  Created by m1 on 19/02/2022.
-//
-
 import Combine
 import Foundation
 
@@ -19,7 +12,7 @@ class IngredientListViewModel: ObservableObject, Subscriber {
     // MARK: -
     // MARK: Subscriber conformance
     
-    typealias Input = IntentIngredientListState
+    typealias Input = IngredientListIntentState
     typealias Failure = Never
     
     // Called by Subscriber protocol during subscription
@@ -33,13 +26,15 @@ class IngredientListViewModel: ObservableObject, Subscriber {
     }
     
     // Called each time the publisher calls the "send" method to notify about state modification
-    func receive(_ input: IntentIngredientListState) -> Subscribers.Demand {
+    func receive(_ input: IngredientListIntentState) -> Subscribers.Demand {
         print("vm -> intent \(input)")
         switch input{
         case .uptodate:
             break
-        case .needToBeUpdated:
-            self.objectWillChange.send()
+//        case .needToBeUpdated:
+//            self.objectWillChange.send()
+        case .addingIngredient(let ingredient):
+            self.ingredients.append(ingredient)
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

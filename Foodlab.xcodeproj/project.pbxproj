@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6F1B753827C6C95000C8A16F /* IngredientRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753727C6C95000C8A16F /* IngredientRowViewModel.swift */; };
+		6F1B753A27CA23E400C8A16F /* StepDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753927CA23E400C8A16F /* StepDAO.swift */; };
 		6F3ECE0227C01B4C0088C213 /* CategoryDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0127C01B4C0088C213 /* CategoryDAO.swift */; };
 		6F3ECE0427C0E2AA0088C213 /* URLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0327C0E2AA0088C213 /* URLSessionExtension.swift */; };
 		6F3ECE0827C100DC0088C213 /* IngredientListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0727C100DC0088C213 /* IngredientListViewModel.swift */; };
@@ -23,7 +24,7 @@
 		6FA8903F27BD1C6B0037E851 /* RecipeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8903E27BD1C6B0037E851 /* RecipeDTO.swift */; };
 		6FA8904127BD1CD10037E851 /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904027BD1CD10037E851 /* UserDTO.swift */; };
 		6FA8904327BD25300037E851 /* CostDataDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904227BD25300037E851 /* CostDataDTO.swift */; };
-		6FA8904527BD34EE0037E851 /* RecipeExecutionDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904427BD34EE0037E851 /* RecipeExecutionDTO.swift */; };
+		6FA8904527BD34EE0037E851 /* StepDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904427BD34EE0037E851 /* StepDTO.swift */; };
 		6FA8904D27BD4A060037E851 /* CategoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904C27BD4A060037E851 /* CategoryDTO.swift */; };
 		6FA8905027BE2C340037E851 /* StepRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8904F27BE2C340037E851 /* StepRow.swift */; };
 		6FA8905427BE78410037E851 /* SimpleStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8905327BE78410037E851 /* SimpleStep.swift */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		6F1B753727C6C95000C8A16F /* IngredientRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientRowViewModel.swift; sourceTree = "<group>"; };
+		6F1B753927CA23E400C8A16F /* StepDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDAO.swift; sourceTree = "<group>"; };
 		6F3ECDFB27BFC8410088C213 /* IngredientForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngredientForm.swift; sourceTree = "<group>"; };
 		6F3ECDFE27BFC8F10088C213 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
 		6F3ECE0127C01B4C0088C213 /* CategoryDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDAO.swift; sourceTree = "<group>"; };
@@ -99,7 +101,7 @@
 		6FA8903E27BD1C6B0037E851 /* RecipeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDTO.swift; sourceTree = "<group>"; };
 		6FA8904027BD1CD10037E851 /* UserDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
 		6FA8904227BD25300037E851 /* CostDataDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostDataDTO.swift; sourceTree = "<group>"; };
-		6FA8904427BD34EE0037E851 /* RecipeExecutionDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeExecutionDTO.swift; sourceTree = "<group>"; };
+		6FA8904427BD34EE0037E851 /* StepDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDTO.swift; sourceTree = "<group>"; };
 		6FA8904C27BD4A060037E851 /* CategoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDTO.swift; sourceTree = "<group>"; };
 		6FA8904F27BE2C340037E851 /* StepRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRow.swift; sourceTree = "<group>"; };
 		6FA8905327BE78410037E851 /* SimpleStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStep.swift; sourceTree = "<group>"; };
@@ -235,7 +237,7 @@
 				6FA8903E27BD1C6B0037E851 /* RecipeDTO.swift */,
 				6FA8904027BD1CD10037E851 /* UserDTO.swift */,
 				6FA8904227BD25300037E851 /* CostDataDTO.swift */,
-				6FA8904427BD34EE0037E851 /* RecipeExecutionDTO.swift */,
+				6FA8904427BD34EE0037E851 /* StepDTO.swift */,
 				6FA8904C27BD4A060037E851 /* CategoryDTO.swift */,
 			);
 			path = DTO;
@@ -257,6 +259,7 @@
 				6FA8905A27BE87C00037E851 /* CostDataDAO.swift */,
 				6FA8905C27BE87CC0037E851 /* UserDAO.swift */,
 				6F3ECE0127C01B4C0088C213 /* CategoryDAO.swift */,
+				6F1B753927CA23E400C8A16F /* StepDAO.swift */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				C19ABB3427AAC99900D9387B /* ContentView.swift in Sources */,
 				C141DFC327AE817200053369 /* IngredientList.swift in Sources */,
 				C1EDD36727BA465100D02244 /* RecipeDetails.swift in Sources */,
+				6F1B753A27CA23E400C8A16F /* StepDAO.swift in Sources */,
 				6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */,
 				6F3ECE0427C0E2AA0088C213 /* URLSessionExtension.swift in Sources */,
 				6FA8904D27BD4A060037E851 /* CategoryDTO.swift in Sources */,
@@ -626,7 +630,7 @@
 				C11BDB4027C6256B004977D4 /* RecipeFormViewModel.swift in Sources */,
 				6FA8903D27BD1BC90037E851 /* IngredientDTO.swift in Sources */,
 				6FA8903A27BCF5220037E851 /* CostDataSettings.swift in Sources */,
-				6FA8904527BD34EE0037E851 /* RecipeExecutionDTO.swift in Sources */,
+				6FA8904527BD34EE0037E851 /* StepDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RecipeExecutionDTO: Identifiable {
+struct StepDTO: Identifiable, Codable {
     var id: Int?
     var isStep: Bool
     var stepTitle: String

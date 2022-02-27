@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #5 in closure #2 in closure #1 in IngredientForm.body.getter:IngredientForm.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ingredientVM.modelCopy">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #2 in closure #1 in IngredientForm.body.getter:IngredientForm.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ingredientVM.modelCopy">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "IngredientFormViewModel.init(model:):IngredientFormViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.modelCopy">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #6 in closure #2 in closure #1 in IngredientForm.body.getter:IngredientForm.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ingredientVM.modelCopy">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "IngredientFormViewModel.receive(_:):IngredientFormViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "modelCopy">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

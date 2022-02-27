@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-class IngredientListViewModel: ObservableObject, Subscriber {
+class IngredientListViewModel: ObservableObject {
     
     @Published var ingredients : [Ingredient]
     @Published var error: String?

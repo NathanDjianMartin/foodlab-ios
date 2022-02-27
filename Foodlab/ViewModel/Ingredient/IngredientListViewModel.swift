@@ -4,6 +4,7 @@ import Foundation
 class IngredientListViewModel: ObservableObject, Subscriber {
     
     @Published var ingredients : [Ingredient]
+    @Published var error: String?
     
     init(ingredients: [Ingredient] = []) {
         self.ingredients = ingredients
@@ -27,12 +28,15 @@ class IngredientListViewModel: ObservableObject, Subscriber {
     
     // Called each time the publisher calls the "send" method to notify about state modification
     func receive(_ input: IngredientListIntentState) -> Subscribers.Demand {
-        print("vm -> intent \(input)")
-        switch input{
+        switch input {
         case .uptodate:
             break
         case .addingIngredient(let ingredient):
             self.ingredients.append(ingredient)
+        case .deletingIngredient(let ingredientIndex):
+            self.ingredients.remove(at: ingredientIndex)
+        case .error(let errorMessage):
+            self.error = errorMessage
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

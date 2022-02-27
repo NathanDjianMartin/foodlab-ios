@@ -17,6 +17,8 @@ enum IngredientListIntentState {
     case uptodate
     //case needToBeUpdated
     case addingIngredient(Ingredient)
+    case deletingIngredient(Int)
+    case error(String)
 }
 
 struct IngredientIntent {
@@ -78,13 +80,10 @@ struct IngredientIntent {
     func intentToUpdate(ingredient: Ingredient) async {
         switch await IngredientDAO.updateIngredient(ingredient: ingredient) {
         case .failure(let error):
-            //TODO: gérer
-            print("Error while intenting to update ingredient  \(error)")
-            break
+            self.formState.send(.error("\(error.localizedDescription)"))
         case .success:
             // si ça a marché : modifier le view model et le model
             self.formState.send(.ingredientUpdatedInDatabase)
-//            self.listState.send(.needToBeUpdated)
         }
     }
     
@@ -97,6 +96,15 @@ struct IngredientIntent {
             // si ça a marché : modifier le view model et le model
             self.formState.send(.ingredientUpdatedInDatabase)
             self.listState.send(.addingIngredient(ingredient))
+        }
+    }
+    
+    func intentToDelete(ingredientId id: Int, ingredientIndex: Int) async {
+        switch await IngredientDAO.deleteIngredientById(id) {
+        case .failure(let error):
+            self.listState.send(.error("Error while deleting ingredient \(id): \(error.localizedDescription)"))
+        case .success:
+            self.listState.send(.deletingIngredient(ingredientIndex))
         }
     }
     

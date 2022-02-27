@@ -1,24 +1,21 @@
 import SwiftUI
 
 struct IngredientForm: View {
-    @Binding var isPresented: Ingredient?
     
+    @Binding var isPresented: Ingredient?
     @ObservedObject var ingredientVM: IngredientFormViewModel
-    var ingredientListVM: IngredientListViewModel
     private var intent: IngredientIntent
     
     var creationMode: Bool {
         self.ingredientVM.id == nil
     }
     
-    init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Ingredient?>){
+    init(ingredientVM: IngredientFormViewModel, intent: IngredientIntent, isPresented: Binding<Ingredient?>){
         self.ingredientVM = ingredientVM
-        self.ingredientListVM = ingredientListVM
         self._isPresented = isPresented
         
-        self.intent = IngredientIntent()
+        self.intent = intent
         self.intent.addObserver(ingredientFormViewModel: ingredientVM)
-        self.intent.addObserver(ingredientListViewModel: ingredientListVM)
     }
     
     var body: some View {
@@ -72,17 +69,19 @@ struct IngredientForm: View {
                 
                 HStack {
                     Spacer()
-                    Button(creationMode ? "Create ingredient" : "Edit ingredient") {
+                    Button(creationMode ? "Create ingredient" : "Confirm changes") {
                         //intentToCreate
                         if !creationMode {
                             // update
                             Task {
                                 await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)
+                                self.isPresented = nil
                             }
                         } else {
                             // create
                             Task {
                                 await intent.intentToCreate(ingredient: ingredientVM.modelCopy)
+                                self.isPresented = nil
                             }
                         }
                     }
@@ -98,6 +97,6 @@ struct IngredientForm: View {
 struct IngredientCreation_Previews: PreviewProvider {
     
     static var previews: some View {
-        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: .constant(MockData.ingredient))
+        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), intent: IngredientIntent(), isPresented: .constant(MockData.ingredient))
     }
 }

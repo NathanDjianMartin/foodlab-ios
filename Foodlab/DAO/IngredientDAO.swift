@@ -1,10 +1,3 @@
-//
-//  IngredientDAO.swift
-//  Foodlab
-//
-//  Created by m1 on 17/02/2022.
-//
-
 import Foundation
 
 struct IngredientDAO {
@@ -58,7 +51,7 @@ struct IngredientDAO {
             // TODO: verifier id
             let isUpdated = try await URLSession.shared.update(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
             return .success(isUpdated)
-        }catch {
+        } catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
@@ -71,19 +64,18 @@ struct IngredientDAO {
             //TODO: verifier id
             let ingredientDTOresult : IngredientDTO = try await URLSession.shared.create(from: stringUrl+"ingredient", object: ingredientDTO)
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
-        }catch {
+        } catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
         
     }
     
-    
     static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
         //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categories id juste pour faire un premier test
         if let allergen = ingredient.allergenCategory {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: allergen.id!)
-        }else {
+        } else {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: nil)
         }
     }
@@ -146,5 +138,12 @@ struct IngredientDAO {
         return .success(ingredient)
     }
     
-    
+    static func deleteIngredientById(_ id: Int) async -> Result<Bool, Error> {
+        do {
+            let deleted: Bool = try await URLSession.shared.delete(from: stringUrl + "ingredient/\(id)")
+            return .success(deleted)
+        } catch {
+            return .failure(error)
+        }
+    }
 }

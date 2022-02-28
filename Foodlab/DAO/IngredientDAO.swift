@@ -3,7 +3,8 @@ import Foundation
 struct IngredientDAO {
     //TODO: mettre un singleton? Bonne pratique?
     
-    static var stringUrl = "http://51.75.248.77:3000/"
+    //static var stringUrl = "http://51.75.248.77:3000/"
+    static var stringUrl = "http://localhost:3000/"
     
     static func getAllIngredients() async -> Result<[Ingredient], Error> {
         do {

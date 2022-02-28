@@ -15,7 +15,6 @@ struct IngredientList: View {
     
     var body: some View {
         
-        // if self.ingredientListVM.ingredients.count > 0 {
         VStack {
             ErrorView(error: $ingredientListVM.error)
             List {
@@ -90,14 +89,6 @@ struct IngredientList: View {
                 }
             }
         }
-        //        } else {
-        //            VStack {
-        //                ProgressView()
-        //                    .progressViewStyle(.circular)
-        //                Text("We're gathering the ingredients from the database :)")
-        //            }
-        //
-        //        }
     }
 }
 

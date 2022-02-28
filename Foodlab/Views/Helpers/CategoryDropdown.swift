@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Dropdown: View {
+struct CategoryDropdown: View {
     @State var value = ""
     var placeholder: String
     var dropDownList: [String]
@@ -27,6 +27,6 @@ struct Dropdown: View {
 
 struct Dropdown_Previews: PreviewProvider {
     static var previews: some View {
-        Dropdown(placeholder: "Select a category", dropDownList: MockData.ingredientCategories)
+        CategoryDropdown(placeholder: "Select a category", dropDownList: MockData.ingredientCategories)
     }
 }

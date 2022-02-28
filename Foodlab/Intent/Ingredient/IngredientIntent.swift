@@ -34,6 +34,11 @@ struct IngredientIntent {
         self.formState.subscribe(ingredientFormViewModel)
     }
     
+    func addObserver(ingredientListViewModel: IngredientListViewModel) {
+        // a view model wants to be notified when this intent changes so it subscribes
+        self.listState.subscribe(ingredientListViewModel)
+    }
+    
     // MARK: intentToChange functions
     
     func intentToChange(name: String) {

@@ -63,9 +63,9 @@ struct IngredientForm: View {
                 }
                 
                 //TODO: gerer les categories
-                Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
+                CategoryDropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
                 // TODO: implement onSubmit
-                Dropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                CategoryDropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
                 
                 HStack {
                     Spacer()

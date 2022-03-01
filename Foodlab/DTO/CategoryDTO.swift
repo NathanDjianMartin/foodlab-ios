@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CategoryDTO: Identifiable, Decodable {
+struct CategoryDTO: Identifiable, Codable {
     
     var id: Int?
     var name: String

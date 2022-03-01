@@ -37,39 +37,68 @@ struct CategoryDAO {
         return await getCategoryById(type: CategoryType.allergen, id: id)
     }
     
+    // Recipe
+    static func getAllRecipeCategories() async -> Result<[Category], Error> {
+        return await getAllCategories(type: CategoryType.recipe )
+    }
+    
+    static func getRecipeCategoriesById(id: Int) async -> Result<Category, Error> {
+        return await getCategoryById(type: CategoryType.recipe, id: id)
+    }
+    
+    // General
+    
     static func getAllCategories(type: CategoryType) async -> Result<[Category], Error> {
-            do {
-                // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-                let decoded : [CategoryDTO] = try await URLSession.shared.get(from: stringUrl + "\(type.rawValue)")
-                
-                // dans une boucle transformer chaque UserDTO en model User
-                var categories: [Category] = []
-                for categoryDTO in decoded {
-                    categories.append(getCategoryFromCategoryDTO(categoryDTO: categoryDTO))
-                }
-                
-                // retourner une liste de User
-                return .success(categories)
-                
-            } catch {
-                return .failure(error)
+        do {
+            // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
+            let decoded : [CategoryDTO] = try await URLSession.shared.get(from: stringUrl + "\(type.rawValue)")
+            
+            // dans une boucle transformer chaque UserDTO en model User
+            var categories: [Category] = []
+            for categoryDTO in decoded {
+                categories.append(getCategoryFromCategoryDTO(categoryDTO: categoryDTO))
             }
+            
+            // retourner une liste de User
+            return .success(categories)
+            
+        } catch {
+            return .failure(error)
         }
+    }
     
     static func getCategoryById(type: CategoryType, id: Int) async -> Result<Category, Error> {
-            do {
-                // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-                let decoded : CategoryDTO = try await URLSession.shared.get(from: stringUrl + "\(type.rawValue)/\(id)")
-        
-                // retourne Result avec Category ou Error
-                return .success(getCategoryFromCategoryDTO(categoryDTO: decoded))
-                
-            } catch {
-                print("Error while fetching ingredient from backend: \(error)")
-                return .failure(error)
-            }
+        do {
+            // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
+            let decoded : CategoryDTO = try await URLSession.shared.get(from: stringUrl + "\(type.rawValue)/\(id)")
+            
+            // retourne Result avec Category ou Error
+            return .success(getCategoryFromCategoryDTO(categoryDTO: decoded))
+            
+        } catch {
+            print("Error while fetching ingredient from backend: \(error)")
+            return .failure(error)
         }
-
+    }
+    
+    static func createCategory(type: CategoryType, category: Category) async -> Result<Category, Error> {
+        let categoryDTO = getCategoryDTOFromCategory(category: category)
+        do {
+            let categoryDTOresult : CategoryDTO = try await URLSession.shared.create(from: stringUrl + "\(type.rawValue)", object: categoryDTO)
+            return .success(getCategoryFromCategoryDTO(categoryDTO: categoryDTOresult))
+        }catch {
+            // on propage l'erreur transmise par la fonction post
+            return .failure(error)
+        }
+    }
+    
+    static func getCategoryDTOFromCategory(category: Category) -> CategoryDTO {
+        let categoryDTO = CategoryDTO(
+            id: category.id,
+            name: category.name
+        )
+        return categoryDTO
+    }
     
     static func getCategoryFromCategoryDTO(categoryDTO : CategoryDTO) -> Category {
         //TODO : gérer catégorie ingrédient et allergen

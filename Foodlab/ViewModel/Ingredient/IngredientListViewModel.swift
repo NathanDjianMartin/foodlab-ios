@@ -35,6 +35,7 @@ class IngredientListViewModel: ObservableObject, Subscriber {
             self.ingredients.append(ingredient)
         case .deletingIngredient(let ingredientIndex):
             self.ingredients.remove(at: ingredientIndex)
+            print("test")
         case .error(let errorMessage):
             self.error = errorMessage
         }

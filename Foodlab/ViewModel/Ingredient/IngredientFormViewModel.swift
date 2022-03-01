@@ -79,7 +79,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     
     // Called each time the publisher calls the "send" method to notify about state modification
     func receive(_ input: IngredientFormIntentState) -> Subscribers.Demand {
-        switch input{
+        switch input {
         case .ready:
             break
         case .nameChanging(let name):

@@ -3,15 +3,15 @@ import SwiftUI
 struct IngredientForm: View {
     
     @Binding var isPresented: Ingredient?
-    @ObservedObject var ingredientVM: IngredientFormViewModel
+    @ObservedObject var viewModel: IngredientFormViewModel
     private var intent: IngredientIntent
     
     var creationMode: Bool {
-        self.ingredientVM.id == nil
+        self.viewModel.id == nil
     }
     
     init(ingredientVM: IngredientFormViewModel, intent: IngredientIntent, isPresented: Binding<Ingredient?>){
-        self.ingredientVM = ingredientVM
+        self.viewModel = ingredientVM
         self._isPresented = isPresented
         
         self.intent = intent
@@ -29,26 +29,26 @@ struct IngredientForm: View {
                 }
             }
             .padding()
-            ErrorView(error: $ingredientVM.error)
+            ErrorView(error: $viewModel.error)
             List {
                 
-                TextField("Name", text: $ingredientVM.name)
+                TextField("Name", text: $viewModel.name)
                     .onSubmit {
-                        intent.intentToChange(name: ingredientVM.name)
+                        intent.intentToChange(name: viewModel.name)
                     }
                 
-                TextField("Unit", text: $ingredientVM.unit)
+                TextField("Unit", text: $viewModel.unit)
                     .onSubmit {
-                        intent.intentToChange(unit: ingredientVM.unit)
+                        intent.intentToChange(unit: viewModel.unit)
                     }
                 
                 HStack {
                     Text("Unitary price")
                         .lineLimit(1)
                     Divider()
-                    TextField("Price", value: $ingredientVM.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Price", value: $viewModel.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
-                            intent.intentToChange(unitaryPrice: ingredientVM.unitaryPrice)
+                            intent.intentToChange(unitaryPrice: viewModel.unitaryPrice)
                         }
                 }
                 
@@ -56,16 +56,16 @@ struct IngredientForm: View {
                     Text("Stock quantity")
                         .lineLimit(1)
                     Divider()
-                    TextField("Stock quantity", value: $ingredientVM.stockQuantity, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Stock quantity", value: $viewModel.stockQuantity, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
-                            intent.intentToChange(stockQuantity: ingredientVM.stockQuantity)
+                            intent.intentToChange(stockQuantity: viewModel.stockQuantity)
                         }
                 }
                 
                 //TODO: gerer les categories
-                CategoryDropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
+                CategoryDropdown(selectedCategory: viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories, canBeEmpty: false)
                 // TODO: implement onSubmit
-                CategoryDropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                CategoryDropdown(selectedCategory: viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
                 
                 HStack {
                     Spacer()
@@ -74,13 +74,13 @@ struct IngredientForm: View {
                         if !creationMode {
                             // update
                             Task {
-                                await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)
+                                await intent.intentToUpdate(ingredient: viewModel.modelCopy)
                                 self.isPresented = nil
                             }
                         } else {
                             // create
                             Task {
-                                await intent.intentToCreate(ingredient: ingredientVM.modelCopy)
+                                await intent.intentToCreate(ingredient: viewModel.modelCopy)
                                 self.isPresented = nil
                             }
                         }

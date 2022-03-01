@@ -3,75 +3,78 @@ import SwiftUI
 struct IngredientList: View {
     
     @State private var showAlert = false
-    @State var selectedIngredient : Ingredient? = nil
-    @ObservedObject var ingredientListVM: IngredientListViewModel
+    @State var selectedIngredient: Ingredient? = nil
+    @State var ingredientToDelete: Ingredient?
+    @ObservedObject var viewModel: IngredientListViewModel
     private var intent: IngredientIntent
     
     init() {
-        self.ingredientListVM = IngredientListViewModel()
+        self.viewModel = IngredientListViewModel()
         self.intent = IngredientIntent()
-        self.intent.addObserver(ingredientListViewModel: ingredientListVM)
+        self.intent.addObserver(ingredientListViewModel: viewModel)
     }
     
     var body: some View {
         
         VStack {
-            ErrorView(error: $ingredientListVM.error)
+            ErrorView(error: $viewModel.error)
             List {
-                if self.ingredientListVM.ingredients.count <= 0 {
+                if self.viewModel.ingredients.count <= 0 {
                     VStack {
                         ProgressView()
                             .progressViewStyle(.circular)
                         Text("We're gathering the ingredients :)")
                     }
                 }
-                ForEach(Array(ingredientListVM.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in
+                ForEach(Array(viewModel.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in
                     IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredient ))
                         .swipeActions {
+                            Button {
+                                self.showAlert = true
+                                self.ingredientToDelete = ingredient
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                            .tint(.foodlabRed)
                             Button {
                                 self.selectedIngredient = ingredient
                             } label: {
                                 Image(systemName: "square.and.pencil")
                             }
                             .tint(.foodlabTeal)
-                            Button {
-                                self.showAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                            .tint(.foodlabRed)
                         }
-                        .alert("Delete ingredient ?", isPresented: $showAlert) {
+                        .confirmationDialog("Delete ingredient?", isPresented: $showAlert) {
                             Button(role: .cancel) {
                             } label: {
                                 Text("No")
                             }
                             Button(role: .destructive) {
+                                guard let ingredientToDelete = ingredientToDelete else {
+                                    return
+                                }
+                                guard let id = ingredientToDelete.id else {
+                                    return
+                                }
                                 self.showAlert = false
-                                if let id = ingredient.id {
-                                    Task {
-                                        await self.intent.intentToDelete(ingredientId: id, ingredientIndex: ingredientIndex)
-                                    }
+                                Task {
+                                    await self.intent.intentToDelete(ingredientId: id, ingredientIndex: ingredientIndex)
                                 }
                             } label: {
                                 Text("Yes")
-                                
                             }
                         }
                 }
-                
-                
             }
             .onAppear {
                 Task{
-                    if ingredientListVM.ingredients.count == 0 {
+                    if viewModel.ingredients.count == 0 {
                         switch  await IngredientDAO.getAllIngredients() {
                         case .failure(let error):
                             print(error)
                             break
                         case .success(let ingredients):
-                            self.ingredientListVM.ingredients = ingredients
-                            print(self.ingredientListVM.ingredients)
+                            self.viewModel.ingredients = ingredients
+                            print(self.viewModel.ingredients)
                         }
                     }
                 }

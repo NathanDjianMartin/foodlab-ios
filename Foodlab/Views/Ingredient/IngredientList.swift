@@ -3,8 +3,8 @@ import SwiftUI
 struct IngredientList: View {
     
     @State private var showAlert = false
-    @State var selectedIngredient: Ingredient? = nil
-    @State var ingredientToDelete: Ingredient?
+    @State private var selectedIngredient: Ingredient? = nil
+    @State private var ingredientToDelete: Ingredient?
     @ObservedObject var viewModel: IngredientListViewModel
     private var intent: IngredientIntent
     
@@ -55,9 +55,12 @@ struct IngredientList: View {
                                 guard let id = ingredientToDelete.id else {
                                     return
                                 }
+                                guard let indexToDelete = self.viewModel.ingredients.firstIndex(of: ingredientToDelete) else {
+                                    return
+                                }
                                 self.showAlert = false
                                 Task {
-                                    await self.intent.intentToDelete(ingredientId: id, ingredientIndex: ingredientIndex)
+                                    await self.intent.intentToDelete(ingredientId: id, ingredientIndex: indexToDelete)
                                 }
                             } label: {
                                 Text("Yes")

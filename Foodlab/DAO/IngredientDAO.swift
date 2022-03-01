@@ -115,7 +115,7 @@ struct IngredientDAO {
         
         // manage ingredient category
         let ingredientCategory: Category
-        switch await CategoryDAO.getIngredientCategoriesById(id: ingredientDTO.ingredientCategoryId){
+        switch await CategoryDAO.getIngredientCategoryById(id: ingredientDTO.ingredientCategoryId){
         case .failure(let error):
             return .failure(error)
         case .success(let category):
@@ -125,7 +125,7 @@ struct IngredientDAO {
         // manage ingredient category
         var allergenCategory: Category? = nil
         if let allergen = ingredientDTO.allergenCategoryId {
-            switch await CategoryDAO.getAllergenCategoriesById(id: allergen){
+            switch await CategoryDAO.getAllergenCategoryById(id: allergen){
             case .failure(let error):
                 return .failure(error)
             case .success(let category):

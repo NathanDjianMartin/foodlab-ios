@@ -24,8 +24,12 @@ struct CategoryDAO {
         return await getAllCategories(type: CategoryType.ingredient )
     }
     
-    static func getIngredientCategoriesById(id: Int) async -> Result<Category, Error> {
+    static func getIngredientCategoryById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.ingredient, id: id)
+    }
+    
+    static func createIngredientCategory(category: Category) async -> Result<Category, Error> {
+        return await createCategory(type: CategoryType.ingredient, category: category)
     }
     
     // Allergen
@@ -33,8 +37,12 @@ struct CategoryDAO {
         return await getAllCategories(type: CategoryType.allergen )
     }
     
-    static func getAllergenCategoriesById(id: Int) async -> Result<Category, Error> {
+    static func getAllergenCategoryById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.allergen, id: id)
+    }
+    
+    static func createAllergenCategory(category: Category) async -> Result<Category, Error> {
+        return await createCategory(type: CategoryType.allergen, category: category)
     }
     
     // Recipe
@@ -42,8 +50,12 @@ struct CategoryDAO {
         return await getAllCategories(type: CategoryType.recipe )
     }
     
-    static func getRecipeCategoriesById(id: Int) async -> Result<Category, Error> {
+    static func getRecipeCategoryById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.recipe, id: id)
+    }
+    
+    static func createRecipeCategory(category: Category) async -> Result<Category, Error> {
+        return await createCategory(type: CategoryType.recipe, category: category)
     }
     
     // General

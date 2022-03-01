@@ -2,17 +2,12 @@ import SwiftUI
 
 @main
 struct FoodlabApp: App {
+    static var apiUrl = "http://51.75.248.77:3000/"
+    //static var apiUrl = "http://localhost:3000/"
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-            /*
-                .task {
-                    print("début")
-                    await IngredientDAO.updateIngredient(ingredient: Ingredient(id: 30, name: "Crevettes", unit: "Kg", unitaryPrice: 2.0, stockQuantity: 2.0, ingredientCategory: Category(id: 19, name: "Poisson et crustacés"), allergenCategory: Category(id: 15, name: "Poisson et crustacés")))
-                    print("fin")
-                
-                }
-             */
         }
     }
 }

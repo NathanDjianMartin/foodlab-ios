@@ -11,45 +11,62 @@ protocol IngredientObserver {
 }
 
 class Ingredient: Identifiable, Hashable, Comparable, CustomStringConvertible {
-
+    
     var id: Int?
+    private var observers: [IngredientObserver]
     var name: String {
         didSet { // if name was set, we should warn our observer
-            self.observer?.changed(name: self.name) // this call makes possible observer to observe
+            if name.count <= 0 {
+                name = oldValue
+            } else {
+                for observer in observers {
+                    observer.changed(name: self.name) // this call makes possible observer to observe
+                }
+            }
         }
     }
     var unit: String {
         didSet { // if name was set, we should warn our observer
-            self.observer?.changed(unit: self.unit) // this call makes possible observer to observe
+            for observer in observers {
+                observer.changed(unit: self.unit) // this call makes possible observer to observe
+            }
         }
     }
     var unitaryPrice: Double {
         didSet {
-            self.observer?.changed(unitaryPrice: self.unitaryPrice)
+            for observer in observers {
+                observer.changed(unitaryPrice: self.unitaryPrice)
+            }
         }
     }
     var stockQuantity: Double {
         didSet {
-            self.observer?.changed(stockQuantity: self.stockQuantity)
+            for observer in observers {
+                observer.changed(stockQuantity: self.stockQuantity)
+            }
         }
     }
     var ingredientCategory: Category {
         didSet {
-            self.observer?.changed(ingredientCategory: self.ingredientCategory)
+            for observer in observers {
+                observer.changed(ingredientCategory: self.ingredientCategory)
+            }
         }
     }
     var allergenCategory: Category? {
         didSet {
-            self.observer?.changed(allergenCategory: self.allergenCategory)
+            for observer in observers {
+                observer.changed(allergenCategory: self.allergenCategory)
+            }
         }
     }
     
     var description: String{
         return self.name
     }
-    var observer: IngredientObserver?
     
     init(id: Int? = nil, name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category? = nil) {
+        self.observers = []
         self.id = id
         self.name = name
         self.unit = unit
@@ -57,6 +74,10 @@ class Ingredient: Identifiable, Hashable, Comparable, CustomStringConvertible {
         self.stockQuantity = stockQuantity
         self.ingredientCategory = ingredientCategory
         self.allergenCategory = allergenCategory
+    }
+    
+    func addObserver(_ observer: IngredientObserver) {
+        self.observers.append(observer)
     }
     
     func copy() -> Ingredient {

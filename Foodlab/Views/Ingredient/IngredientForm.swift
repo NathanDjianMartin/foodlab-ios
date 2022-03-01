@@ -1,23 +1,21 @@
 import SwiftUI
 
 struct IngredientForm: View {
-//    @Binding var isPresented: Bool
-    @Binding var isPresented: Ingredient?
-
-    @ObservedObject var ingredientVM: IngredientFormViewModel
-    var ingredientListVM: IngredientListViewModel
-    private var intent : IngredientIntent
     
-    init(ingredientVM: IngredientFormViewModel, ingredientListVM: IngredientListViewModel, isPresented: Binding<Ingredient?>){
-        self.ingredientVM = ingredientVM
-        self.ingredientListVM = ingredientListVM
-//        self._isPresented = isPresented
+    @Binding var isPresented: Ingredient?
+    @ObservedObject var viewModel: IngredientFormViewModel
+    private var intent: IngredientIntent
+    
+    var creationMode: Bool {
+        self.viewModel.id == nil
+    }
+    
+    init(ingredientVM: IngredientFormViewModel, intent: IngredientIntent, isPresented: Binding<Ingredient?>){
+        self.viewModel = ingredientVM
         self._isPresented = isPresented
-
-        self.intent = IngredientIntent()
-        // le VM est enregistré comme souscrivant aux actions demandées (publications des modifs du state de l'Intent)
+        
+        self.intent = intent
         self.intent.addObserver(ingredientFormViewModel: ingredientVM)
-        self.intent.addObserver(ingredientListViewModel: ingredientListVM)
     }
     
     var body: some View {
@@ -31,61 +29,64 @@ struct IngredientForm: View {
                 }
             }
             .padding()
+            ErrorView(error: $viewModel.error)
             List {
-                HStack {
-                    Text("Name")
-                    Divider()
-                    TextField("Name", text: $ingredientVM.name)
-                        .onSubmit {
-                            intent.intentToChange(name: ingredientVM.name)
-                        }
-                }
+                
+                TextField("Name", text: $viewModel.name)
+                    .onSubmit {
+                        intent.intentToChange(name: viewModel.name)
+                    }
+                
+                TextField("Unit", text: $viewModel.unit)
+                    .onSubmit {
+                        intent.intentToChange(unit: viewModel.unit)
+                    }
                 
                 HStack {
-                    Text("Unit")
+                    Text("Unitary price")
+                        .lineLimit(1)
                     Divider()
-                    TextField("Unit", text: $ingredientVM.unit)
+                    TextField("Price", value: $viewModel.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
-                            intent.intentToChange(unit: ingredientVM.unit)
+                            intent.intentToChange(unitaryPrice: viewModel.unitaryPrice)
                         }
-                }
-                
-                HStack {
-                    Text("Price")
-                    Divider()
-                    TextField("Price", value: $ingredientVM.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
                 }
                 
                 HStack {
                     Text("Stock quantity")
                         .lineLimit(1)
                     Divider()
-                    TextField("Stock quantity", value: $ingredientVM.stockQuantity, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Stock quantity", value: $viewModel.stockQuantity, formatter: FormatterHelper.decimalFormatter)
+                        .onSubmit {
+                            intent.intentToChange(stockQuantity: viewModel.stockQuantity)
+                        }
                 }
                 
                 //TODO: gerer les categories
-                Dropdown(placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories)
-                Dropdown(placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                CategoryDropdown(selectedCategory: viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories, canBeEmpty: false)
+                // TODO: implement onSubmit
+                CategoryDropdown(selectedCategory: viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
                 
                 HStack {
                     Spacer()
-                    Button("Create ingredient") {
+                    Button(creationMode ? "Create ingredient" : "Confirm changes") {
                         //intentToCreate
-                        if (ingredientVM.modelCopy.id != nil) {
+                        if !creationMode {
                             // update
                             Task {
-                                await intent.intentToUpdate(ingredient: ingredientVM.modelCopy)
+                                await intent.intentToUpdate(ingredient: viewModel.modelCopy)
+                                self.isPresented = nil
+                            }
+                        } else {
+                            // create
+                            Task {
+                                await intent.intentToCreate(ingredient: viewModel.modelCopy)
+                                self.isPresented = nil
                             }
                         }
-                        
                     }
                     .buttonStyle(DarkRedButtonStyle())
-                    
-                    /*Button("retourner"){
-                        self.isPresented = false
-                    }*/
-                    
-                }                
+                }
             }
             .listStyle(.plain)
             .padding()
@@ -93,9 +94,9 @@ struct IngredientForm: View {
     }
 }
 
-//struct IngredientCreation_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-//        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), ingredientListVM: IngredientListViewModel(ingredients: MockData.ingredientList), isPresented: nil)
-//    }
-//}
+struct IngredientCreation_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        IngredientForm(ingredientVM: IngredientFormViewModel(model: MockData.ingredient), intent: IngredientIntent(), isPresented: .constant(MockData.ingredient))
+    }
+}

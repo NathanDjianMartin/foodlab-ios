@@ -1,78 +1,98 @@
 import SwiftUI
 
 struct IngredientList: View {
-    @State private var showIngredientForm = false
+    
     @State private var showAlert = false
+    @State private var selectedIngredient: Ingredient? = nil
+    @State private var ingredientToDelete: Ingredient?
+    @ObservedObject var viewModel: IngredientListViewModel
+    private var intent: IngredientIntent
     
-    @State private var selectedIndex = 0
-    @State var selectedIngredient : Ingredient? = nil
-    
-    @ObservedObject var ingredientListVM: IngredientListViewModel = IngredientListViewModel()
+    init() {
+        self.viewModel = IngredientListViewModel()
+        self.intent = IngredientIntent()
+        self.intent.addObserver(ingredientListViewModel: viewModel)
+    }
     
     var body: some View {
         
-        List {
-            ForEach(Array(ingredientListVM.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in
-                IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredient ))
-                    .swipeActions {
-                        Button {
-                            self.selectedIngredient = ingredient
-                            selectedIndex = ingredientIndex
-                            showIngredientForm = true
-                        } label: {
-                            Image(systemName: "square.and.pencil")
-                        }
-                        .tint(.foodlabTeal)
-                        Button {
-                            self.showAlert = true
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                        .tint(.foodlabRed)
+        VStack {
+            ErrorView(error: $viewModel.error)
+            List {
+                if self.viewModel.ingredients.count <= 0 {
+                    VStack {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                        Text("We're gathering the ingredients :)")
                     }
-                    .alert("Delete ?", isPresented: $showAlert) {
-                        Button(role: .cancel) {
-                        } label: {
-                            Text("No")
+                }
+                ForEach(Array(viewModel.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in
+                    IngredientRow(ingredientVM: IngredientFormViewModel(model: ingredient ))
+                        .swipeActions {
+                            Button {
+                                self.showAlert = true
+                                self.ingredientToDelete = ingredient
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                            .tint(.foodlabRed)
+                            Button {
+                                self.selectedIngredient = ingredient
+                            } label: {
+                                Image(systemName: "square.and.pencil")
+                            }
+                            .tint(.foodlabTeal)
                         }
-                        Button(role: .destructive) {
-                            self.showAlert = false
-                            // TODO: intentToRemoveIngredient
-                        } label: {
-                            Text("Yes")
-                            
+                        .confirmationDialog("Delete ingredient?", isPresented: $showAlert) {
+                            Button(role: .cancel) {
+                            } label: {
+                                Text("No")
+                            }
+                            Button(role: .destructive) {
+                                guard let ingredientToDelete = ingredientToDelete else {
+                                    return
+                                }
+                                guard let id = ingredientToDelete.id else {
+                                    return
+                                }
+                                guard let indexToDelete = self.viewModel.ingredients.firstIndex(of: ingredientToDelete) else {
+                                    return
+                                }
+                                self.showAlert = false
+                                Task {
+                                    await self.intent.intentToDelete(ingredientId: id, ingredientIndex: indexToDelete)
+                                }
+                            } label: {
+                                Text("Yes")
+                            }
                         }
-                    }
+                }
             }
-            
-            
-        }
-        .onAppear {
-            Task{
-                if ( ingredientListVM.ingredients.count == 0 ){
-                    switch  await IngredientDAO.getAllIngredients() {
-                    case .failure(let error):
-                        print(error)
-                        break
-                    case .success(let ingredients):
-                        self.ingredientListVM.ingredients = ingredients
-//                        ingredientListVM.objectWillChange.send()
-                        print(self.ingredientListVM.ingredients)
+            .onAppear {
+                Task{
+                    if viewModel.ingredients.count == 0 {
+                        switch  await IngredientDAO.getAllIngredients() {
+                        case .failure(let error):
+                            print(error)
+                            break
+                        case .success(let ingredients):
+                            self.viewModel.ingredients = ingredients
+                            print(self.viewModel.ingredients)
+                        }
                     }
                 }
             }
-        }
-        .sheet(item: self.$selectedIngredient) { ingredient in
-            IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredient), ingredientListVM: ingredientListVM, isPresented: $selectedIngredient)
-            
-        }
-        
-        .navigationTitle("Ingredients")
-        .toolbar {
-            Button(action: {
-                showIngredientForm = true
-            }) {
-                Image(systemName: "plus")
+            .sheet(item: self.$selectedIngredient) { ingredient in
+                IngredientForm(ingredientVM: IngredientFormViewModel(model: ingredient), intent: self.intent, isPresented: $selectedIngredient)
+                
+            }
+            .navigationTitle("Ingredients")
+            .toolbar {
+                Button(action: {
+                    self.selectedIngredient = Ingredient(name: "Name", unit: "Unit", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(id: 19, name: ""))
+                }) {
+                    Image(systemName: "plus")
+                }
             }
         }
     }

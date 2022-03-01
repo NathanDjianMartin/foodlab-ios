@@ -8,11 +8,11 @@
 import Foundation
 
 enum URLError : Error {
-    case cast
+    case failedInit
     
     public var description: String {
         switch self {
-        case .cast:
+        case .failedInit:
             return "Error while creating url from string"
         }
     }

@@ -1,16 +1,10 @@
-//
-//  IngredientListViewModel.swift
-//  Foodlab
-//
-//  Created by m1 on 19/02/2022.
-//
-
 import Combine
 import Foundation
 
 class IngredientListViewModel: ObservableObject, Subscriber {
     
     @Published var ingredients : [Ingredient]
+    @Published var error: String?
     
     init(ingredients: [Ingredient] = []) {
         self.ingredients = ingredients
@@ -19,7 +13,7 @@ class IngredientListViewModel: ObservableObject, Subscriber {
     // MARK: -
     // MARK: Subscriber conformance
     
-    typealias Input = IntentIngredientListState
+    typealias Input = IngredientListIntentState
     typealias Failure = Never
     
     // Called by Subscriber protocol during subscription
@@ -33,13 +27,17 @@ class IngredientListViewModel: ObservableObject, Subscriber {
     }
     
     // Called each time the publisher calls the "send" method to notify about state modification
-    func receive(_ input: IntentIngredientListState) -> Subscribers.Demand {
-        print("vm -> intent \(input)")
-        switch input{
+    func receive(_ input: IngredientListIntentState) -> Subscribers.Demand {
+        switch input {
         case .uptodate:
             break
-        case .needToBeUpdated:
-            self.objectWillChange.send()
+        case .addingIngredient(let ingredient):
+            self.ingredients.append(ingredient)
+        case .deletingIngredient(let ingredientIndex):
+            let ingredient = self.ingredients.remove(at: ingredientIndex)
+            print("Deleting \(ingredient.name) of index \(ingredientIndex)")
+        case .error(let errorMessage):
+            self.error = errorMessage
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

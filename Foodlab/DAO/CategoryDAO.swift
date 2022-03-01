@@ -1,10 +1,3 @@
-//
-//  CategoryDAO.swift
-//  Foodlab
-//
-//  Created by m1 on 18/02/2022.
-//
-
 import Foundation
 
 enum CategoryType : String {
@@ -16,9 +9,7 @@ enum CategoryType : String {
 struct CategoryDAO {
     
     //TODO: mettre un singleton? Bonne pratique?
-    
-    static var stringUrl = "http://localhost:3000/"
-    
+        
     // Ingredient
     static func getAllIngredientCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.ingredient )
@@ -40,7 +31,7 @@ struct CategoryDAO {
     static func getAllCategories(type: CategoryType) async -> Result<[Category], Error> {
             do {
                 // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-                let decoded : [CategoryDTO] = try await URLSession.shared.getJSON(from: stringUrl + "\(type.rawValue)")
+                let decoded : [CategoryDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "\(type.rawValue)")
                 
                 // dans une boucle transformer chaque UserDTO en model User
                 var categories: [Category] = []
@@ -59,7 +50,7 @@ struct CategoryDAO {
     static func getCategoryById(type: CategoryType, id: Int) async -> Result<Category, Error> {
             do {
                 // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-                let decoded : CategoryDTO = try await URLSession.shared.getJSON(from: stringUrl + "\(type.rawValue)/\(id)")
+                let decoded : CategoryDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "\(type.rawValue)/\(id)")
         
                 // retourne Result avec Category ou Error
                 return .success(getCategoryFromCategoryDTO(categoryDTO: decoded))

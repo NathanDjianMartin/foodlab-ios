@@ -5,14 +5,18 @@ struct FoodlabApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-            /*
+            
                 .task {
                     print("début")
-                    await IngredientDAO.updateIngredient(ingredient: Ingredient(id: 30, name: "Crevettes", unit: "Kg", unitaryPrice: 2.0, stockQuantity: 2.0, ingredientCategory: Category(id: 19, name: "Poisson et crustacés"), allergenCategory: Category(id: 15, name: "Poisson et crustacés")))
+                    /* Test : ok
+                    let ingredient = Ingredient(id: 50,name: "", unit: "", unitaryPrice: 3, stockQuantity: 3, ingredientCategory: Category(id: 10, name: ""))
+                    let ingredients = await IngredientWithinStepDAO.addIngredientsInSimpleStep(stepId: 34, ingredients: [ingredient:2])
+                    print(ingredients)
                     print("fin")
+                    */
                 
                 }
-             */
+             
         }
     }
 }

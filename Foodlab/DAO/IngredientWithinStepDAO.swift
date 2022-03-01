@@ -10,10 +10,7 @@ import Foundation
 struct IngredientWithinStepDAO {
     
     static var stringUrl = "http://localhost:3000/"
-    
-    //TODO: get all ingredient in simple step
-    //TODO: get all ingredient in recipe
-    //TODO: add ingredient in simple step
+
     //TODO: delete ingredient in simple step
     
     static func getAllIngredientsWithinStep(id: Int) async -> Result<[Ingredient: Double], Error> {
@@ -29,6 +26,7 @@ struct IngredientWithinStepDAO {
     }
     
     static func getAllIngredientsWithinRecipe(recipeId: Int) async -> Result<[Ingredient: Double], Error> {
+        // TODO: faire la fonction dans le bac, on ne s'en était pas servi comme ça pour le web donc pas de route correspondant à ma requête pour l'instant
         // récupère tout les ingredients présent dans une recette ainsi que la quantite associée
         do {
             let decoded : [IngredientWithinStepDTO] = try await URLSession.shared.get(from: stringUrl + "/recipe/ingredients-in-recipe/\(recipeId)")

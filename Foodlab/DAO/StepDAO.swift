@@ -12,17 +12,15 @@ class StepDAO {
     static var stringUrl = "http://51.75.248.77:3000/"
     
     static func getAllProgressions() async -> Result<[Step], Error> {
+        // retourne toutes les progressions mais avec juste les titres
         do {
-            // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
             let decoded : [StepDTO] = try await URLSession.shared.get(from: stringUrl + "recipe-execution/progressions")
             
-            // dans une boucle transformer chaque IngredientDTO en model Ingredient
             var steps: [Step] = []
             for stepDTO in decoded {
                 steps.append(getStepMinimumInformationFromStepDTO(stepDTO: stepDTO))
             }
             
-            // retourner une liste d'Ingredient
             return .success(steps)
             
         } catch {
@@ -34,10 +32,8 @@ class StepDAO {
     static func getStepById(id: Int) async -> Result<Step, Error> {
         do {
             
-            // decoder le JSON avec la fonction présente dans JSONHelper
             let stepDTO : StepDTO = try await URLSession.shared.get(from: stringUrl + "recipe-execution/\(id)")
             
-            // retourner un Result avec ingredient ou error
             return await getStepFromStepDTO(stepDTO: stepDTO)
             
         } catch {
@@ -49,9 +45,12 @@ class StepDAO {
     static func updateStep(step: Step) async -> Result<Bool, Error> {
         do {
             let stepDTO = try getSteptDTOFromStep(step: step)
-
+            
             // TODO: verifier id
+            // update informations général de l'étape (titre, description et duration)
             let isUpdated = try await URLSession.shared.update(from: stringUrl+"recipe-execution/\(step.id!)", object: stepDTO)
+            
+            // TODO: update ingredient in step (supprimer tout les ingredients puis les rajouter : à faire dans ingredientWithinStepDAO)
             return .success(isUpdated)
         }catch {
             // on propage l'erreur transmise par la fonction post
@@ -60,14 +59,30 @@ class StepDAO {
         
     }
     
-    static func createStep(step: Step) async -> Result<Step, Error> {
+    static func createSimpleStep(step: Step) async -> Result<Step, Error> {
         do {
-            
-            let stepDTO = try getSteptDTOFromStep(step: step)
-
-            //TODO: verifier id
-            let stepDTOresult : StepDTO = try await URLSession.shared.create(from: stringUrl+"recipe-execution", object: stepDTO)
-            return await getStepFromStepDTO(stepDTO: stepDTOresult)
+            if let simpleStep = step as? SimpleStep  {
+                let stepDTO = try getSteptDTOFromStep(step: step)
+                
+                //TODO: verifier id
+                // créer l'étapes avec ses informations générales
+                let stepDTOresult : StepDTO = try await URLSession.shared.create(from: stringUrl+"recipe-execution", object: stepDTO)
+                
+                // ajoute tout les ingredients à l'étape
+                guard let stepId = stepDTOresult.id else {
+                    // TODO: créer une nouvelle erreur pour les id manquant
+                    return .failure(UndefinedError.error("Missing id"))
+                }
+                if let ingredients = simpleStep.ingredients {
+                    let _ = await IngredientWithinStepDAO.addIngredientsInSimpleStep(stepId: stepId, ingredients: ingredients)
+                }
+                
+                return await getStepFromStepDTO(stepDTO: stepDTOresult)
+                
+            } else {
+                // TODO: mettre erreur plus adapté
+                return .failure(UndefinedError.error("Try to create simple step with recipe execution"))
+            }
         }catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
@@ -95,7 +110,7 @@ class StepDAO {
     }
     
     static func getStepFromStepDTO(stepDTO : StepDTO) async -> Result<Step, Error> {
-
+        
         let step: Step
         
         if stepDTO.isStep {
@@ -109,7 +124,19 @@ class StepDAO {
                 return .failure(UndefinedError.error("Error while creating step from StepDTO"))
             }
             step = SimpleStep(id: stepDTO.id, title: stepDTO.stepTitle, stepDescription: description, duration: duratiion)
-            // TODO: recuperer la liste des ingredients
+            // on recupere la liste des ingredients
+            guard let stepId = step.id else {
+                // TODO: créer une nouvelle erreur pour les id manquant
+                return .failure(UndefinedError.error("Missing id"))
+            }
+            if let simpleStep = step as? SimpleStep {
+                switch await IngredientWithinStepDAO.getAllIngredientsWithinStep(id: stepId) {
+                case .failure(let error):
+                    return .failure(error)
+                case .success(let ingredients):
+                    simpleStep.ingredients = ingredients
+                }
+            }
         } else {
             // il s'agit d'une recipe execution qui a seulement des étapes en plus (qui sont optionnelles)
             step = RecipeExecution(id: stepDTO.id, title: stepDTO.stepTitle)

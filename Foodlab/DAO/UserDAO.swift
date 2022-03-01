@@ -8,14 +8,12 @@
 import Foundation
 
 struct UserDAO {
-    //TODO : mettre url en variable d'environnement
-    var stringUrl = "51.75.248.77:3000/"
     
     func getAllUsers() async -> [User]? {
             do {
                 
                 // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "user")
+                guard let url = URL(string: FoodlabApp.apiUrl + "user")
                 else { return nil }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 
@@ -43,7 +41,7 @@ struct UserDAO {
             do {
                 
                 // faire la requête vers le backend
-                guard let url = URL(string: stringUrl + "detail+id")
+                guard let url = URL(string: FoodlabApp.apiUrl + "detail+id")
                 else { return nil }
                 let (data, _) = try await URLSession.shared.data(from: url)
                 

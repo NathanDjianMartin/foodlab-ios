@@ -21,6 +21,9 @@ class RecipeExecutionDAO {
     
     private init() {}
     
+    // MARK: -
+    // MARK: public functions
+    
     func getRecipeExecutionById(_ id: Int) async -> Result<RecipeExecution, Error> {
         do {
             let url = stringUrl + "recipe-execution/\(id)"
@@ -30,6 +33,22 @@ class RecipeExecutionDAO {
             return .failure(error)
         }
     }
+    
+    func createRecipeExecution(recipeExecution: RecipeExecution) async -> Result<RecipeExecution, Error> {
+        let recipeExecutionDTO = getDTOFromRecipeExecution(recipeExecution)
+        
+        do {
+            let url = stringUrl + "recipe-execution"
+            let createdRecipeExecutionDTO: RecipeExecutionDTO = try await URLSession.shared.create(from: url, object: recipeExecutionDTO)
+            return await getRecipeExecutionFromDTO(createdRecipeExecutionDTO)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    
+    // MARK: -
+    // MARK: private functions
     
     private func getRecipeExecutionFromDTO(_ dto: RecipeExecutionDTO) async -> Result<RecipeExecution, Error> {
         guard let recipeExecutionId = dto.id else {
@@ -55,5 +74,10 @@ class RecipeExecutionDAO {
         }
         
         return .success(recipeExecution)
+    }
+    
+    private func getDTOFromRecipeExecution(_ recipeExecution: RecipeExecution) -> RecipeExecutionDTO {
+        let recipeExecutionDTO = RecipeExecutionDTO(id: recipeExecution.id, stepTitle: recipeExecution.title)
+        return recipeExecutionDTO
     }
 }

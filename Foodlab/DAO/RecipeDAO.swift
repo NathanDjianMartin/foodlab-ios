@@ -64,10 +64,9 @@ class RecipeDAO {
             return .failure(error)
         }
         
-        let url = stringUrl + "recipe"
         do {
+            let url = stringUrl + "recipe"
             let createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
-            // TODO: create recipe execution
             return await getRecipeFromDTO(createdRecipeDTO)
         } catch {
             return .failure(error)

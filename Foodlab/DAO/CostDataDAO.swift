@@ -10,7 +10,7 @@ struct CostDataDAO {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
             let decoded : CostDataDTO = try await URLSession.shared.get(from: stringUrl + "cost-data/\(id)")
 
-            return .success(await getCostDataFromCostDataDTO(costDataDTO: decoded))
+            return await getCostDataFromCostDataDTO(costDataDTO: decoded)
             
         } catch {
             print("Error while fetching ingredients from backend: \(error)")
@@ -33,18 +33,65 @@ struct CostDataDAO {
 
     static func getCostDataDTOFromCostData(costData: CostData) -> CostDataDTO {
         return CostDataDTO(id: costData.id,
-            averageHourlyCost: costData.averageHourlyCost,
-            flatrateHourlyCost: costData.flatrateHourlyCost,
-            coefWithCharges: costData.coefWithCharges,
-            coefWithoutCharges: costData.coefWithoutCharges)
+                           averageHourlyCost: .post(costData.averageHourlyCost),
+                           flatrateHourlyCost: .post(costData.flatrateHourlyCost),
+                           coefWithCharges: .post(costData.coefWithCharges),
+                           coefWithoutCharges: .post(costData.coefWithoutCharges))
     }
     
-    static func getCostDataFromCostDataDTO(costDataDTO : CostDataDTO) async -> CostData {
-        return CostData(id: costDataDTO.id,
-            averageHourlyCost: costDataDTO.averageHourlyCost,
-            flatrateHourlyCost: costDataDTO.flatrateHourlyCost,
-            coefWithCharges: costDataDTO.coefWithCharges,
-            coefWithoutCharges: costDataDTO.coefWithoutCharges)
+    static func getCostDataFromCostDataDTO(costDataDTO : CostDataDTO) async -> Result<CostData,Error> {
+        // manage averageHourlyCost
+        let averageHourlyCost: Double
+        switch costDataDTO.averageHourlyCost {
+        case .post(let double):
+            averageHourlyCost = double
+        case .get(let string):
+            guard let double = Double(string) else {
+                return .failure(ConversionError.stringToDouble)
+            }
+            averageHourlyCost = double
+        }
+        
+        // manage flatrateHourlyCost
+        let flatrateHourlyCost: Double
+        switch costDataDTO.flatrateHourlyCost {
+        case .post(let double):
+            flatrateHourlyCost = double
+        case .get(let string):
+            guard let double = Double(string) else {
+                return .failure(ConversionError.stringToDouble)
+            }
+            flatrateHourlyCost = double
+        }
+        
+        // manage coefWithCharges
+        let coefWithCharges: Double
+        switch costDataDTO.coefWithCharges {
+        case .post(let double):
+            coefWithCharges = double
+        case .get(let string):
+            guard let double = Double(string) else {
+                return .failure(ConversionError.stringToDouble)
+            }
+            coefWithCharges = double
+        }
+        
+        // manage unitary price
+        let coefWithoutCharges: Double
+        switch costDataDTO.coefWithoutCharges {
+        case .post(let double):
+            coefWithoutCharges = double
+        case .get(let string):
+            guard let double = Double(string) else {
+                return .failure(ConversionError.stringToDouble)
+            }
+            coefWithoutCharges = double
+        }
+        return .success(CostData(id: costDataDTO.id,
+            averageHourlyCost: averageHourlyCost,
+            flatrateHourlyCost: flatrateHourlyCost,
+            coefWithCharges: coefWithCharges,
+            coefWithoutCharges: coefWithoutCharges))
 
     }
     

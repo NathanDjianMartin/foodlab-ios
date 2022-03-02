@@ -11,13 +11,13 @@ struct IngredientWithinStepDTO: Identifiable, Codable {
     
     var id: Int?
     var ingredientId: Int
-    var stepId: Int
-    var quantity: Double
+    var recipeExecutionId: Int
+    var quantity: StringOrDouble
     
-    init(id: Int? = nil, ingredientId: Int, stepId: Int, quantity: Double) {
+    init(id: Int? = nil, ingredientId: Int, stepId: Int, quantity: StringOrDouble) {
         self.id = id
         self.ingredientId = ingredientId
-        self.stepId = stepId
+        self.recipeExecutionId = stepId
         self.quantity = quantity
     }
 }

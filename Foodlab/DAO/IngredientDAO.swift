@@ -71,7 +71,7 @@ struct IngredientDAO {
             //TODO: verifier id
             let ingredientDTOresult : IngredientDTO = try await URLSession.shared.create(from: stringUrl+"ingredient", object: ingredientDTO)
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
-        }catch {
+        } catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }

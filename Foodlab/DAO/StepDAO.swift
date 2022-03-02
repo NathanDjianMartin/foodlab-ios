@@ -1,10 +1,3 @@
-//
-//  RecipeExecutionDAO.swift
-//  Foodlab
-//
-//  Created by m1 on 26/02/2022.
-//
-
 import Foundation
 
 class StepDAO {
@@ -139,9 +132,16 @@ class StepDAO {
             }
         } else {
             // il s'agit d'une recipe execution qui a seulement des étapes en plus (qui sont optionnelles)
-            step = RecipeExecution(id: stepDTO.id, title: stepDTO.stepTitle)
-            // TODO: récupérer les étapes qu'elle contient
-            // Il faut aller faire une requête sur le back et récupérer les tables de jointure stepWithinRecipeExecution
+            //step = RecipeExecution(id: stepDTO.id, title: stepDTO.stepTitle)
+            guard let recipeExecutionId = stepDTO.id else {
+                return .failure(RecipeExecutionDAOError.noId(stepDTO.stepTitle))
+            }
+            switch await RecipeExecutionDAO.shared.getRecipeExecutionById(recipeExecutionId) {
+            case .success(let recipeExecution):
+                step = recipeExecution
+            case .failure(let error):
+                return .failure(error)
+            }
         }
         
         return .success(step)

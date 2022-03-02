@@ -47,7 +47,7 @@ class RecipeExecutionDAO {
         }
         
         stepsWithinRecipeExecution.sort { step1, step2 in
-            return step1.0 >= step2.0
+            return step1.0 <= step2.0
         }
         
         for step in stepsWithinRecipeExecution {

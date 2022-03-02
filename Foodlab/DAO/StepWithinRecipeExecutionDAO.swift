@@ -10,7 +10,7 @@ struct StepWithinRecipeExecutionDAO {
             let url = stringUrl + "recipe-execution/all-steps/\(id)"
             let decoded: [StepWithinRecipeExecutionDTO] = try await URLSession.shared.get(from: url)
             
-            var steps: [(Int,Step)] = []
+            var steps: [(Int, Step)] = []
             for stepWithinRecipeExecutionDTO in decoded {
                 switch await StepDAO.getStepById(id: stepWithinRecipeExecutionDTO.stepId) {
                 case .failure(let error):

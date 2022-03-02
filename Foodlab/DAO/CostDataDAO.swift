@@ -3,12 +3,12 @@ import Foundation
 struct CostDataDAO {
     //TODO: mettre un singleton? Bonne pratique?
 
-    static var stringUrl = "http://51.75.248.77:3000/"
+    static var stringUrl = "http://localhost:3000/"
 
     static func getCostData(id: Int) async -> Result<CostData, Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : CostDataDTO = try await URLSession.shared.get(from: stringUrl + "cost-data\(id)")
+            let decoded : CostDataDTO = try await URLSession.shared.get(from: stringUrl + "cost-data/\(id)")
 
             return .success(await getCostDataFromCostDataDTO(costDataDTO: decoded))
             

@@ -1,10 +1,3 @@
-//
-//  URLSessionExtension.swift
-//  Foodlab
-//
-//  Created by m1 on 19/02/2022.
-//
-
 import Foundation
 
 extension URLSession {
@@ -18,10 +11,17 @@ extension URLSession {
         let (data, _) = try await data(from: url)
         // TODO: tester si data nul ou vide
         // TODO: traiter response pour voir les http code
-        guard let decoded: T = JSONHelper.decode(data: data) else {
-            throw JSONError.decode
+        //        guard let decoded: T = JSONHelper.decode(data: data) else {
+        //            throw JSONError.decode
+        //        }
+        //        return decoded
+        let result: Result<T, Error> = JSONHelper.decodeWithError(data: data)
+        switch result {
+        case .success(let result):
+            return result
+        case .failure(let error):
+            throw error
         }
-        return decoded
     }
     
     func update<T: Codable> (from url: String, object: T) async throws -> Bool {
@@ -39,7 +39,7 @@ extension URLSession {
             guard let encoded : Data = JSONHelper.encode(data: object) else {
                 throw JSONError.encode
             }
-        
+            
             //let sencoded = String(data: encoded, encoding: .utf8)
             
             let (data, response) = try await upload(for: request, from: encoded)
@@ -51,12 +51,12 @@ extension URLSession {
                 print("GoRest Result: \(sdata)")
                 /*
                  guard let decoded : T = JSONHelper.decode(data: data) else {
-                    throw JSONError.decode
-                }
+                 throw JSONError.decode
+                 }
                  */
                 return true
                 //self.users.append(decoded.data)
-                 
+                
             }
             else{
                 print("Error \(httpresponse.statusCode): \(HTTPURLResponse.localizedString(forStatusCode: httpresponse.statusCode))")
@@ -84,7 +84,7 @@ extension URLSession {
             guard let encoded : Data = JSONHelper.encode(data: object) else {
                 throw JSONError.encode
             }
-        
+            
             //let sencoded = String(data: encoded, encoding: .utf8)
             
             let (data, response) = try await URLSession.shared.upload(for: request, from: encoded)

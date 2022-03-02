@@ -1,26 +1,16 @@
-//
-//  RecipeDTO.swift
-//  Foodlab
-//
-//  Created by m1 on 16/02/2022.
-//
-
 import Foundation
 
-struct RecipeDTO: Identifiable {
+struct RecipeDTO: Identifiable, Codable {
     
     var id: Int?
     var name: String
     var author: String
     var guestsNumber: Int
     var recipeCategoryId: Int
-    var recipeExecutionId: Int?
     var costDataId: Int
+    var recipeExecutionId: Int?
     
-    //variable calculée
-    var duration : Int
-    
-    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategoryId: Int, recipeExecutionId: Int? = nil, costDataId: Int, duration: Int) {
+    internal init(id: Int? = nil, name: String, author: String, guestsNumber: Int, recipeCategoryId: Int, recipeExecutionId: Int? = nil, costDataId: Int) {
         self.id = id
         self.name = name
         self.author = author
@@ -28,7 +18,5 @@ struct RecipeDTO: Identifiable {
         self.recipeCategoryId = recipeCategoryId
         self.recipeExecutionId = recipeExecutionId
         self.costDataId = costDataId
-        self.duration = duration
     }
-    
 }

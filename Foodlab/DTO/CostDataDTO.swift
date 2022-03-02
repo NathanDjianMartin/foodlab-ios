@@ -1,10 +1,3 @@
-//
-//  CostDataDTO.swift
-//  Foodlab
-//
-//  Created by m1 on 16/02/2022.
-//
-
 import Foundation
 
 struct CostDataDTO: Identifiable, Codable {

@@ -4,13 +4,17 @@ enum RecipeDAOError: Error, CustomStringConvertible {
     case noRecipeId(String)
     case noRecipeExecutionId(String, Int)
     
-    public var description: String {
+    var description: String {
         switch self {
         case .noRecipeId(let recipeTitle):
             return "No recipe id was found in the RecipeDTO named: \(recipeTitle)"
         case .noRecipeExecutionId(let recipeTitle, let recipeId):
             return "No recipe execution id was found in the RecipeDTO named: \(recipeTitle) (\(recipeId))"
         }
+    }
+    
+    var errorDescription: String? {
+        return self.description
     }
 }
 
@@ -23,7 +27,7 @@ class RecipeDAO {
     }()
     
     var stringUrl = "http://localhost:3000/"
-    
+
     private init() {}
     
     

@@ -28,7 +28,7 @@ struct RecipeDetails: View {
                 }
                 Spacer()
                 Badge(text: viewModel.category.name, color: .foodlabTeal)
-                Badge(text: "For \(viewModel.guestNumber) persons", color: .foodlabLightBrown)
+                Badge(text: "For \(viewModel.guestNumber) guest\(viewModel.guestNumber > 1 ? "s" : "")", color: .foodlabLightBrown)
             }
             .padding(.leading)
             .padding(.trailing)

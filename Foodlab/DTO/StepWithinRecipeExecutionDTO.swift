@@ -1,10 +1,3 @@
-//
-//  StepWithinRecipeExecutionDTO.swift
-//  Foodlab
-//
-//  Created by m1 on 26/02/2022.
-//
-
 import Foundation
 
 struct StepWithinRecipeExecutionDTO: Identifiable, Codable {

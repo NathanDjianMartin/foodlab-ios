@@ -115,7 +115,7 @@ class StepDAO {
         
         if stepDTO.isStep {
             // s'il s'agit d'une étape alors elle a une description, une durée...
-            // on vérifie quand même les attribut comme ils s'ont optionel initialement
+            // on vérifie quand même les attribut comme ils sont optionnels initialement
             guard let description = stepDTO.stepDescription else {
                 //TODO: gerer erreur même si il est pas censé y en avoir puisque controle dans le back
                 return .failure(UndefinedError.error("Error while creating step from StepDTO"))
@@ -141,7 +141,7 @@ class StepDAO {
             // il s'agit d'une recipe execution qui a seulement des étapes en plus (qui sont optionnelles)
             step = RecipeExecution(id: stepDTO.id, title: stepDTO.stepTitle)
             // TODO: récupérer les étapes qu'elle contient
-            // Il faut aller faire une requête sur le back est récupérer les tables de jointure stepWithinRecipeExecution
+            // Il faut aller faire une requête sur le back et récupérer les tables de jointure stepWithinRecipeExecution
         }
         
         return .success(step)

@@ -1,10 +1,3 @@
-//
-//  StepWithinRecipeExecutionDAO.swift
-//  Foodlab
-//
-//  Created by m1 on 26/02/2022.
-//
-
 import Foundation
 
 struct StepWithinRecipeExecutionDAO {
@@ -12,9 +5,10 @@ struct StepWithinRecipeExecutionDAO {
     static var stringUrl = "http://localhost:3000/"
     
     static func getAllStepsWithinRecipeExecution(id: Int) async -> Result<[(Int,Step)], Error> {
-        // récupère toutes les étapes présentent dans une recipe exécution ainsi que le numéro qui lui ai associé
+        // récupère toutes les étapes présentent dans une recipe exécution ainsi que le numéro qui lui est associé
         do {
-            let decoded : [StepWithinRecipeExecutionDTO] = try await URLSession.shared.get(from: stringUrl + "recipe-execution/all-steps\(id)")
+            let url = stringUrl + "recipe-execution/all-steps/\(id)"
+            let decoded: [StepWithinRecipeExecutionDTO] = try await URLSession.shared.get(from: url)
             
             var steps: [(Int,Step)] = []
             for stepWithinRecipeExecutionDTO in decoded {
@@ -23,7 +17,7 @@ struct StepWithinRecipeExecutionDAO {
                     return .failure(error)
                 case .success(let step):
                     guard let number = stepWithinRecipeExecutionDTO.number else {
-                        return .failure(UndefinedError.error("Erro while creating step within recipe execution : number is nul"))
+                        return .failure(UndefinedError.error("Error while creating step within recipe execution: number is nil"))
                     }
                     steps.append((number, step ))
                 }
@@ -41,7 +35,7 @@ struct StepWithinRecipeExecutionDAO {
         do {
             let stepWithinRecipeExecutionDTO = StepWithinRecipeExecutionDTO(recipeExecutionId: recipeExecutionId, stepId: stepId)
             
-            let stepDTOresult : StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl+"step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
+            let stepDTOresult : StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
             return .success(true)
         }catch {
             // on propage l'erreur transmise par la fonction post

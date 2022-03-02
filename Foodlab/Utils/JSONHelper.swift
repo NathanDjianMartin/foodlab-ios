@@ -34,6 +34,7 @@ struct JSONHelper{
             let decoded = try decoder.decode(T.self, from: data)
             return .success(decoded)
         } catch {
+            print("Decode error with type: \(T.self) <<<<<<<<<<<<<<")
             return .failure(error)
         }
     }

@@ -52,7 +52,16 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
         }
     }
     
-    func delete() {
+    func delete(categoryId: Int, categoryIndex: Int) async {
+        switch await CategoryDAO.deleteCategoryById(type: self.type, id: categoryId) {
+        case .failure(let error):
+            print(error)
+        case .success(let isDeleted):
+            if isDeleted {
+                self.categories.remove(at: categoryIndex)
+            }
+        }
+        
         
     }
     

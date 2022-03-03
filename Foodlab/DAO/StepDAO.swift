@@ -37,7 +37,7 @@ class StepDAO {
     
     static func updateStep(step: Step) async -> Result<Bool, Error> {
         do {
-            let stepDTO = try getSteptDTOFromStep(step: step)
+            let stepDTO = try getStepDTOFromStep(step: step)
             
             // TODO: verifier id
             // update informations général de l'étape (titre, description et duration)
@@ -52,31 +52,29 @@ class StepDAO {
         
     }
     
-    static func createSimpleStep(step: Step) async -> Result<Step, Error> {
+    static func createStep(step: Step) async -> Result<Step, Error> {
         do {
-            if let simpleStep = step as? SimpleStep  {
-                let stepDTO = try getSteptDTOFromStep(step: step)
+            let stepDTO = try getStepDTOFromStep(step: step)
+            
+            //TODO: verifier id
+            // créer l'étapes avec ses informations générales
+            let stepDTOresult : StepDTO = try await URLSession.shared.create(from: stringUrl+"recipe-execution", object: stepDTO)
+            
+            // on vérifie s'il s'agit d'une simpleStep
+            if let simpleStep = step as? SimpleStep {
                 
-                //TODO: verifier id
-                // créer l'étapes avec ses informations générales
-                let stepDTOresult : StepDTO = try await URLSession.shared.create(from: stringUrl+"recipe-execution", object: stepDTO)
-                
-                // ajoute tout les ingredients à l'étape
-                guard let stepId = stepDTOresult.id else {
+                // si oui, on ajoute tout les ingredients à l'étape
+                guard let stepId = stepDTOresult.id else { // pour cela il faut récupérer l'id de la step que l'on vient de créer
                     // TODO: créer une nouvelle erreur pour les id manquant
                     return .failure(UndefinedError.error("Missing id"))
                 }
                 if let ingredients = simpleStep.ingredients {
                     let _ = await IngredientWithinStepDAO.addIngredientsInSimpleStep(stepId: stepId, ingredients: ingredients)
                 }
-                
-                return await getStepFromStepDTO(stepDTO: stepDTOresult)
-                
-            } else {
-                // TODO: mettre erreur plus adapté
-                return .failure(UndefinedError.error("Try to create simple step with recipe execution"))
             }
-        }catch {
+            
+            return await getStepFromStepDTO(stepDTO: stepDTOresult)
+        } catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
@@ -87,7 +85,7 @@ class StepDAO {
         return Step(id: stepDTO.id, title: stepDTO.stepTitle)
     }
     
-    static func getSteptDTOFromStep(step: Step) throws -> StepDTO {
+    static func getStepDTOFromStep(step: Step) throws -> StepDTO {
         
         var stepDTO: StepDTO
         
@@ -113,10 +111,10 @@ class StepDAO {
                 //TODO: gerer erreur même si il est pas censé y en avoir puisque controle dans le back
                 return .failure(UndefinedError.error("Error while creating step from StepDTO"))
             }
-            guard let duratiion = stepDTO.duration else {
+            guard let duration = stepDTO.duration else {
                 return .failure(UndefinedError.error("Error while creating step from StepDTO"))
             }
-            step = SimpleStep(id: stepDTO.id, title: stepDTO.stepTitle, stepDescription: description, duration: duratiion)
+            step = SimpleStep(id: stepDTO.id, title: stepDTO.stepTitle, stepDescription: description, duration: duration)
             // on recupere la liste des ingredients
             guard let stepId = step.id else {
                 // TODO: créer une nouvelle erreur pour les id manquant

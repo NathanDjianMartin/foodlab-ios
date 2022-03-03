@@ -9,6 +9,8 @@ enum CategoryType : String {
 struct CategoryDAO {
     
     //TODO: mettre un singleton? Bonne pratique?
+    
+    static var stringUrl = "http://localhost:3000/"
         
     // Ingredient
     static func getAllIngredientCategories() async -> Result<[Category], Error> {

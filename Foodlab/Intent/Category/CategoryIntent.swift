@@ -7,33 +7,33 @@
 
 import Combine
 import Foundation
-
+/*
 enum CategoryIntentState {
     case ready
     case nameChanging(String)
     case categoryUpdatedInDatabase
     case error(String)
 }
-
-enum CategoryListIntentState {
+*/
+enum CategoryIntentState {
     case uptodate
     case addingCategory(Category)
     case deletingCategory(Int)
     case error(String)
 }
-
+/*
 struct CategoryIntent {
     
     // A subject (publisher) which emits elements to its subscribers
     // IntentState = Output type
     // Never = error type
     // private var formState = PassthroughSubject<CategoryIntentState, Never>()
-    private var listState = PassthroughSubject<CategoryListIntentState, Never>()
+    private var listState = PassthroughSubject<CategoryIntentState, Never>()
     var type: CategoryType
     
-    func addObserver(categoryListViewModel: CategoryListViewModel) {
+    func addObserver(categoryViewModel: CategoryViewModel) {
         // a view model wants to be notified when this intent changes so it subscribes
-        self.listState.subscribe(categoryListViewModel)
+        self.listState.subscribe(categoryViewModel)
     }
     /*
     func addObserver(ingredientListViewModel: IngredientListViewModel) {
@@ -41,9 +41,6 @@ struct CategoryIntent {
         self.listState.subscribe(ingredientListViewModel)
     }
     */
-    
-    // MARK: intentToChange functions
-    
     
     func intentToCreate(category: Category) async {
         switch await CategoryDAO.createCategory(type: self.type, category: category) {
@@ -56,7 +53,7 @@ struct CategoryIntent {
     }
     
     func intentToDelete(categoryId id: Int, categoryIndex: Int) async {
-        switch await CategoryDAO.deleteCategoryById(id) {
+        switch await CategoryDAO.deleteCategoryById(type: self.type, id: id) {
         case .failure(let error):
             self.listState.send(.error("Error while deleting category \(id): \(error.localizedDescription)"))
         case .success:
@@ -64,12 +61,5 @@ struct CategoryIntent {
         }
     }
     
-    func intentToChange(name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category?) {
-        self.formState.send(.nameChanging(name))
-        self.formState.send(.unitChanging(unit))
-        self.formState.send(.unitaryPriceChanging(unitaryPrice))
-        self.formState.send(.stockQuantityChanging(stockQuantity))
-        self.formState.send(.ingredientCategoryChanging(ingredientCategory))
-        self.formState.send(.allergenCategoryChanging(allergenCategory))
-    }
 }
+*/

@@ -1,14 +1,17 @@
 import SwiftUI
 
 struct CategoryList: View {
-    var categories: [Category]
-    @State var name = ""
+    
+    @ObservedObject var categoryVM: CategoryViewModel
+    
     var body: some View {
         VStack {
             HStack {
-                TextField("Add category", text: $name)
+                TextField("Add category", text: $categoryVM.name)
                 Button {
-                    print("TODO: Create ingredient!")
+                    Task {
+                        await categoryVM.create()
+                    }
                 } label: {
                     Image(systemName: "plus")
                         .foregroundColor(.foodlabRed)
@@ -21,8 +24,22 @@ struct CategoryList: View {
             .padding(.top, 20)
               
             List {
-                ForEach(categories) { category in
+                ForEach(categoryVM.categories) { category in
                     Text(category.name)
+                }
+            }
+            .onAppear {
+                Task{
+                    if categoryVM.categories.count == 0 {
+                        switch  await CategoryDAO.getAllCategories(type: categoryVM.type) {
+                        case .failure(let error):
+                            print(error)
+                            break
+                        case .success(let categories):
+                            self.categoryVM.categories = categories
+                            print(self.categoryVM.categories)
+                        }
+                    }
                 }
             }
             
@@ -33,6 +50,6 @@ struct CategoryList: View {
 
 struct CategoryList_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryList(categories: MockData.ingredientCategoriesModel)
+        CategoryList(categoryVM: CategoryViewModel(categories: MockData.ingredientCategoriesModel, type: CategoryType.ingredient))
     }
 }

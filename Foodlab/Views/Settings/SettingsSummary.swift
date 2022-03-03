@@ -18,17 +18,17 @@ struct SettingsSummary: View {
             }
             Section(header: Text("Settings")) {
                 NavigationLink {
-                    CategoryList(categories: MockData.ingredientCategoriesModel)
+                    CategoryList(categoryVM: CategoryViewModel(type: CategoryType.ingredient))
                 } label: {
                     Text("Ingredient Categories")
                 }
                 NavigationLink {
-                    CategoryList(categories: MockData.allergenCategoriesModel)
+                        CategoryList(categoryVM: CategoryViewModel( type: CategoryType.allergen))
                 } label: {
                     Text("Allergen Categories")
                 }
                 NavigationLink {
-                    CategoryList(categories: MockData.recipeCategoriesModel)
+                        CategoryList(categoryVM: CategoryViewModel( type: CategoryType.recipe))
                 } label: {
                     Text("Recipe Categories")
                 }

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F0E994A27D0D3AF00EEC209 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0E994927D0D3AF00EEC209 /* CategoryListViewModel.swift */; };
+		6F0E994A27D0D3AF00EEC209 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0E994927D0D3AF00EEC209 /* CategoryViewModel.swift */; };
 		6F0E994E27D0D5F600EEC209 /* CategoryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0E994D27D0D5F600EEC209 /* CategoryIntent.swift */; };
 		6F1B753827C6C95000C8A16F /* IngredientRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753727C6C95000C8A16F /* IngredientRowViewModel.swift */; };
 		6F1B753A27CA23E400C8A16F /* StepDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1B753927CA23E400C8A16F /* StepDAO.swift */; };
@@ -91,7 +91,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6F0E994927D0D3AF00EEC209 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
+		6F0E994927D0D3AF00EEC209 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		6F0E994D27D0D5F600EEC209 /* CategoryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIntent.swift; sourceTree = "<group>"; };
 		6F1B753727C6C95000C8A16F /* IngredientRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientRowViewModel.swift; sourceTree = "<group>"; };
 		6F1B753927CA23E400C8A16F /* StepDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDAO.swift; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 				6F0E994B27D0D4C400EEC209 /* Category */,
 				C11BDB3C27C6256B004977D4 /* Recipe */,
 				6F3ECE0627C100C50088C213 /* Ingredient */,
-				6F0E994927D0D3AF00EEC209 /* CategoryListViewModel.swift */,
+				6F0E994927D0D3AF00EEC209 /* CategoryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -626,7 +626,7 @@
 				6F3ECE0827C100DC0088C213 /* IngredientListViewModel.swift in Sources */,
 				C1721C1727AC64A5008E6678 /* ButtonStyles.swift in Sources */,
 				C18B16F327B90D56002D6D10 /* UserRow.swift in Sources */,
-				6F0E994A27D0D3AF00EEC209 /* CategoryListViewModel.swift in Sources */,
+				6F0E994A27D0D3AF00EEC209 /* CategoryViewModel.swift in Sources */,
 				C19ABB4E27AAF13E00D9387B /* MockData.swift in Sources */,
 				C1A7D0C427AB2BEF009AB166 /* TextFieldStyles.swift in Sources */,
 				C12A263927C0ED0500C27B38 /* Step.swift in Sources */,

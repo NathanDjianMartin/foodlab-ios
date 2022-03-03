@@ -80,8 +80,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "28"
             endingLineNumber = "28"
-            landmarkName = "getIngredientCategoryById(id:)"
-            landmarkType = "7">
+            landmarkName = "CategoryDAO"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "0AE59203-1924-4FB2-B51C-CD89010699DA - c88aa7b2afaedf07"
@@ -144,8 +144,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "88"
             endingLineNumber = "88"
-            landmarkName = "getCategoryById(type:id:)"
-            landmarkType = "7">
+            landmarkName = "CategoryDAO"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -367,9 +367,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "receive(_:)"
-            landmarkType = "7">
+            endingLineNumber = "119">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

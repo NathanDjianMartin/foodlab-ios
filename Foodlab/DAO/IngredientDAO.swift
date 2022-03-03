@@ -1,21 +1,12 @@
-//
-//  IngredientDAO.swift
-//  Foodlab
-//
-//  Created by m1 on 17/02/2022.
-//
-
 import Foundation
 
 struct IngredientDAO {
     //TODO: mettre un singleton? Bonne pratique?
-    
-    static var stringUrl = "http://51.75.248.77:3000/"
-    
+        
     static func getAllIngredients() async -> Result<[Ingredient], Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : [IngredientDTO] = try await URLSession.shared.get(from: stringUrl + "ingredient")
+            let decoded : [IngredientDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "ingredient")
             
             // dans une boucle transformer chaque IngredientDTO en model Ingredient
             var ingredients: [Ingredient] = []
@@ -41,7 +32,7 @@ struct IngredientDAO {
         do {
             
             // decoder le JSON avec la fonction présente dans JSONHelper
-            let ingredientDTO : IngredientDTO = try await URLSession.shared.get(from: stringUrl + "ingredient/\(id)")
+            let ingredientDTO : IngredientDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "ingredient/\(id)")
             
             // retourner un Result avec ingredient ou error
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTO)
@@ -56,9 +47,9 @@ struct IngredientDAO {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
             // TODO: verifier id
-            let isUpdated = try await URLSession.shared.update(from: stringUrl+"ingredient/\(ingredient.id!)", object: ingredientDTO)
+            let isUpdated = try await URLSession.shared.update(from: FoodlabApp.apiUrl + "ingredient/\(ingredient.id!)", object: ingredientDTO)
             return .success(isUpdated)
-        }catch {
+        } catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
@@ -69,7 +60,7 @@ struct IngredientDAO {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
             //TODO: verifier id
-            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.create(from: stringUrl+"ingredient", object: ingredientDTO)
+            let ingredientDTOresult : IngredientDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "ingredient", object: ingredientDTO)
             return await getIngredientFromIngredientDTO(ingredientDTO: ingredientDTOresult)
         } catch {
             // on propage l'erreur transmise par la fonction post
@@ -78,12 +69,11 @@ struct IngredientDAO {
         
     }
     
-    
     static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
         //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categories id juste pour faire un premier test
         if let allergen = ingredient.allergenCategory {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: allergen.id!)
-        }else {
+        } else {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: nil)
         }
     }
@@ -146,5 +136,12 @@ struct IngredientDAO {
         return .success(ingredient)
     }
     
-    
+    static func deleteIngredientById(_ id: Int) async -> Result<Bool, Error> {
+        do {
+            let deleted: Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "ingredient/\(id)")
+            return .success(deleted)
+        } catch {
+            return .failure(error)
+        }
+    }
 }

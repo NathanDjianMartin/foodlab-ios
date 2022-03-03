@@ -29,8 +29,16 @@ struct MockData {
         return list
     }
     
-    static let ingredientCategories = ["Féculent", "Légume", "Fruit", "Produit laitier"]
-    static let allergenCategories = ["Gluten", "Céréale", "Crustacé"]
+    static let fruitsLegumesCategory = Category(id: 21, name: "Fruits et légumes")
+    static let epicerieCategory = Category(id: 11, name: "Épicerie")
+    static let cremerieCategory = Category(id: 18, name: "Crèmerie")
+    
+    static let ingredientCategories = [fruitsLegumesCategory, epicerieCategory, cremerieCategory]
+    
+    static let glutenCategory = Category(id: 3, name: "Gluten")
+    static let arachideCategiry = Category(id: 9, name: "Arachide")
+    static let fruitsCoqueCategory = Category(id: 12, name: "Fruits à coque")
+    static let allergenCategories = [glutenCategory, arachideCategiry, fruitsCoqueCategory]
     
     //Users
     static let user = User(name: "Ruby", email: "ruby@gmail.com", password: "ruby", isAdmin: true)

@@ -1,10 +1,3 @@
-//
-//  CategoryDAO.swift
-//  Foodlab
-//
-//  Created by m1 on 18/02/2022.
-//
-
 import Foundation
 
 enum CategoryType : String {
@@ -16,9 +9,7 @@ enum CategoryType : String {
 struct CategoryDAO {
     
     //TODO: mettre un singleton? Bonne pratique?
-    
-    static var stringUrl = "http://localhost:3000/"
-    
+        
     // Ingredient
     static func getAllIngredientCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.ingredient )

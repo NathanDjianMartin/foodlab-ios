@@ -74,7 +74,7 @@ extension URLSession {
         guard let url = URL(string: url) else {
             throw URLError.failedInit
         }
-        do{
+        do {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             // append a value to a field
@@ -106,6 +106,28 @@ extension URLSession {
         }
         catch{
             throw UndefinedError.error("Error in POST resquest")
+        }
+    }
+    
+    func delete(from url: String) async throws -> Bool {
+        guard let url = URL(string: url) else {
+            throw URLError.failedInit
+        }
+        do {
+            var request = URLRequest(url: url)
+            request.httpMethod = "DELETE"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                    
+            let (_, response) = try await URLSession.shared.upload(for: request, from: Data())
+            let httpresponse = response as! HTTPURLResponse
+            if httpresponse.statusCode == 200 {
+                return true
+            } else {
+                print("Error \(httpresponse.statusCode): \(HTTPURLResponse.localizedString(forStatusCode: httpresponse.statusCode))")
+                throw HttpError.error(httpresponse.statusCode)
+            }
+        } catch {
+            throw UndefinedError.error("Error in DELETE request: \(error)")
         }
     }
     

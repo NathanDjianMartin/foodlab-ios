@@ -11,7 +11,7 @@ struct MainView: View {
             }
 
             NavigationView {
-                RecipeList()
+                RecipeList(viewModel: RecipeListViewModel())
             }
             .tabItem {
                 Label("Recipes", systemImage: "doc.text")

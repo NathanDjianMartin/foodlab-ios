@@ -5,16 +5,16 @@ struct RecipeForm: View {
     @ObservedObject var viewModel: RecipeFormViewModel
     @Binding var isPresented: Bool
     @State private var showErrorAlert = false
-    private var intent: RecipeFormIntent
+    private var intent: RecipeIntent
     
     var creationMode: Bool {
         self.viewModel.id == nil
     }
     
-    init(viewModel: RecipeFormViewModel, isPresented: Binding<Bool>) {
+    init(viewModel: RecipeFormViewModel, intent: RecipeIntent, isPresented: Binding<Bool>) {
         self.viewModel = viewModel
+        self.intent = intent
         self._isPresented = isPresented
-        self.intent = RecipeFormIntent()
         self.intent.addObserver(self.viewModel)
     }
     
@@ -30,7 +30,7 @@ struct RecipeForm: View {
                 }
             }
             .padding()
-            
+            ErrorView(error: $viewModel.error)
             HStack {
                 Text(creationMode ? "Create recipe" : "Edit recipe")
                     .font(.largeTitle)
@@ -58,7 +58,8 @@ struct RecipeForm: View {
                         //self.isPresented = false
                         if creationMode {
                             Task {
-                                await RecipeDAO.shared.createRecipe(recipe: viewModel.modelCopy)
+                                await self.intent.intentToCreate(recipe: self.viewModel.modelCopy)
+                                self.isPresented = false
                             }
                         }
                     } label: {
@@ -75,6 +76,6 @@ struct RecipeForm: View {
 
 struct RecipeCreation_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeForm(viewModel: RecipeFormViewModel(model: MockData.recipePates), isPresented: .constant(true))
+        RecipeForm(viewModel: RecipeFormViewModel(model: MockData.recipePates), intent: RecipeIntent(), isPresented: .constant(true))
     }
 }

@@ -23,6 +23,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     @Published var title: String // 7 (@Published)
     @Published var author: String
     @Published var guestNumber: Int
+    @Published var error: String?
     
     init(model: Recipe) {
         self.model = model
@@ -92,6 +93,8 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
             self.modelCopy.guestsNumber = newGuestNumber
         case .validateChanges:
             self.validate()
+        case .error(let error):
+            self.error = error
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

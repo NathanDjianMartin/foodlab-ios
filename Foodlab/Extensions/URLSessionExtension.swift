@@ -122,12 +122,14 @@ extension URLSession {
             let httpresponse = response as! HTTPURLResponse
             if httpresponse.statusCode == 200 {
                 return true
+            } else if httpresponse.statusCode == 409 {
+                throw HttpError.conflict("Conflict in delete")
             } else {
                 print("Error \(httpresponse.statusCode): \(HTTPURLResponse.localizedString(forStatusCode: httpresponse.statusCode))")
                 throw HttpError.error(httpresponse.statusCode)
             }
         } catch {
-            throw UndefinedError.error("Error in DELETE request: \(error)")
+            throw error
         }
     }
     

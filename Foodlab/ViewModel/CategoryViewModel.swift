@@ -55,6 +55,7 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
     func delete(categoryId: Int, categoryIndex: Int) async {
         switch await CategoryDAO.deleteCategoryById(type: self.type, id: categoryId) {
         case .failure(let error):
+            self.error = "Error : this category correspond to several \(self.type == CategoryType.recipe ? "recipes" : "ingredients") , you cannot delete it"
             print(error)
         case .success(let isDeleted):
             if isDeleted {

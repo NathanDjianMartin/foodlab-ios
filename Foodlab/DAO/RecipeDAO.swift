@@ -1,6 +1,6 @@
 import Foundation
 
-enum RecipeDAOError: Error, CustomStringConvertible {
+enum RecipeDAOError: LocalizedError {
     case noRecipeIdInDTO(String)
     case noRecipeExecutionIdInDTO(String)
     case noRecipeCategoryIdInModel(String)
@@ -85,9 +85,9 @@ class RecipeDAO {
         guard let recipeId = dto.id else {
             return .failure(RecipeDAOError.noRecipeIdInDTO(dto.name))
         }
-        guard let executionId = dto.recipeExecutionId else {
-            return .failure(RecipeDAOError.noRecipeExecutionIdInDTO(dto.name))
-        }
+        //        guard let executionId = dto.recipeExecutionId else {
+        //            return .failure(RecipeDAOError.noRecipeExecutionIdInDTO(dto.name))
+        //        }
         
         let category: Category
         switch await CategoryDAO.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
@@ -105,12 +105,14 @@ class RecipeDAO {
             return .failure(error)
         }
         
-        let execution: RecipeExecution
-        switch await RecipeExecutionDAO.shared.getRecipeExecutionById(executionId) {
-        case .success(let recipeExecution):
-            execution = recipeExecution
-        case .failure(let error):
-            return .failure(error)
+        var execution: RecipeExecution? = nil
+        if let executionId = dto.recipeExecutionId {
+            switch await RecipeExecutionDAO.shared.getRecipeExecutionById(executionId) {
+            case .success(let recipeExecution):
+                execution = recipeExecution
+            case .failure(let error):
+                return .failure(error)
+            }
         }
         
         return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: execution))
@@ -125,6 +127,6 @@ class RecipeDAO {
             return .failure(RecipeDAOError.noCostDataIdInModel(recipe.title))
         }
         
-        return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: recipe.execution.id, costDataId: costDataId))
+        return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: recipe.execution?.id, costDataId: costDataId))
     }
 }

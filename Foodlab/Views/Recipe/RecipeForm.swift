@@ -59,7 +59,9 @@ struct RecipeForm: View {
                         if creationMode {
                             Task {
                                 await self.intent.intentToCreate(recipe: self.viewModel.modelCopy)
-                                self.isPresented = false
+                                if self.viewModel.error == nil {
+                                    self.isPresented = false
+                                }
                             }
                         }
                     } label: {

@@ -47,7 +47,11 @@ struct RecipeDetails: View {
             
             switch selectedTab {
             case .steps:
-                RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: self.viewModel.model.execution), intent: self.intent)
+                if let execution = self.viewModel.model.execution {
+                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
+                } else {
+                    Text("This recipe is empty")
+                }
             case .ingredients:
                 Text("RecipeIngredients")
             case .costs:

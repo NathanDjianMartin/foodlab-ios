@@ -1,13 +1,6 @@
-//
-//  ErrorConversion.swift
-//  Foodlab
-//
-//  Created by m1 on 23/02/2022.
-//
-
 import Foundation
 
-enum ConversionError : Error {
+enum ConversionError: Error, CustomStringConvertible {
     case stringToDouble
     
     public var description: String {

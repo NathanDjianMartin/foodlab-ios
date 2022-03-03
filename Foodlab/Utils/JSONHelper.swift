@@ -1,10 +1,3 @@
-//
-//  JSONHelper.swift
-//  Foodlab
-//
-//  Created by m1 on 17/02/2022.
-//
-
 import Foundation
 
 
@@ -33,5 +26,16 @@ struct JSONHelper{
             return decoded
         }
         return nil
+    }
+    
+    static func decodeWithError<T: Decodable>(data: Data) -> Result<T, Error> {
+        do {
+            let decoder = JSONDecoder() // création d'un décodeur
+            let decoded = try decoder.decode(T.self, from: data)
+            return .success(decoded)
+        } catch {
+            print("Decode error with type: \(T.self) <<<<<<<<<<<<<<")
+            return .failure(error)
+        }
     }
 }

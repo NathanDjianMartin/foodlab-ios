@@ -54,8 +54,13 @@ struct RecipeForm: View {
                 HStack {
                     Spacer()
                     Button {
-                        self.intent.intentToValidate()
-                        self.isPresented = false
+                        //self.intent.intentToValidate()
+                        //self.isPresented = false
+                        if creationMode {
+                            Task {
+                                await RecipeDAO.shared.createRecipe(recipe: viewModel.modelCopy)
+                            }
+                        }
                     } label: {
                         Text("OK")
                     }
@@ -64,7 +69,7 @@ struct RecipeForm: View {
             }
             .listStyle(.plain)
         }
-        //TODO: add button validate? 
+        //TODO: add button validate?
     }
 }
 

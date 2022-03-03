@@ -9,8 +9,8 @@ protocol RecipeSubscriber {
 class Recipe: Identifiable, ObservableObject, NSCopying {
     
     private var subscribers: [RecipeSubscriber]
-    var id: Int?
-    var title: String {
+    var id: Int? // RecipeDTO
+    var title: String { // RecipeDTO
         didSet {
             if title.count <= 0 {
                 title = oldValue
@@ -21,14 +21,14 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
             }
         }
     }
-    var author: String {
+    var author: String { // RecipeDTO
         didSet {
             for subscriber in self.subscribers {
                 subscriber.changed(author: self.author)
             }
         }
     }
-    var guestsNumber: Int {
+    var guestsNumber: Int { // RecipeDTO
         didSet {
             for subscriber in self.subscribers {
                 subscriber.changed(guestNumber: self.guestsNumber)

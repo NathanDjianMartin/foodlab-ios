@@ -10,7 +10,10 @@ struct RecipeExecutionSteps: View {
                 let displayIndex = index + 1
                 if let simpleStep = execution.steps[index] as? SimpleStep {
                     SimpleStepRow(step: simpleStep, index: displayIndex)
-                        .fixedSize(horizontal: false, vertical: true) 
+                        .fixedSize(horizontal: false, vertical: true)
+                        .onTapGesture {
+                            self.showSheet = true
+                        }
                 } else if let execution = execution.steps[index] as? RecipeExecution {
                     NavigationLink {
                         RecipeExecutionSteps(execution: execution)
@@ -19,9 +22,6 @@ struct RecipeExecutionSteps: View {
                         RecipeExecutionRow(execution: execution, index: displayIndex)
                     }
                 }
-            }
-            .onTapGesture {
-                self.showSheet = true
             }
             .sheet(isPresented: $showSheet) {
                 StepForm(step: MockData.step, isPresented: $showSheet)

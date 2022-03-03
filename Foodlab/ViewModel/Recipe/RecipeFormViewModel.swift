@@ -18,7 +18,7 @@ enum RecipeFormError: Error, CustomStringConvertible, Equatable {
 class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     
     private var model: Recipe
-    private var modelCopy: Recipe
+    private (set) var modelCopy: Recipe
     @Published var id: Int?
     @Published var title: String // 7 (@Published)
     @Published var author: String

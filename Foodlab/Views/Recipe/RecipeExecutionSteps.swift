@@ -26,7 +26,7 @@ struct RecipeExecutionSteps: View {
                         }
                 } else if let execution = execution.steps[index] as? RecipeExecution {
                     NavigationLink {
-                        RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: self.viewModel.model), intent: self.intent)
+                        RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
                             .navigationTitle(execution.title)
                     } label: {
                         RecipeExecutionRow(execution: execution, index: displayIndex)
@@ -36,6 +36,9 @@ struct RecipeExecutionSteps: View {
             .sheet(isPresented: $showSheet) {
                 StepForm(step: MockData.step, isPresented: $showSheet)
             }
+        }
+        .toolbar {
+            EditButton()
         }
         .listStyle(.plain)
     }

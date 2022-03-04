@@ -23,7 +23,6 @@ struct StepWithinRecipeExecutionDAO {
                 }
             }
             
-            // retourner une liste de User
             return .success(steps)
             
         } catch {

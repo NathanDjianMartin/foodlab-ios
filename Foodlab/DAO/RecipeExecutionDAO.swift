@@ -70,7 +70,7 @@ class RecipeExecutionDAO {
         }
         
         for step in stepsWithinRecipeExecution {
-            recipeExecution.addStep(step.1) // adds the actual step without it's number property
+            recipeExecution.addStep(step.1) // adds the actual step without it's associated number
         }
         
         return .success(recipeExecution)

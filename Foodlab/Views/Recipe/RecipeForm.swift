@@ -40,17 +40,27 @@ struct RecipeForm: View {
             .padding()
             
             List {
+                HStack {
                 TextField("Recipe title", text: $viewModel.title)
                     .onSubmit {
                         self.intent.intentToChange(recipeTitle: self.viewModel.title)
                     }
+                    Divider()
+                    Text("by")
+                        .foregroundColor(.secondary)
                 TextField("Author", text: $viewModel.author)
                     .onSubmit {
                         self.intent.intentToChange(author: self.viewModel.author)
                     }
+                }
                 Stepper(value: $viewModel.guestNumber, in: 1...Int.max) {
                     Text("For \(viewModel.guestNumber) guest\(viewModel.guestNumber > 1 ? "s" : "")")
                 }
+                .onChange(of: self.viewModel.guestNumber) { guestNumber in
+                    self.intent.intentToChange(guestNumber: self.viewModel.guestNumber)
+                }
+                CategoryDropdown(selectedCategory: self.$viewModel.category, placeholder: "Recipe category", dropDownList: MockData.recipeCategoriesModel, canBeEmpty: false)
+
                 HStack {
                     Spacer()
                     Button {

@@ -23,6 +23,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     @Published var title: String // 7 (@Published)
     @Published var author: String
     @Published var guestNumber: Int
+    @Published var category: Category?
     @Published var error: String?
     
     init(model: Recipe) {
@@ -32,6 +33,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
         self.title = model.title
         self.author = model.author
         self.guestNumber = model.guestsNumber
+        self.category = model.recipeCategory
         self.model.addSubscriber(self)
     }
     

@@ -17,7 +17,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
     @Published var unit: String
     @Published var unitaryPrice: Double
     @Published var stockQuantity: Double
-    @Published var ingredientCategory: Category
+    @Published var ingredientCategory: Category?
     @Published var allergenCategory: Category?
     @Published var error: String?
     

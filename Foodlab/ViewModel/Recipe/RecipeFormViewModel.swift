@@ -93,6 +93,8 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
             self.modelCopy.author = newAuthor
         case .recipeGuestNumberChanging(let newGuestNumber):
             self.modelCopy.guestsNumber = newGuestNumber
+        case .recipeCategoryChanging(let newCategory):
+            self.modelCopy.recipeCategory = newCategory
         case .validateChanges:
             self.validate()
         case .error(let error):

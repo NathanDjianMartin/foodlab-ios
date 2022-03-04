@@ -33,7 +33,7 @@ struct SettingsSummary: View {
                     Text("Recipe Categories")
                 }
                 NavigationLink {
-                    CostDataSettings(viewModel: CostDataViewModel(model: MockData.costData), intent: CostDataIntent())
+                    CostDataSettings(viewModel: CostDataViewModel(), intent: CostDataIntent())
                 } label: {
                     Text("Cost Data")
                 }

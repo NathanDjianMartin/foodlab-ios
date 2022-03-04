@@ -22,7 +22,6 @@ struct CostDataSettings: View {
     
     var body: some View {
         MessageView(message: $viewModel.error, type: TypeMessage.error)
-        
         List {
             LazyVGrid(columns: cols, alignment: .leading, spacing: 15) {
                 Text("Average hourly cost")
@@ -48,6 +47,17 @@ struct CostDataSettings: View {
                     .onSubmit {
                         intent.intentToChange(coefWithoutCharges: viewModel.coefWithoutCharges)
                     }
+            }
+            .onAppear {
+                Task {
+                    print("I am here")
+                    switch await CostDataDAO.getCostData(id: 1) {
+                    case .failure(_):
+                        viewModel.error = "Error while fletching data from database"
+                    case .success(let costData):
+                        viewModel.model = costData
+                    }
+                }
             }
             //.padding()
                     

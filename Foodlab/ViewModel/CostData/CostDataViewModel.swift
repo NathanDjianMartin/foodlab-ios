@@ -10,7 +10,15 @@ import Foundation
 
 class CostDataViewModel : ObservableObject, Subscriber, CostDataObserver {    
     
-    private var model: CostData
+    var model: CostData {
+        didSet {
+            self.modelCopy = CostData(id: model.id, averageHourlyCost: model.averageHourlyCost, flatrateHourlyCost: model.flatrateHourlyCost, coefWithCharges: model.coefWithCharges, coefWithoutCharges: model.coefWithoutCharges)
+            self.averageHourlyCost = model.averageHourlyCost
+            self.flatrateHourlyCost = model.flatrateHourlyCost
+            self.coefWithCharges = model.coefWithCharges
+            self.coefWithoutCharges = model.coefWithoutCharges
+        }
+    }
     // save model in case the modification is cancelled
     private (set) var modelCopy: CostData
     
@@ -21,7 +29,7 @@ class CostDataViewModel : ObservableObject, Subscriber, CostDataObserver {
     @Published var coefWithoutCharges: Double
     @Published var error: String?
     
-    init(model: CostData) {
+    init(model: CostData = CostData(averageHourlyCost: 0, flatrateHourlyCost: 0, coefWithCharges: 0, coefWithoutCharges: 0)) {
         self.id = model.id
         self.averageHourlyCost = model.averageHourlyCost
         self.flatrateHourlyCost = model.flatrateHourlyCost

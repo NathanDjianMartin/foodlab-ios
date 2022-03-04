@@ -9,7 +9,7 @@ import Foundation
 
 struct UserDAO {
     //TODO : mettre url en variable d'environnement
-    static var stringUrl = "51.75.248.77:3000/"
+    static var stringUrl = "http://localhost:3000/"
     
     static func getAllUsers() async -> Result<[User], Error> {
         do {

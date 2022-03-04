@@ -1,7 +1,7 @@
 import Foundation
 
 extension URLSession {
-    
+    /*
     func get<T: Decodable> (from url: String) async throws -> T {
         
         guard let url = URL(string: url) else {
@@ -23,10 +23,46 @@ extension URLSession {
             throw error
         }
     }
+    */
+    
+    func get<T: Decodable> (from url: String) async throws -> T {
+        guard let url = URL(string: url) else {
+            throw URLError.failedInit
+        }
+        do{
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            // append a value to a field
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            // set (replace) a value to a field
+            if let token = KeychainHelper.standard.getJWT() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+            
+            let (data, response) = try await data(for: request)
+            
+            let httpresponse = response as! HTTPURLResponse
+            if httpresponse.statusCode == 200 {
+                
+                 guard let decoded : T = JSONHelper.decode(data: data) else {
+                 throw JSONError.decode
+                 }
+                 
+                return decoded
+                
+            }
+            else{
+                print("Error \(httpresponse.statusCode): \(HTTPURLResponse.localizedString(forStatusCode: httpresponse.statusCode))")
+                throw HttpError.error(httpresponse.statusCode)
+            }
+        }
+        catch{
+            throw UndefinedError.error("Error in POST resquest: \(error)")
+        }
+    }
     
     func update<T: Codable> (from url: String, object: T) async throws -> Bool {
         
-        //TODO: gerer les erreur avec enum et pas de retour vide
         guard let url = URL(string: url) else {
             throw URLError.failedInit
         }

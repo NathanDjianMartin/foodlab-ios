@@ -73,10 +73,10 @@ class RecipeDAO {
         }
     }
     
-    func getIngredientCost(recipeId: Int) async -> Result<Int, Error> {
+    func getIngredientCost(recipeId: Int) async -> Result<Double, Error> {
         do {
             let url = stringUrl + "recipe/ingredient-cost/\(recipeId)"
-            let ingredientCost: Int = try await URLSession.shared.get(from: url)
+            let ingredientCost: Double = try await URLSession.shared.get(from: url)
             return .success(ingredientCost)
         } catch {
             return .failure(error)

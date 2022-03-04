@@ -29,7 +29,7 @@ struct IngredientForm: View {
                 }
             }
             .padding()
-            ErrorView(error: $viewModel.error)
+            MessageView(message: $viewModel.error, type: TypeMessage.error)
             List {
                 
                 TextField("Name", text: $viewModel.name)

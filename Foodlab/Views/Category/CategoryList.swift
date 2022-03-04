@@ -11,7 +11,7 @@ struct CategoryList: View {
     var body: some View {
         VStack {
             
-            ErrorView(error: $categoryVM.error)
+            MessageView(message: $categoryVM.error, type: TypeMessage.error)
             HStack {
                 TextField("Add category", text: $categoryVM.name)
                 Button {

@@ -21,7 +21,7 @@ struct CostDataSettings: View {
     var cols = [GridItem(.fixed(250)), GridItem(.flexible())]
     
     var body: some View {
-        ErrorView(error: $viewModel.error)
+        MessageView(message: $viewModel.error, type: TypeMessage.error)
         
         List {
             LazyVGrid(columns: cols, alignment: .leading, spacing: 15) {

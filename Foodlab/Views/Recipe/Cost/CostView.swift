@@ -10,8 +10,10 @@ import SwiftUI
 struct CostView: View {
     
     @ObservedObject var viewModel: CostDataViewModel
+    var intent: CostDataIntent
     var ingredientCost: Double
     var recipeDuration: Int
+    var recipeId: Int
     
     var materialCost: Double {
         ingredientCost + (ingredientCost * 0.05)
@@ -38,21 +40,78 @@ struct CostView: View {
         salesPriceWithCharges - productionCost
     }
     
-    init(viewModel: CostDataViewModel, ingredientCost: Double, recipeDuration: Int){
+    init(viewModel: CostDataViewModel, intent: CostDataIntent, ingredientCost: Double, recipeDuration: Int, recipeId: Int){
         self.viewModel = viewModel
         self.ingredientCost = ingredientCost
         self.recipeDuration = recipeDuration
+        self.intent = intent
+        self.intent.addObserver(costDataViewModel: viewModel)
+        self.recipeId = recipeId
     }
     
     var gridItems = [GridItem(.adaptive(minimum: 150, maximum: 150))]
+    var cols = [GridItem(.fixed(250)), GridItem(.flexible())]
+    
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridItems,spacing: 0){
-                CostFrame(text: "Material cost", value: self.materialCost)
-                CostFrame(text: "Charges cost", value: self.chargesCost)
-                CostFrame(text: "Production cost", value: self.productionCost)
-                CostFrame(text: "Sales prices", value: self.salesPriceWithCharges)
-                CostFrame(text: "Profit", value: self.portionProfit)
+        List {
+            VStack {
+                LazyVGrid(columns: gridItems,alignment: .leading, spacing: 0){
+                    CostFrame(text: "Material cost", value: self.materialCost)
+                    CostFrame(text: "Charges cost", value: self.chargesCost)
+                    CostFrame(text: "Production cost", value: self.productionCost)
+                    CostFrame(text: "Sales prices", value: self.salesPriceWithCharges)
+                    CostFrame(text: "Profit", value: self.portionProfit)
+                    
+                }
+                
+                LazyVGrid(columns: cols, alignment: .leading, spacing: 15) {
+                    Text("Average hourly cost")
+                    TextField("Name", value: $viewModel.averageHourlyCost, formatter: FormatterHelper.decimalFormatter)
+                        .onSubmit {
+                            intent.intentToChange(averageHourlyCost: viewModel.averageHourlyCost)
+                        }
+                    
+                    Text("Flatrate hourly cost")
+                    TextField("Email", value: $viewModel.flatrateHourlyCost, formatter: FormatterHelper.decimalFormatter)
+                        .onSubmit {
+                            intent.intentToChange(flatrateHourlyCost: viewModel.flatrateHourlyCost)
+                        }
+                    
+                    Text("Coefficient with charges")
+                    TextField("Password", value: $viewModel.coefWithCharges, formatter: FormatterHelper.decimalFormatter)
+                        .onSubmit {
+                            intent.intentToChange(coefWithCharges: viewModel.coefWithCharges)
+                        }
+                    
+                    Text("Coefficient without charges")
+                    TextField("Password", value: $viewModel.coefWithoutCharges, formatter: FormatterHelper.decimalFormatter)
+                        .onSubmit {
+                            intent.intentToChange(coefWithoutCharges: viewModel.coefWithoutCharges)
+                        }
+                }
+                .onAppear {
+                    Task {
+                        print("I am here")
+                        switch await CostDataDAO.getCostData(id: 1) {
+                        case .failure(_):
+                            viewModel.error = "Error while fletching data from database"
+                        case .success(let costData):
+                            viewModel.model = costData
+                        }
+                    }
+                }
+                //.padding()
+                
+                HStack {
+                    Spacer()
+                    Button("Update cost data") {
+                        Task {
+                            await intent.intentToUpdate(recipeId: self.recipeId, costData: viewModel.modelCopy)
+                        }
+                    }
+                    .buttonStyle(DarkRedButtonStyle())
+                    .padding(.top, 20)
+                }
                 
             }
         }
@@ -61,6 +120,6 @@ struct CostView: View {
 
 struct CostView_Previews: PreviewProvider {
     static var previews: some View {
-        CostView(viewModel: CostDataViewModel(model: MockData.costData), ingredientCost: 2, recipeDuration: 3)
+        CostView(viewModel: CostDataViewModel(model: MockData.costData),intent: CostDataIntent(), ingredientCost: 2, recipeDuration: 3, recipeId: 2)
     }
 }

@@ -48,7 +48,8 @@ struct RecipeDetails: View {
             case .ingredients:
                 Text("RecipeIngredients")
             case .costs:
-                Text("RecipeCosts")
+                // TODO: récupérer les informations mais je sais pas où mettre le await 
+                CostView(viewModel: CostDataViewModel(model: viewModel.model.costData), ingredientCost: 2, recipeDuration: 2)
             }
             Spacer()
         }

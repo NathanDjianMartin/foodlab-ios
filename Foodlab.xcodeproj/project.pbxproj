@@ -24,6 +24,7 @@
 		6F3ECE0A27C101020088C213 /* IngredientFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0927C101020088C213 /* IngredientFormViewModel.swift */; };
 		6F3ECE1027C102800088C213 /* IngredientIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3ECE0F27C102800088C213 /* IngredientIntent.swift */; };
 		6F51486327D245B900E319F3 /* RecipeCost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F51486227D245B900E319F3 /* RecipeCost.swift */; };
+		6F51486527D2517500E319F3 /* CostFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F51486427D2517500E319F3 /* CostFrame.swift */; };
 		6FA1922527C6157B0031313D /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1922427C6157B0031313D /* JSONError.swift */; };
 		6FA1922727C617040031313D /* URLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1922627C617040031313D /* URLError.swift */; };
 		6FA1922927C61C9F0031313D /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA1922827C61C9F0031313D /* HttpError.swift */; };
@@ -114,6 +115,7 @@
 		6F3ECE0927C101020088C213 /* IngredientFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientFormViewModel.swift; sourceTree = "<group>"; };
 		6F3ECE0F27C102800088C213 /* IngredientIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientIntent.swift; sourceTree = "<group>"; };
 		6F51486227D245B900E319F3 /* RecipeCost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCost.swift; sourceTree = "<group>"; };
+		6F51486427D2517500E319F3 /* CostFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostFrame.swift; sourceTree = "<group>"; };
 		6FA1922427C6157B0031313D /* JSONError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
 		6FA1922627C617040031313D /* URLError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLError.swift; sourceTree = "<group>"; };
 		6FA1922827C61C9F0031313D /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
@@ -566,6 +568,7 @@
 				C19ABB4B27AAEE8300D9387B /* CategoryDropdown.swift */,
 				C1D1305227B946320091D98F /* Badge.swift */,
 				C109CAA327CA939800C04CEE /* MessageView.swift */,
+				6F51486427D2517500E319F3 /* CostFrame.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -722,6 +725,7 @@
 				C11BDB4027C6256B004977D4 /* RecipeFormViewModel.swift in Sources */,
 				6FA8903D27BD1BC90037E851 /* IngredientDTO.swift in Sources */,
 				6FA8903A27BCF5220037E851 /* CostDataSettings.swift in Sources */,
+				6F51486527D2517500E319F3 /* CostFrame.swift in Sources */,
 				6FA8904527BD34EE0037E851 /* StepDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

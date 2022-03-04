@@ -2,7 +2,7 @@ import Foundation
 
 class RecipeDetailsViewModel: ObservableObject, RecipeSubscriber {
 
-    private var model: Recipe
+    var model: Recipe
     @Published var title: String
     @Published var author: String
     @Published var category: Category

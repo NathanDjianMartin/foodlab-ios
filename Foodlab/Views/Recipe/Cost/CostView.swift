@@ -10,54 +10,57 @@ import SwiftUI
 struct CostView: View {
     
     @ObservedObject var viewModel: CostDataViewModel
-    var recipeId: Int
     var ingredientCost: Double
-    var materialCost: Double
-    var salesPricesWithoutCharges: Double
     var recipeDuration: Int
-    var staffCost: Double
-    var fluidCost: Double
-    var chargesCost: Double
-    var productionCost: Double
-    var salesPriceWithCharges: Double
-    var portionProfit: Double 
     
-    init(viewModel: CostDataViewModel, recipeId: Int) async {
-        self.viewModel = viewModel
-        self.recipeId = recipeId
+    var materialCost: Double {
+        ingredientCost + (ingredientCost * 0.05)
+    }
+    var salesPricesWithoutCharges: Double {
+        materialCost * viewModel.coefWithoutCharges
+    }
+    var staffCost: Double {
+        (Double(recipeDuration)/60) * viewModel.averageHourlyCost
+    }
+    var fluidCost: Double {
+        (Double(recipeDuration)/60) * viewModel.flatrateHourlyCost
+    }
+    var chargesCost: Double {
+        staffCost + fluidCost
+    }
+    var productionCost: Double {
+        materialCost + chargesCost
+    }
+    var salesPriceWithCharges: Double {
+        productionCost * viewModel.coefWithCharges
+    }
+    var portionProfit: Double {
+        salesPriceWithCharges - productionCost
     }
     
-    var gridItems = [GridItem(.adaptive(minimum: 100))]
+    init(viewModel: CostDataViewModel, ingredientCost: Double, recipeDuration: Int){
+        self.viewModel = viewModel
+        self.ingredientCost = ingredientCost
+        self.recipeDuration = recipeDuration
+    }
+    
+    var gridItems = [GridItem(.adaptive(minimum: 150, maximum: 150))]
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItems,spacing: 0){
-                VStack {
-                    Text("Material cost")
-                    Text("")
-                }
-            }.onAppear {
-                Task {
-                    switch await RecipeDAO.shared.getIngredientCost(recipeId: recipeId) {
-                    case .failure(let error):
-                        print(error)
-                    case .success(let cost):
-                        ingredientCost = cost
-                    }
-                    switch await RecipeDAO.shared.getRecipeDuration(recipeId: recipeId) {
-                    case .failure(let error):
-                        print(error)
-                    case .success(let duration):
-                         recipeDuration = duration
-                    }
-                }
+                CostFrame(text: "Material cost", value: self.materialCost)
+                CostFrame(text: "Charges cost", value: self.chargesCost)
+                CostFrame(text: "Production cost", value: self.productionCost)
+                CostFrame(text: "Sales prices", value: self.salesPriceWithCharges)
+                CostFrame(text: "Profit", value: self.portionProfit)
+                
             }
-                    
         }
     }
 }
 
 struct CostView_Previews: PreviewProvider {
     static var previews: some View {
-        CostView(viewModel: CostDataViewModel(model: MockData.costData))
+        CostView(viewModel: CostDataViewModel(model: MockData.costData), ingredientCost: 2, recipeDuration: 3)
     }
 }

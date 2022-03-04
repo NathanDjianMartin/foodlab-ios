@@ -59,10 +59,18 @@ struct IngredientForm: View {
                         }
                 }
                 
-                //TODO: gerer les categories
                 CategoryDropdown(selectedCategory: $viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories, canBeEmpty: false)
-                // TODO: implement onSubmit
+                    .onChange(of: self.viewModel.ingredientCategory) { ingredientCategory in
+                        if let realIngredientCategory = ingredientCategory {
+                            self.intent.intentToChange(ingredientCategory: realIngredientCategory)
+                        }
+                    }
                 CategoryDropdown(selectedCategory: $viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                    .onChange(of: self.viewModel.allergenCategory) { allergenCategory in
+                        if let realAllergenCategory = allergenCategory {
+                            self.intent.intentToChange(allergenCategory: realAllergenCategory)
+                        }
+                    }
                 
                 HStack {
                     Spacer()

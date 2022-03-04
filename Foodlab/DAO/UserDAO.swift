@@ -59,6 +59,13 @@ struct UserDAO {
                 return .failure(error)
             }
         }
+    
+    static func login(email: String, password : String) async -> Result<User, Error> {
+            
+            let credentialsDTO = CredentialsDTO(email: email, password: password)
+            //Construction de l'url
+            
+        }
 
     static func getUserDTOFromUser(user : User) -> UserDTO {
         let userDTO = UserDTO(

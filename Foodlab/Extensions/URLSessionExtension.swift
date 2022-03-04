@@ -109,6 +109,47 @@ extension URLSession {
         }
     }
     
+    func login(crendentialsDTO: CredentialsDTO) async throws -> TokenDTO {
+        guard let url = URL(string: FoodlabApp.apiUrl + "auth/login") else {
+            throw URLError.failedInit
+        }
+        
+        do{
+            var request = URLRequest(url: url)
+            
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = "POST"
+            
+            guard let encoded = await JSONHelper.encode(data: credentialsDTO) else {
+                throw JSONError.encode
+            }
+            
+            let (data, response) = try await URLSession.shared.upload(for: request, from: encoded)
+            
+            let httpresponse = response as! HTTPURLResponse
+            
+            if httpresponse.statusCode == 201{
+                
+                guard let decoded : TokenDTO = JSONHelper.decode(data: data) else {
+                    throw JSONError.decode
+                }
+                self.access_token = decoded.access_token
+                
+                if(access_token != nil){
+                    KeychainHelper.standard.saveJWT(token: access_token!)
+                }
+                return .success(UserDAO.dtoToUser(dto: decoded))
+            }
+            else{
+                print(httpresponse.statusCode)
+                return .failure(HTTPError.error(httpresponse))
+            }
+        }
+        catch(let error){
+            throw error
+        }
+    }
+    
     func delete(from url: String) async throws -> Bool {
         guard let url = URL(string: url) else {
             throw URLError.failedInit

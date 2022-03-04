@@ -109,7 +109,7 @@ extension URLSession {
         }
     }
     
-    func login(crendentialsDTO: CredentialsDTO) async throws -> TokenDTO {
+    func login(credentialsDTO: CredentialsDTO) async throws -> Bool {
         guard let url = URL(string: FoodlabApp.apiUrl + "auth/login") else {
             throw URLError.failedInit
         }
@@ -120,7 +120,7 @@ extension URLSession {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpMethod = "POST"
             
-            guard let encoded = await JSONHelper.encode(data: credentialsDTO) else {
+            guard let encoded = JSONHelper.encode(data: credentialsDTO) else {
                 throw JSONError.encode
             }
             
@@ -133,16 +133,16 @@ extension URLSession {
                 guard let decoded : TokenDTO = JSONHelper.decode(data: data) else {
                     throw JSONError.decode
                 }
-                self.access_token = decoded.access_token
-                
-                if(access_token != nil){
-                    KeychainHelper.standard.saveJWT(token: access_token!)
+                if(decoded.access_token != nil){
+                    KeychainHelper.standard.saveJWT(token: decoded.access_token)
                 }
-                return .success(UserDAO.dtoToUser(dto: decoded))
+                return true
+            } else if httpresponse.statusCode == 401 {
+                throw HttpError.unauthorized("Email or password invalid")
             }
             else{
                 print(httpresponse.statusCode)
-                return .failure(HTTPError.error(httpresponse))
+                throw UndefinedError.error("Error while login")
             }
         }
         catch(let error){

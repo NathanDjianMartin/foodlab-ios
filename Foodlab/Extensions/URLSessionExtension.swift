@@ -25,6 +25,7 @@ extension URLSession {
     }
     
     func update<T: Codable> (from url: String, object: T) async throws -> Bool {
+        
         //TODO: gerer les erreur avec enum et pas de retour vide
         guard let url = URL(string: url) else {
             throw URLError.failedInit
@@ -35,7 +36,9 @@ extension URLSession {
             // append a value to a field
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             // set (replace) a value to a field
-            //request.setValue("Bearer 1ccac66927c25f08de582f3919708e7aee6219352bb3f571e29566dd429ee0f0", forHTTPHeaderField: "Authorization")
+            if let token = KeychainHelper.standard.getJWT() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
             guard let encoded : Data = JSONHelper.encode(data: object) else {
                 throw JSONError.encode
             }
@@ -80,7 +83,9 @@ extension URLSession {
             // append a value to a field
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             // set (replace) a value to a field
-            //request.setValue("Bearer 1ccac66927c25f08de582f3919708e7aee6219352bb3f571e29566dd429ee0f0", forHTTPHeaderField: "Authorization")
+            if let token = KeychainHelper.standard.getJWT() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
             guard let encoded : Data = JSONHelper.encode(data: object) else {
                 throw JSONError.encode
             }

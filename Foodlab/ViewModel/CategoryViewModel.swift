@@ -13,7 +13,6 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
     var model: Category
     @Published var name: String {
         didSet {
-            print("modification en cours")
             if self.name != self.model.name {
                 self.model.name = self.name
                 if self.name != self.model.name {

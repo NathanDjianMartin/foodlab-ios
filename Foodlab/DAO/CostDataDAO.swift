@@ -28,6 +28,18 @@ struct CostDataDAO {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
+    }
+    
+    static func updateCostData(recipeId: Int, costData: CostData) async -> Result<Bool, Error> {
+        let costDataDTO = getCostDataDTOFromCostData(costData: costData)
+        do {
+            // TODO: verifier id
+            let isUpdated = try await URLSession.shared.update(from: stringUrl+"recipe/update-cost-data/\(recipeId)", object: costDataDTO)
+            return .success(isUpdated)
+        }catch {
+            // on propage l'erreur transmise par la fonction post
+            return .failure(error)
+        }
         
     }
 

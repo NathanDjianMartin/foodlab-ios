@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct RecipeExecutionSteps: View {
+    @Environment(\.editMode) private var editMode
+    @State private var oldEditMode: EditMode = .inactive
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
+    
     
     @State private var showSheet = false
     
@@ -29,6 +32,14 @@ struct RecipeExecutionSteps: View {
                             .onTapGesture {
                                 self.showSheet = true
                             }
+                            .swipeActions {
+                                Button {
+                                    self.intent.intentToRemoveStep(at: IndexSet(integer: index))
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .tint(.foodlabRed)
+                            }
                     } else if let execution = step as? RecipeExecution {
                         NavigationLink {
                             RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
@@ -38,12 +49,9 @@ struct RecipeExecutionSteps: View {
                         }
                     }
                 }
-                .onDelete { indexSet in
-                    for i in indexSet {
-                        print("onDelete: \(i)")
-                    }
-                    self.intent.intentToRemoveStep(at: indexSet)
-                }
+                //                .onDelete { indexSet in
+                //                    self.intent.intentToRemoveStep(at: indexSet)
+                //                }
                 .onMove { source, destination in
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
@@ -53,6 +61,21 @@ struct RecipeExecutionSteps: View {
             }
             .listStyle(.plain)
         }
+        //        .onChange(of: self.editMode.unsafelyUnwrapped) { mode in
+        //
+        //        }
+        .onChange(of: editMode!.wrappedValue, perform: { value in
+            if value.isEditing {
+                // Entering edit mode (e.g. 'Edit' tapped)
+            } else {
+                if value == .inactive && self.oldEditMode == .active { // leaving REAL edit mode
+                    Task {
+                        await self.intent.intentToUpdateRecipeExecution(self.viewModel.model)
+                    }
+                }
+            }
+            self.oldEditMode = value
+        })
     }
 }
 

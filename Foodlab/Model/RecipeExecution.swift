@@ -28,13 +28,6 @@ class RecipeExecution: Step {
         }
     }
     
-//    func removeStep(at index: Int) {
-//        self.steps.remove(at: index)
-//        for observer in observers {
-//            observer.removedStep(at: index)
-//        }
-//    }
-    
     func removeStep(atOffsets offsets: IndexSet) {
         self.steps.remove(atOffsets: offsets)
         for observer in observers {

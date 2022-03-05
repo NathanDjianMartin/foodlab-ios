@@ -17,6 +17,7 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
             } else {
                 for subscriber in self.subscribers {
                     subscriber.changed(title: self.title)
+                    self.execution?.title = title // updates the execution title
                 }
             }
         }

@@ -19,6 +19,7 @@ struct StepWithinRecipeExecutionDAO {
                     guard let number = stepWithinRecipeExecutionDTO.number else {
                         return .failure(UndefinedError.error("Error while creating step within recipe execution: number is nil"))
                     }
+                    step.stepWithinRecipeExecutionId = stepWithinRecipeExecutionDTO.id
                     steps.append((number, step ))
                 }
             }
@@ -34,7 +35,7 @@ struct StepWithinRecipeExecutionDAO {
         do {
             let stepWithinRecipeExecutionDTO = StepWithinRecipeExecutionDTO(recipeExecutionId: recipeExecutionId, stepId: stepId)
             
-            let stepDTOresult : StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
+            let _: StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
             return .success(true)
         }catch {
             // on propage l'erreur transmise par la fonction post

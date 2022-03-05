@@ -105,6 +105,16 @@ struct RecipeIntent {
         self.recipeExecutionStepsState.send(.movingSteps(indexSet, index))
     }
     
+    func intentToUpdateRecipeExecution(_ execution: RecipeExecution) async {
+        switch await RecipeExecutionDAO.shared.saveRecipeExecution(execution) {
+        case .success:
+            break
+        case .failure(let error):
+            print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\(error.localizedDescription)")
+            // TODO: send error state to RecipeStepsState
+        }
+    }
+    
     func intentToValidate() {
         self.recipeFormState.send(.validateChanges)
     }

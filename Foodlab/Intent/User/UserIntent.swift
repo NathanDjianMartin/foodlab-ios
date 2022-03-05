@@ -64,7 +64,7 @@ struct UserIntent {
     }
     
     func intentToCreate(user: User) async {
-        switch await UserDAO.createUser(user: user) {
+        switch await UserDAO.shared.createUser(user: user) {
         case .failure(let error):
             self.formState.send(.error("\(error.localizedDescription)"))
             break
@@ -76,7 +76,7 @@ struct UserIntent {
     }
     
     func intentToDelete(userId id: Int, userIndex: Int) async {
-        switch await UserDAO.deleteUserById(id) {
+        switch await UserDAO.shared.deleteUserById(id) {
         case .failure(let error):
             self.listState.send(.error("Error while deleting ingredient \(id): \(error.localizedDescription)"))
         case .success:

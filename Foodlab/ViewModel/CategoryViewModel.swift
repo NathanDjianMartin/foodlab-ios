@@ -41,7 +41,7 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
     func create() async {
         if self.model.name.count != 0 {
             // TODO: create in database
-            switch await CategoryDAO.createCategory(type: self.type, category: self.model) {
+            switch await CategoryDAO.shared.createCategory(type: self.type, category: self.model) {
             case .failure(let error):
                 print(error)
             case .success(let category):
@@ -52,7 +52,7 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
     }
     
     func delete(categoryId: Int, categoryIndex: Int) async {
-        switch await CategoryDAO.deleteCategoryById(type: self.type, id: categoryId) {
+        switch await CategoryDAO.shared.deleteCategoryById(type: self.type, id: categoryId) {
         case .failure(let error):
             self.error = "Error : this category correspond to several \(self.type == CategoryType.recipe ? "recipes" : "ingredients") , you cannot delete it"
             print(error)

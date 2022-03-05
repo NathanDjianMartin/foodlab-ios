@@ -70,7 +70,7 @@ struct CategoryList: View {
             .onAppear {
                 Task{
                     if categoryVM.categories.count == 0 {
-                        switch  await CategoryDAO.getAllCategories(type: categoryVM.type) {
+                        switch  await CategoryDAO.shared.getAllCategories(type: categoryVM.type) {
                         case .failure(let error):
                             print(error)
                             break

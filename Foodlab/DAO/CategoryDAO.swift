@@ -7,56 +7,59 @@ enum CategoryType : String {
 }
 
 struct CategoryDAO {
+    // MARK: singleton conformance
     
-    //TODO: mettre un singleton? Bonne pratique?
+    static var shared: CategoryDAO = {
+        return CategoryDAO()
+    }()
     
-    static var stringUrl = "http://localhost:3000/"
+    private init() {}
         
     // Ingredient
-    static func getAllIngredientCategories() async -> Result<[Category], Error> {
+    func getAllIngredientCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.ingredient )
     }
     
-    static func getIngredientCategoryById(id: Int) async -> Result<Category, Error> {
+    func getIngredientCategoryById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.ingredient, id: id)
     }
     
-    static func createIngredientCategory(category: Category) async -> Result<Category, Error> {
+    func createIngredientCategory(category: Category) async -> Result<Category, Error> {
         return await createCategory(type: CategoryType.ingredient, category: category)
     }
     
     // Allergen
-    static func getAllAllergenCategories() async -> Result<[Category], Error> {
+    func getAllAllergenCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.allergen )
     }
     
-    static func getAllergenCategoryById(id: Int) async -> Result<Category, Error> {
+    func getAllergenCategoryById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.allergen, id: id)
     }
     
-    static func createAllergenCategory(category: Category) async -> Result<Category, Error> {
+    func createAllergenCategory(category: Category) async -> Result<Category, Error> {
         return await createCategory(type: CategoryType.allergen, category: category)
     }
     
     // Recipe
-    static func getAllRecipeCategories() async -> Result<[Category], Error> {
+    func getAllRecipeCategories() async -> Result<[Category], Error> {
         return await getAllCategories(type: CategoryType.recipe )
     }
     
-    static func getRecipeCategoryById(id: Int) async -> Result<Category, Error> {
+    func getRecipeCategoryById(id: Int) async -> Result<Category, Error> {
         return await getCategoryById(type: CategoryType.recipe, id: id)
     }
     
-    static func createRecipeCategory(category: Category) async -> Result<Category, Error> {
+    func createRecipeCategory(category: Category) async -> Result<Category, Error> {
         return await createCategory(type: CategoryType.recipe, category: category)
     }
     
     // General
     
-    static func getAllCategories(type: CategoryType) async -> Result<[Category], Error> {
+    func getAllCategories(type: CategoryType) async -> Result<[Category], Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : [CategoryDTO] = try await URLSession.shared.get(from: stringUrl + "\(type.rawValue)")
+            let decoded : [CategoryDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "\(type.rawValue)")
             
             // dans une boucle transformer chaque UserDTO en model User
             var categories: [Category] = []
@@ -72,10 +75,10 @@ struct CategoryDAO {
         }
     }
     
-    static func getCategoryById(type: CategoryType, id: Int) async -> Result<Category, Error> {
+    func getCategoryById(type: CategoryType, id: Int) async -> Result<Category, Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : CategoryDTO = try await URLSession.shared.get(from: stringUrl + "\(type.rawValue)/\(id)")
+            let decoded : CategoryDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "\(type.rawValue)/\(id)")
             
             // retourne Result avec Category ou Error
             return .success(getCategoryFromCategoryDTO(categoryDTO: decoded))
@@ -86,10 +89,10 @@ struct CategoryDAO {
         }
     }
     
-    static func createCategory(type: CategoryType, category: Category) async -> Result<Category, Error> {
+    func createCategory(type: CategoryType, category: Category) async -> Result<Category, Error> {
         let categoryDTO = getCategoryDTOFromCategory(category: category)
         do {
-            let categoryDTOresult : CategoryDTO = try await URLSession.shared.create(from: stringUrl + "\(type.rawValue)", object: categoryDTO)
+            let categoryDTOresult : CategoryDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "\(type.rawValue)", object: categoryDTO)
             return .success(getCategoryFromCategoryDTO(categoryDTO: categoryDTOresult))
         }catch {
             // on propage l'erreur transmise par la fonction post
@@ -97,7 +100,7 @@ struct CategoryDAO {
         }
     }
     
-    static func deleteCategoryById(type: CategoryType, id: Int) async -> Result<Bool, Error> {
+    func deleteCategoryById(type: CategoryType, id: Int) async -> Result<Bool, Error> {
         do {
             let deleted: Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "\(type.rawValue)/\(id)")
             return .success(deleted)
@@ -106,7 +109,7 @@ struct CategoryDAO {
         }
     }
     
-    static func getCategoryDTOFromCategory(category: Category) -> CategoryDTO {
+    private func getCategoryDTOFromCategory(category: Category) -> CategoryDTO {
         let categoryDTO = CategoryDTO(
             id: category.id,
             name: category.name
@@ -114,7 +117,7 @@ struct CategoryDAO {
         return categoryDTO
     }
     
-    static func getCategoryFromCategoryDTO(categoryDTO : CategoryDTO) -> Category {
+    private func getCategoryFromCategoryDTO(categoryDTO : CategoryDTO) -> Category {
         //TODO : gérer catégorie ingrédient et allergen
         let category = Category(
             id: categoryDTO.id,

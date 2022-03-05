@@ -78,7 +78,7 @@ struct IngredientIntent {
     }
     
     func intentToUpdate(ingredient: Ingredient) async {
-        switch await IngredientDAO.updateIngredient(ingredient: ingredient) {
+        switch await IngredientDAO.shared.updateIngredient(ingredient: ingredient) {
         case .failure(let error):
             self.formState.send(.error("\(error.localizedDescription)"))
         case .success:
@@ -88,7 +88,7 @@ struct IngredientIntent {
     }
     
     func intentToCreate(ingredient: Ingredient) async {
-        switch await IngredientDAO.createIngredient(ingredient: ingredient) {
+        switch await IngredientDAO.shared.createIngredient(ingredient: ingredient) {
         case .failure(let error):
             self.formState.send(.error("\(error.localizedDescription)"))
             break
@@ -100,7 +100,7 @@ struct IngredientIntent {
     }
     
     func intentToDelete(ingredientId id: Int, ingredientIndex: Int) async {
-        switch await IngredientDAO.deleteIngredientById(id) {
+        switch await IngredientDAO.shared.deleteIngredientById(id) {
         case .failure(let error):
             self.listState.send(.error("Error while deleting ingredient \(id): \(error.localizedDescription)"))
         case .success:

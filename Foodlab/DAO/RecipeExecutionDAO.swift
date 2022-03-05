@@ -93,7 +93,7 @@ class RecipeExecutionDAO {
         let recipeExecution = RecipeExecution(id: recipeExecutionId, title: dto.stepTitle)
         
         var stepsWithinRecipeExecution: [(Int, Step)]
-        switch await StepWithinRecipeExecutionDAO.getAllStepsWithinRecipeExecution(id: recipeExecutionId) {
+        switch await StepWithinRecipeExecutionDAO.shared.getAllStepsWithinRecipeExecution(id: recipeExecutionId) {
         case .success(let steps):
             stepsWithinRecipeExecution = steps
         case .failure(let error):

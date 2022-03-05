@@ -8,13 +8,18 @@
 import Foundation
 
 struct UserDAO {
-    //TODO : mettre url en variable d'environnement
-    static var stringUrl = "http://localhost:3000/"
+    // MARK: singleton conformance
     
-    static func getAllUsers() async -> Result<[User], Error> {
+    static var shared: UserDAO = {
+        return UserDAO()
+    }()
+    
+    private init() {}
+    
+    func getAllUsers() async -> Result<[User], Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : [UserDTO] = try await URLSession.shared.get(from: stringUrl + "user")
+            let decoded : [UserDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "user")
             
             // dans une boucle transformer chaque IngredientDTO en model Ingredient
             var users: [User] = []
@@ -32,11 +37,11 @@ struct UserDAO {
         
     }
     
-    static func getUserById(id: Int) async -> Result<User, Error> {
+    func getUserById(id: Int) async -> Result<User, Error> {
         do {
             
             // decoder le JSON avec la fonction présente dans JSONHelper
-            let userDTO : UserDTO = try await URLSession.shared.get(from: stringUrl + "user/\(id)")
+            let userDTO : UserDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "user/\(id)")
             
             // retourner un Result avec ingredient ou error
             return .success(getUserFromUserDTO(userDTO: userDTO))
@@ -47,11 +52,11 @@ struct UserDAO {
         }
     }
     
-    static func getProfile() async -> Result<User, Error> {
+    func getProfile() async -> Result<User, Error> {
         do {
             
             // decoder le JSON avec la fonction présente dans JSONHelper
-            let userDTO : UserDTO = try await URLSession.shared.get(from: stringUrl + "user/profile")
+            let userDTO : UserDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "user/profile")
             
             // retourner un Result avec ingredient ou error
             return .success(getUserFromUserDTO(userDTO: userDTO))
@@ -63,11 +68,11 @@ struct UserDAO {
     }
     
     
-    static func createUser(user: User) async -> Result<User, Error> {
+    func createUser(user: User) async -> Result<User, Error> {
         let userDTO = getUserDTOFromUser(user: user)
         do {
             //TODO: verifier id
-            let decoded : UserDTO = try await URLSession.shared.create(from: stringUrl+"user/create", object: userDTO)
+            let decoded : UserDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "user/create", object: userDTO)
             return .success(getUserFromUserDTO(userDTO: decoded))
         } catch {
             // on propage l'erreur transmise par la fonction post
@@ -75,7 +80,7 @@ struct UserDAO {
         }
     }
     
-    static func deleteUserById(_ id: Int) async -> Result<Bool, Error> {
+    func deleteUserById(_ id: Int) async -> Result<Bool, Error> {
         do {
             let deleted: Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "user/\(id)")
             return .success(deleted)
@@ -84,7 +89,7 @@ struct UserDAO {
         }
     }
     
-    static func login(email: String, password : String) async -> Result<Bool, Error> {
+     func login(email: String, password : String) async -> Result<Bool, Error> {
         
         let credentialsDTO = CredentialsDTO(email: email, password: password)
         
@@ -97,7 +102,7 @@ struct UserDAO {
         
     }
     
-    static func getUserDTOFromUser(user : User) -> UserDTO {
+    private func getUserDTOFromUser(user : User) -> UserDTO {
         let userDTO = UserDTO(
             id: user.id,
             name: user.name,
@@ -108,7 +113,7 @@ struct UserDAO {
         return userDTO
     }
     
-    static func getUserFromUserDTO(userDTO : UserDTO) -> User {
+    private func getUserFromUserDTO(userDTO : UserDTO) -> User {
         let user = User(
             id: userDTO.id,
             name: userDTO.name,

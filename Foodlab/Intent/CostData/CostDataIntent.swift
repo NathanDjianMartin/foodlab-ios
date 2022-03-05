@@ -49,7 +49,7 @@ struct CostDataIntent {
     }
     
     func intentToUpdate(recipeId: Int, costData: CostData) async {
-        switch await CostDataDAO.updateCostData(recipeId: recipeId, costData: costData) {
+        switch await CostDataDAO.shared.updateCostData(recipeId: recipeId, costData: costData) {
         case .failure(let error):
             self.formState.send(.error("\(error.localizedDescription)"))
         case .success:
@@ -59,7 +59,7 @@ struct CostDataIntent {
     }
     
     func intentToUpdateDefaultCostData(costData: CostData) async {
-        switch await CostDataDAO.updateDefaultCostData(costData: costData) {
+        switch await CostDataDAO.shared.updateDefaultCostData(costData: costData) {
         case .failure(let error):
             self.formState.send(.error("\(error.localizedDescription)"))
         case .success:

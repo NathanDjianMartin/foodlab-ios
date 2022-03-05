@@ -95,7 +95,7 @@ struct RecipeIntent {
     
     func intentToRemoveStep(id: Int, at indexSet: IndexSet) async {
         print("intentToRemoveStep at \(indexSet) called")
-        switch await StepWithinRecipeExecutionDAO.deleteStepWithinRecipeExecution(id: id) {
+        switch await StepWithinRecipeExecutionDAO.shared.deleteStepWithinRecipeExecution(id: id) {
         case .failure(let error):
             self.recipeFormState.send(.error(error.localizedDescription))
         case .success(let isDeleted):

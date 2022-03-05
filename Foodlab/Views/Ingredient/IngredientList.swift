@@ -71,7 +71,7 @@ struct IngredientList: View {
             .onAppear {
                 Task{
                     if viewModel.ingredients.count == 0 {
-                        switch  await IngredientDAO.getAllIngredients() {
+                        switch  await IngredientDAO.shared.getAllIngredients() {
                         case .failure(let error):
                             print(error)
                             break

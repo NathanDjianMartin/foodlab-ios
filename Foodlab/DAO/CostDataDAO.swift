@@ -1,14 +1,18 @@
 import Foundation
 
 struct CostDataDAO {
-    //TODO: mettre un singleton? Bonne pratique?
+    // MARK: singleton conformance
+    
+    static var shared: CostDataDAO = {
+        return CostDataDAO()
+    }()
+    
+    private init() {}
 
-    static var stringUrl = "http://localhost:3000/"
-
-    static func getCostData(id: Int) async -> Result<CostData, Error> {
+    func getCostData(id: Int) async -> Result<CostData, Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
-            let decoded : CostDataDTO = try await URLSession.shared.get(from: stringUrl + "cost-data/\(id)")
+            let decoded : CostDataDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "cost-data/\(id)")
 
             return await getCostDataFromCostDataDTO(costDataDTO: decoded)
             
@@ -18,11 +22,11 @@ struct CostDataDAO {
         }
     }
     
-    static func updateDefaultCostData(costData: CostData) async -> Result<Bool, Error> {
+    func updateDefaultCostData(costData: CostData) async -> Result<Bool, Error> {
         let costDataDTO = getCostDataDTOFromCostData(costData: costData)
         do {
             // TODO: verifier id
-            let isUpdated = try await URLSession.shared.update(from: stringUrl+"cost-data/\(costData.id!)", object: costDataDTO)
+            let isUpdated = try await URLSession.shared.update(from: FoodlabApp.apiUrl+"cost-data/\(costData.id!)", object: costDataDTO)
             return .success(isUpdated)
         }catch {
             // on propage l'erreur transmise par la fonction post
@@ -30,11 +34,11 @@ struct CostDataDAO {
         }
     }
     
-    static func updateCostData(recipeId: Int, costData: CostData) async -> Result<Bool, Error> {
+    func updateCostData(recipeId: Int, costData: CostData) async -> Result<Bool, Error> {
         let costDataDTO = getCostDataDTOFromCostData(costData: costData)
         do {
             // TODO: verifier id
-            let isUpdated = try await URLSession.shared.update(from: stringUrl+"recipe/update-cost-data/\(recipeId)", object: costDataDTO)
+            let isUpdated = try await URLSession.shared.update(from: FoodlabApp.apiUrl+"recipe/update-cost-data/\(recipeId)", object: costDataDTO)
             return .success(isUpdated)
         }catch {
             // on propage l'erreur transmise par la fonction post
@@ -43,7 +47,7 @@ struct CostDataDAO {
         
     }
 
-    static func getCostDataDTOFromCostData(costData: CostData) -> CostDataDTO {
+    func getCostDataDTOFromCostData(costData: CostData) -> CostDataDTO {
         return CostDataDTO(id: costData.id,
                            averageHourlyCost: .post(costData.averageHourlyCost),
                            flatrateHourlyCost: .post(costData.flatrateHourlyCost),
@@ -51,7 +55,7 @@ struct CostDataDAO {
                            coefWithoutCharges: .post(costData.coefWithoutCharges))
     }
     
-    static func getCostDataFromCostDataDTO(costDataDTO : CostDataDTO) async -> Result<CostData,Error> {
+    private func getCostDataFromCostDataDTO(costDataDTO : CostDataDTO) async -> Result<CostData,Error> {
         // manage averageHourlyCost
         let averageHourlyCost: Double
         switch costDataDTO.averageHourlyCost {

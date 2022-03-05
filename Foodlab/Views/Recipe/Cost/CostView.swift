@@ -66,39 +66,28 @@ struct CostView: View {
                 
                 LazyVGrid(columns: cols, alignment: .leading, spacing: 15) {
                     Text("Average hourly cost")
-                    TextField("Name", value: $viewModel.averageHourlyCost, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Average hourly cost", value: $viewModel.averageHourlyCost, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
                             intent.intentToChange(averageHourlyCost: viewModel.averageHourlyCost)
                         }
                     
                     Text("Flatrate hourly cost")
-                    TextField("Email", value: $viewModel.flatrateHourlyCost, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Flatrate hourly cost", value: $viewModel.flatrateHourlyCost, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
                             intent.intentToChange(flatrateHourlyCost: viewModel.flatrateHourlyCost)
                         }
                     
                     Text("Coefficient with charges")
-                    TextField("Password", value: $viewModel.coefWithCharges, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Coefficient with charges", value: $viewModel.coefWithCharges, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
                             intent.intentToChange(coefWithCharges: viewModel.coefWithCharges)
                         }
                     
                     Text("Coefficient without charges")
-                    TextField("Password", value: $viewModel.coefWithoutCharges, formatter: FormatterHelper.decimalFormatter)
+                    TextField("Coefficient without charges", value: $viewModel.coefWithoutCharges, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
                             intent.intentToChange(coefWithoutCharges: viewModel.coefWithoutCharges)
                         }
-                }
-                .onAppear {
-                    Task {
-                        print("I am here")
-                        switch await CostDataDAO.getCostData(id: 1) {
-                        case .failure(_):
-                            viewModel.error = "Error while fletching data from database"
-                        case .success(let costData):
-                            viewModel.model = costData
-                        }
-                    }
                 }
                 //.padding()
                 
@@ -106,6 +95,7 @@ struct CostView: View {
                     Spacer()
                     Button("Update cost data") {
                         Task {
+                            print(self.recipeId)
                             await intent.intentToUpdate(recipeId: self.recipeId, costData: viewModel.modelCopy)
                         }
                     }

@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @EnvironmentObject var loggedUser: LoggedUser
+    
     var body: some View {
         TabView {
             NavigationView {
@@ -9,23 +12,25 @@ struct MainView: View {
             .tabItem {
                 Label("Ingredients", systemImage: "fork.knife")
             }
-
+            
             NavigationView {
                 RecipeList(viewModel: RecipeListViewModel())
             }
             .tabItem {
                 Label("Recipes", systemImage: "doc.text")
             }
-
-            NavigationView {
-                UserList()
+            if loggedUser.isAdmin {
+                NavigationView {
+                    UserList()
+                }
+                .tabItem {
+                    Label("Users", systemImage: "person.2.fill")
+                }
             }
-            .tabItem {
-                Label("Users", systemImage: "person.2.fill")
-            }
-
+            
             NavigationView {
-                SettingsSummary(user: MockData.user)
+                SettingsSummary()
+                    .environmentObject(loggedUser)
             }
             .tabItem {
                 Label("Settings", systemImage: "gear")

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsSummary: View {
-    var user: User
+    @EnvironmentObject var user: LoggedUser
     
     var body: some View {
         List {
@@ -13,6 +13,7 @@ struct SettingsSummary: View {
                 
                 Button("Sign out") {
                     withAnimation(.easeOut(duration: 0.5)) {
+                        user.isAuthenticated = false
                     }
                 }
             }
@@ -47,6 +48,6 @@ struct SettingsSummary: View {
 
 struct SettingsSummary_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsSummary(user: MockData.user)
+        SettingsSummary()
     }
 }

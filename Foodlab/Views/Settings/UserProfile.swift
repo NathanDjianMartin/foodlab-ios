@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct UserProfile: View {
-    var user: User
+    var user: LoggedUser
     
     var body: some View {
         HStack {
@@ -25,6 +25,6 @@ struct UserProfile: View {
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {
-        UserProfile(user: MockData.user)
+        UserProfile(user: LoggedUser(name: MockData.user.name, email: MockData.user.email, isAdmin: MockData.user.isAdmin, isAuthenticated: true))
     }
 }

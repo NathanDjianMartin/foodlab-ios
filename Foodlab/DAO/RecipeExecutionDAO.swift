@@ -42,30 +42,44 @@ class RecipeExecutionDAO {
     }
     
     func saveRecipeExecution(_ execution: RecipeExecution) async -> Result<RecipeExecution, Error> {
-        guard let executionId = execution.id else {
-            return .failure(RecipeExecutionDAOError.noIdInModel(execution.title))
-        }
-        do {
-            let url = ""
-            let recipeExecutionDTO = getDTOFromRecipeExecution(execution)
-            let done = try await URLSession.shared.update(from: url, object: recipeExecutionDTO)
-            return .success(execution)
-        } catch {
-            return .failure(error)
-        }
-    }
-    
-//    func createRecipeExecution(recipeExecution: RecipeExecution) async -> Result<RecipeExecution, Error> {
-//        let recipeExecutionDTO = getDTOFromRecipeExecution(recipeExecution)
-//
+        return await self.updateStepsOrder(execution)
+//        guard let executionId = execution.id else {
+//            return .failure(RecipeExecutionDAOError.noIdInModel(execution.title))
+//        }
 //        do {
-//            let url = stringUrl + "recipe-execution"
-//            let createdRecipeExecutionDTO: RecipeExecutionDTO = try await URLSession.shared.create(from: url, object: recipeExecutionDTO)
-//            return await getRecipeExecutionFromDTO(createdRecipeExecutionDTO)
+//            let url = ""
+//            let recipeExecutionDTO = getDTOFromRecipeExecution(execution)
+//            let done = try await URLSession.shared.update(from: url, object: recipeExecutionDTO)
+//            return .success(execution)
 //        } catch {
 //            return .failure(error)
 //        }
-//    }
+    }
+    
+    func updateStepsOrder(_ execution: RecipeExecution) async -> Result<RecipeExecution, Error> {
+        guard let executionId = execution.id else {
+            return .failure(RecipeExecutionDAOError.noIdInModel(execution.title))
+        }
+        
+        do {
+            // DTOs array construction
+            var stepWithinRecipeExecutionDTOs: [StepWithinRecipeExecutionDTO] = []
+            for (index, step) in execution.steps.enumerated() {
+                guard let stepId = step.id else {
+                    return.failure(RecipeExecutionDAOError.noIdInModel("STEP \(step)"))
+                }
+                let dto = StepWithinRecipeExecutionDTO(id: step.stepWithinRecipeExecutionId, number: index + 1, recipeExecutionId: executionId, stepId: stepId)
+                stepWithinRecipeExecutionDTOs.append(dto)
+            }
+            
+            // Perform request on the backend
+            let url = stringUrl + "recipe-execution/update-steps-order"
+            let _ = try await URLSession.shared.update(from: url, object: stepWithinRecipeExecutionDTOs)
+            return .success(execution)
+        } catch {
+            return.failure(error)
+        }
+    }
     
     
     // MARK: -

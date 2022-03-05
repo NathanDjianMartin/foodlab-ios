@@ -47,6 +47,21 @@ struct UserDAO {
         }
     }
     
+    static func getProfile() async -> Result<User, Error> {
+        do {
+            
+            // decoder le JSON avec la fonction présente dans JSONHelper
+            let userDTO : UserDTO = try await URLSession.shared.get(from: stringUrl + "user/profile")
+            
+            // retourner un Result avec ingredient ou error
+            return .success(getUserFromUserDTO(userDTO: userDTO))
+            
+        } catch {
+            print("Error while fetching ingredient from backend: \(error)")
+            return .failure(error)
+        }
+    }
+    
     
     static func createUser(user: User) async -> Result<User, Error> {
         let userDTO = getUserDTOFromUser(user: user)

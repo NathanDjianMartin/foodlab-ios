@@ -28,14 +28,28 @@ class RecipeExecution: Step {
         }
     }
     
+    func predicate(i: Int) throws -> Bool {
+        return i < self.steps.count
+    }
+    
     func removeStep(atOffsets offsets: IndexSet) {
-        self.steps.remove(atOffsets: offsets)
-        for observer in observers {
-            observer.removedStep(at: offsets)
+        do {
+            guard try offsets.allSatisfy(predicate(i:)) else {
+                return
+            }
+            self.steps.remove(atOffsets: offsets)
+            for observer in observers {
+                observer.removedStep(at: offsets)
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
     func move(fromOffsets source: IndexSet, toOffset destination: Int) {
+        guard destination < self.steps.count else {
+            return
+        }
         self.steps.move(fromOffsets: source, toOffset: destination)
         for observer in observers {
             observer.moved(source: source, destination: destination)

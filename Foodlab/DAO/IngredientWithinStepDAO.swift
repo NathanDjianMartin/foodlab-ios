@@ -16,8 +16,6 @@ struct IngredientWithinStepDAO {
     
     private init() {}
     
-    //TODO: delete ingredient in simple step
-    
     func getAllIngredientsWithinStep(id: Int) async -> Result<[Ingredient: Double], Error> {
         // récupère tout les ingredients présent dans une simple step ainsi que la quantite associée
         do {
@@ -29,20 +27,7 @@ struct IngredientWithinStepDAO {
             return .failure(error)
         }
     }
-    
-    func getAllIngredientsWithinRecipe(recipeId: Int) async -> Result<[Ingredient: Double], Error> {
-        // TODO: faire la fonction dans le bac, on ne s'en était pas servi comme ça pour le web donc pas de route correspondant à ma requête pour l'instant
-        // récupère tout les ingredients présent dans une recette ainsi que la quantite associée
-        do {
-            let decoded : [IngredientWithinStepDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "/recipe/ingredients-in-recipe/\(recipeId)")
-            
-            return await getIngredientsDicoFromIngredientDTOList(ingredientsDTO: decoded)
-            
-        } catch {
-            return .failure(error)
-        }
-    }
-    
+       
     func getIngredientsDicoFromIngredientDTOList(ingredientsDTO: [IngredientWithinStepDTO]) async -> Result<[Ingredient: Double], Error> {
         var ingredientsWithinStep: [Ingredient: Double] = [:]
         for ingredientWithinStepDTO in ingredientsDTO {

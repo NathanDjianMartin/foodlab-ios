@@ -5,6 +5,8 @@ struct Authentication: View {
     @State private var password: String = ""
     @Binding var isAuthenticated: Bool
     
+    @EnvironmentObject var loggedUser: LoggedUser
+    
     var body: some View {
         
         VStack {
@@ -25,7 +27,15 @@ struct Authentication: View {
                             case .failure(let error):
                                 print(error)
                             case .success(let isAuthenticated):
-                                self.isAuthenticated = isAuthenticated
+                                switch await UserDAO.getProfile() {
+                                case .failure(let error):
+                                    print(error)
+                                case .success(let user):
+                                    loggedUser.email = user.email
+                                    loggedUser.name = user.name
+                                    loggedUser.isAdmin = user.isAdmin
+                                    self.isAuthenticated = isAuthenticated
+                                }
                             }
                         }
                     //}

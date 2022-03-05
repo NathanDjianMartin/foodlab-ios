@@ -19,8 +19,8 @@ struct CostFrame: View {
         }
         .padding()
         .background(Color.white)
-        //.cornerRadius(10)
-        //.shadow(radius: 5)
+        .cornerRadius(10)
+        .shadow(radius: 5)
         .overlay(
             RoundedRectangle(cornerRadius: 10).fill(Color.foodlabRed).mask(    // << here !!
                 HStack {

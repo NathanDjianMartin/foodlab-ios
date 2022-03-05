@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsSummary: View {
-    var user: User
+    var user: LoggedUser
     
     var body: some View {
         List {
@@ -47,6 +47,6 @@ struct SettingsSummary: View {
 
 struct SettingsSummary_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsSummary(user: MockData.user)
+        SettingsSummary(user: LoggedUser(name: MockData.user.name, email: MockData.user.email, isAdmin: MockData.user.isAdmin))
     }
 }

@@ -59,8 +59,6 @@ struct StepWithinRecipeExecutionDAO {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
-        
-        
     }
     
     

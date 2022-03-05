@@ -15,14 +15,14 @@ struct IngredientWithinStepDAO {
     }()
     
     private init() {}
-
+    
     //TODO: delete ingredient in simple step
     
     func getAllIngredientsWithinStep(id: Int) async -> Result<[Ingredient: Double], Error> {
         // récupère tout les ingredients présent dans une simple step ainsi que la quantite associée
         do {
             let decoded : [IngredientWithinStepDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "recipe-execution/all-ingredients-within-a-step-in-simple-step/\(id)")
-         
+            
             return await getIngredientsDicoFromIngredientDTOList(ingredientsDTO: decoded)
             
         } catch {
@@ -35,7 +35,7 @@ struct IngredientWithinStepDAO {
         // récupère tout les ingredients présent dans une recette ainsi que la quantite associée
         do {
             let decoded : [IngredientWithinStepDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "/recipe/ingredients-in-recipe/\(recipeId)")
-         
+            
             return await getIngredientsDicoFromIngredientDTOList(ingredientsDTO: decoded)
             
         } catch {
@@ -55,7 +55,7 @@ struct IngredientWithinStepDAO {
                 let quantity: Double
                 switch ingredientWithinStepDTO.quantity {
                     
-                // on a pu recuperer l'ingredient, on ajoute alors la quantite associé dans le dictionnaire
+                    // on a pu recuperer l'ingredient, on ajoute alors la quantite associé dans le dictionnaire
                 case .post(let double):
                     quantity = double
                 case .get(let string):
@@ -86,6 +86,32 @@ struct IngredientWithinStepDAO {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
+        
+    }
     
+    func deleteAllIngredientWithinStep(stepId id: Int) async -> Result<Bool, Error> {
+        do {
+            print(id)
+            let isDeleted : Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "ingredient-within-step/delete-all-in-a-step/\(id)")
+            return .success(isDeleted)
+        } catch {
+            // on propage l'erreur transmise par la fonction post
+            return .failure(error)
+        }
+    }
+    
+    func updateIngredientsWithinStep(stepId id: Int, ingredients: [Ingredient : Double] ) async -> Result<Bool, Error> {
+        switch await deleteAllIngredientWithinStep(stepId: id) {
+        case .failure(let error):
+            return .failure(error)
+        case .success(_):
+            switch await addIngredientsInSimpleStep(stepId: id, ingredients: ingredients){
+            case .failure(let error):
+                return .failure(error)
+            case .success(_):
+                return .success(true)
+            }
+        }
+        
     }
 }

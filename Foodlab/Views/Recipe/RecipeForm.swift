@@ -78,6 +78,13 @@ struct RecipeForm: View {
                                     self.isPresented = false
                                 }
                             }
+                        } else {
+                            Task {
+                                await self.intent.intentToSave(recipe: self.viewModel.modelCopy)
+                                if self.viewModel.errorMessage == nil {
+                                    self.isPresented = false
+                                }
+                            }
                         }
                     } label: {
                         Text("OK")

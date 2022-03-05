@@ -1,8 +1,12 @@
 import Foundation
 
 enum RecipeDAOError: LocalizedError {
+    // DTO errors
     case noRecipeIdInDTO(String)
     case noRecipeExecutionIdInDTO(String)
+    
+    // Model errors
+    case noRecipeIdInModel(String)
     case noRecipeCategoryIdInModel(String)
     case noCostDataIdInModel(String)
     
@@ -12,10 +16,12 @@ enum RecipeDAOError: LocalizedError {
             return "No recipe id was found in the RecipeDTO named: \(recipeTitle)"
         case .noRecipeExecutionIdInDTO(let recipeTitle):
             return "No recipe execution id was found in the RecipeDTO named: \(recipeTitle)"
+        case .noRecipeIdInModel(let recipeTitle):
+            return "No recipe id was found in the Recipe model named: \(recipeTitle)"
         case .noRecipeCategoryIdInModel(let recipeTitle):
-            return "No recipe category id was found in the Recipe named \(recipeTitle)"
+            return "No recipe category id was found in the Recipe model named \(recipeTitle)"
         case .noCostDataIdInModel(let recipeTitle):
-            return "No cost data id was found in the Recipe named \(recipeTitle)"
+            return "No cost data id was found in the Recipe model named \(recipeTitle)"
         }
     }
     
@@ -68,6 +74,26 @@ class RecipeDAO {
             let url = stringUrl + "recipe"
             let createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
             return await getRecipeFromDTO(createdRecipeDTO)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func saveRecipe(recipe: Recipe) async -> Result<Bool, Error> {
+        guard let recipeId = recipe.id else {
+            return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))
+        }
+        do {
+            let url = stringUrl + "recipe/\(recipeId)"
+            let recipeDTO: RecipeDTO
+            switch getDTOFromRecipe(recipe) {
+            case .success(let dto):
+                recipeDTO = dto
+            case .failure(let error):
+                return .failure(error)
+            }
+            let updatedSuccessful: Bool = try await URLSession.shared.update(from: url, object: recipeDTO)
+            return .success(updatedSuccessful)
         } catch {
             return .failure(error)
         }

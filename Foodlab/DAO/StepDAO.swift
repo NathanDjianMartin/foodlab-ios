@@ -132,7 +132,7 @@ class StepDAO {
             // il s'agit d'une recipe execution qui a seulement des étapes en plus (qui sont optionnelles)
             //step = RecipeExecution(id: stepDTO.id, title: stepDTO.stepTitle)
             guard let recipeExecutionId = stepDTO.id else {
-                return .failure(RecipeExecutionDAOError.noId(stepDTO.stepTitle))
+                return .failure(RecipeExecutionDAOError.noIdInDTO(stepDTO.stepTitle))
             }
             switch await RecipeExecutionDAO.shared.getRecipeExecutionById(recipeExecutionId) {
             case .success(let recipeExecution):

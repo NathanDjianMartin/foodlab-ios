@@ -38,11 +38,11 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     }
     
     
-    private func validate() {
-        self.model.title = self.modelCopy.title
-        self.model.author = self.modelCopy.author
-        self.model.guestsNumber = self.modelCopy.guestsNumber
-    }
+//    private func validate() {
+//        self.model.title = self.modelCopy.title
+//        self.model.author = self.modelCopy.author
+//        self.model.guestsNumber = self.modelCopy.guestsNumber
+//    }
     
     
     // MARK: --
@@ -96,7 +96,9 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
         case .recipeCategoryChanging(let newCategory):
             self.modelCopy.recipeCategory = newCategory
         case .validateChanges:
-            self.validate()
+            self.model.title = self.modelCopy.title
+            self.model.author = self.modelCopy.author
+            self.model.guestsNumber = self.modelCopy.guestsNumber
         case .error(let errorMessage):
             self.errorMessage = errorMessage
         }

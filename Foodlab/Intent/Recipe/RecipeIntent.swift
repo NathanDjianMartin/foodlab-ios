@@ -83,6 +83,16 @@ struct RecipeIntent {
         }
     }
     
+    func intentToSave(recipe: Recipe) async {
+        switch await RecipeDAO.shared.saveRecipe(recipe: recipe) {
+        case .success:
+            print("Recipe \(recipe.title) saved in database!")
+            self.recipeFormState.send(.validateChanges)
+        case .failure(let error):
+            self.recipeFormState.send(.error(error.localizedDescription))
+        }
+    }
+    
     func intentToRemoveStep(at indexSet: IndexSet) {
         print("intentToRemoveStep at \(indexSet) called")
 //        for i in indexSet {

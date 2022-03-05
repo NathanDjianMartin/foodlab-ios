@@ -64,7 +64,7 @@ extension URLSession {
             }
         }
         catch{
-            throw UndefinedError.error("Error in POST resquest: \(error)")
+            throw UndefinedError.error("Error in PATCH resquest: \(error)")
         }
     }
     

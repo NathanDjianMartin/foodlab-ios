@@ -93,12 +93,16 @@ struct RecipeIntent {
         }
     }
     
-    func intentToRemoveStep(at indexSet: IndexSet) {
+    func intentToRemoveStep(id: Int, at indexSet: IndexSet) async {
         print("intentToRemoveStep at \(indexSet) called")
-//        for i in indexSet {
-//            // TODO: make request in database
-//        }
-        self.recipeExecutionStepsState.send(.removingStep(indexSet))
+        switch await StepWithinRecipeExecutionDAO.deleteStepWithinRecipeExecution(id: id) {
+        case .failure(let error):
+            self.recipeFormState.send(.error(error.localizedDescription))
+        case .success(let isDeleted):
+            if isDeleted {
+                self.recipeExecutionStepsState.send(.removingStep(indexSet))
+            }
+        }
     }
     
     func intentToMoveSteps(source indexSet: IndexSet, destination index: Int) {

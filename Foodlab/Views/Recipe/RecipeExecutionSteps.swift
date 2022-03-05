@@ -34,7 +34,13 @@ struct RecipeExecutionSteps: View {
                             }
                             .swipeActions {
                                 Button {
-                                    self.intent.intentToRemoveStep(at: IndexSet(integer: index))
+                                    Task {
+                                        if let id = step.stepWithinRecipeExecutionId {
+                                            await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                        } else {
+                                            // TODO:
+                                        }
+                                    }
                                 } label: {
                                     Image(systemName: "trash")
                                 }

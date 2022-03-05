@@ -60,6 +60,15 @@ struct UserDAO {
         }
     }
     
+    static func deleteUserById(_ id: Int) async -> Result<Bool, Error> {
+        do {
+            let deleted: Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "user/\(id)")
+            return .success(deleted)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
     static func login(email: String, password : String) async -> Result<Bool, Error> {
         
         let credentialsDTO = CredentialsDTO(email: email, password: password)

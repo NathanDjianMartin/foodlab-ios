@@ -540,8 +540,8 @@
             filePath = "Foodlab/Extensions/URLSessionExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "delete(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -556,8 +556,8 @@
             filePath = "Foodlab/Extensions/URLSessionExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "delete(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -684,57 +684,10 @@
             filePath = "Foodlab/Views/User/UserList.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "A65367F4-7AC6-46B4-ABDB-5E079A03C419 - 9f3b6eac81fe556"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in Foodlab.UserList.body.getter : some"
-                  moduleName = "Foodlab"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/m1/Documents/foodlab-ios/Foodlab/Views/User/UserList.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25"
-                  offsetFromSymbolStart = "104">
-               </Location>
-               <Location
-                  uuid = "A65367F4-7AC6-46B4-ABDB-5E079A03C419 - 4b67101d7562775b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in Foodlab.UserList.body.getter : some"
-                  moduleName = "Foodlab"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/m1/Documents/foodlab-ios/Foodlab/Views/User/UserList.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "A65367F4-7AC6-46B4-ABDB-5E079A03C419 - ddaf9306b03bf4d3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in Foodlab.UserList.body.getter : some"
-                  moduleName = "Foodlab"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/m1/Documents/foodlab-ios/Foodlab/Views/User/UserList.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25"
-                  offsetFromSymbolStart = "80">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -779,8 +732,8 @@
             filePath = "Foodlab/DAO/UserDAO.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "getUserFromUserDTO(userDTO:)"
             landmarkType = "7">
          </BreakpointContent>

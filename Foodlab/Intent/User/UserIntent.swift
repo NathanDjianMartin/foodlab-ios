@@ -74,15 +74,15 @@ struct UserIntent {
             self.listState.send(.addingUser(user))
         }
     }
-    /*
+    
     func intentToDelete(userId id: Int, userIndex: Int) async {
-        switch await UserDAO.deleteUser(id) {
+        switch await UserDAO.deleteUserById(id) {
         case .failure(let error):
             self.listState.send(.error("Error while deleting ingredient \(id): \(error.localizedDescription)"))
         case .success:
-            self.listState.send(.deletingIngredient(ingredientIndex))
+            self.listState.send(.deletingUser(userIndex))
         }
     }
-     */
+     
 
 }

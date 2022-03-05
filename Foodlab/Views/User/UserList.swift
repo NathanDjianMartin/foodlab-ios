@@ -2,7 +2,9 @@ import SwiftUI
 
 struct UserList: View {
     
-    @State private var showUserCreation = false
+    //@State private var showUserCreation = false
+    
+    @State private var showAlert = false
     @State private var userToDelete: User?
     @State private var userToCreate: User?
     @ObservedObject var viewModel: UserListViewModel
@@ -18,6 +20,38 @@ struct UserList: View {
         List {
             ForEach(viewModel.users) { user in
                 UserRow(user: user)
+                    .swipeActions {
+                        Button {
+                            self.showAlert = true
+                            self.userToDelete = user
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .tint(.foodlabRed)
+                    }
+                    .confirmationDialog("Delete user?", isPresented: $showAlert) {
+                        Button(role: .cancel) {
+                        } label: {
+                            Text("No")
+                        }
+                        Button(role: .destructive) {
+                            guard let userToDelete = userToDelete else {
+                                return
+                            }
+                            guard let id = userToDelete.id else {
+                                return
+                            }
+                            guard let indexToDelete = self.viewModel.users.firstIndex(of: userToDelete) else {
+                                return
+                            }
+                            self.showAlert = false
+                            Task {
+                                await self.intent.intentToDelete(userId: id, userIndex: indexToDelete)
+                            }
+                        } label: {
+                            Text("Yes")
+                        }
+                    }
             }
         }
         .onAppear(){

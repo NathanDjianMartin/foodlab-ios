@@ -199,6 +199,9 @@ extension URLSession {
             var request = URLRequest(url: url)
             request.httpMethod = "DELETE"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            if let token = KeychainHelper.standard.getJWT() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
                     
             let (_, response) = try await URLSession.shared.upload(for: request, from: Data())
             let httpresponse = response as! HTTPURLResponse

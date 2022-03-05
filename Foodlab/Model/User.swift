@@ -8,8 +8,7 @@ protocol UserObserver {
     func changed(isAdmin: Bool)
 }
 
-class User: Identifiable {
-    
+class User: Identifiable, Comparable {
     
     var observer: UserObserver?
     
@@ -44,6 +43,14 @@ class User: Identifiable {
         self.email = email
         self.password = password
         self.isAdmin = isAdmin
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    static func < (lhs: User, rhs: User) -> Bool {
+        return lhs.id < rhs.id
     }
     
 }

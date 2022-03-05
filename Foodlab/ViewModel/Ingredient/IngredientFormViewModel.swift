@@ -29,13 +29,14 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
         self.stockQuantity = model.stockQuantity
         self.ingredientCategory = model.ingredientCategory
         self.allergenCategory = model.allergenCategory
+        
         self.model = model
         self.modelCopy = model.copy()
         self.model.addObserver(self)
     }
     
     // MARK: -
-    // MARK: Track observer delegate functions
+    // MARK: observer delegate functions
     
     func changed(name: String) {
         self.name = name

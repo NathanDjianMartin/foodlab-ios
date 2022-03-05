@@ -78,7 +78,7 @@ struct RecipeExecutionSteps: View {
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
                 .sheet(isPresented: $showSheet) {
-                    StepForm(step: MockData.step, isPresented: $showSheet)
+                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step2), presentedStep: .constant(MockData.step2))
                 }
             }
             .listStyle(.plain)

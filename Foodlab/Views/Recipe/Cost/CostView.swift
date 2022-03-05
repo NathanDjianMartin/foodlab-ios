@@ -11,8 +11,8 @@ struct CostView: View {
     
     @ObservedObject var viewModel: CostDataViewModel
     var intent: CostDataIntent
-    var ingredientCost: Double
-    var recipeDuration: Int
+    @State var ingredientCost: Double 
+    @State var recipeDuration: Int
     var recipeId: Int
     
     var materialCost: Double {
@@ -40,7 +40,7 @@ struct CostView: View {
         salesPriceWithCharges - productionCost
     }
     
-    init(viewModel: CostDataViewModel, intent: CostDataIntent, ingredientCost: Double, recipeDuration: Int, recipeId: Int){
+    init(viewModel: CostDataViewModel, intent: CostDataIntent, ingredientCost: Double = 0, recipeDuration: Int = 0, recipeId: Int){
         self.viewModel = viewModel
         self.ingredientCost = ingredientCost
         self.recipeDuration = recipeDuration
@@ -103,6 +103,21 @@ struct CostView: View {
                     .padding(.top, 20)
                 }
                 
+            }
+        }.onAppear {
+            Task {
+                switch await RecipeDAO.shared.getIngredientCost(recipeId: self.recipeId) {
+                case .failure(_):
+                    self.viewModel.error = "Error while fletching ingredient cost"
+                case . success(let cost):
+                    self.ingredientCost = cost
+                }
+                switch await RecipeDAO.shared.getRecipeDuration(recipeId: self.recipeId) {
+                case .failure(_):
+                    self.viewModel.error = "Error while fletching recipe duration"
+                case . success(let duration):
+                    self.recipeDuration = duration
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ struct RecipeDetails: View {
     @State private var selectedTab: RecipePickerSelection = .steps
     @State private var showRecipeForm = false
     
+    
     init(viewModel: RecipeDetailsViewModel, intent: RecipeIntent) {
         self.viewModel = viewModel
         self.intent = intent
@@ -56,7 +57,7 @@ struct RecipeDetails: View {
                 IngredientInRecipeList(recipeExecution: viewModel.model.execution)
             case .costs:
                 // TODO: récupérer les informations mais je sais pas où mettre le await 
-                CostView(viewModel: CostDataViewModel(model: viewModel.model.costData), intent: CostDataIntent(), ingredientCost: 2, recipeDuration: 2, recipeId: viewModel.model.id!)
+                CostView(viewModel: CostDataViewModel(model: viewModel.model.costData), intent: CostDataIntent(), recipeId: viewModel.model.id!)
             }
             Spacer()
         }

@@ -30,7 +30,7 @@ struct RecipeForm: View {
                 }
             }
             .padding()
-            ErrorView(error: $viewModel.error)
+            ErrorView(error: $viewModel.errorMessage)
             HStack {
                 Text(creationMode ? "Create recipe" : "Edit recipe")
                     .font(.largeTitle)
@@ -74,7 +74,7 @@ struct RecipeForm: View {
                         if creationMode {
                             Task {
                                 await self.intent.intentToCreate(recipe: self.viewModel.modelCopy)
-                                if self.viewModel.error == nil {
+                                if self.viewModel.errorMessage == nil {
                                     self.isPresented = false
                                 }
                             }

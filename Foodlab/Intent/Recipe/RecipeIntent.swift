@@ -22,6 +22,8 @@ enum RecipeDetailsIntentState {
 
 enum RecipeExecutionStepsIntentState {
     case ready
+    case removingStep(IndexSet)
+    case test
 }
 
 struct RecipeIntent {
@@ -31,6 +33,10 @@ struct RecipeIntent {
     private var recipeListState = PassthroughSubject<RecipeListIntentState, Never>()
     private var recipeDetailsState = PassthroughSubject<RecipeDetailsIntentState, Never>()
     private var recipeExecutionStepsState = PassthroughSubject<RecipeExecutionStepsIntentState, Never>()
+    
+    
+    // MARK: -
+    // MARK: add observer functions
     
     func addObserver(_ observer: RecipeFormViewModel) {
         self.recipeFormState.subscribe(observer)
@@ -48,6 +54,8 @@ struct RecipeIntent {
         self.recipeExecutionStepsState.subscribe(observer)
     }
     
+    
+    // MARK: -
     // MARK: intent to change state functions
     
     func intentToChange(recipeTitle: String) {
@@ -73,6 +81,14 @@ struct RecipeIntent {
         case .failure(let error):
             self.recipeFormState.send(.error(error.localizedDescription))
         }
+    }
+    
+    func intentToRemoveStep(at indexSet: IndexSet) {
+        print("intentToRemoveStep at \(indexSet) called")
+//        for i in indexSet {
+//            // TODO: make request in database
+//        }
+        self.recipeExecutionStepsState.send(.removingStep(indexSet))
     }
     
     func intentToValidate() {

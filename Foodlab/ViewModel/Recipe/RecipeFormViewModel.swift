@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-enum RecipeFormError: Error, CustomStringConvertible, Equatable {
+enum RecipeFormError: LocalizedError, Equatable {
     case titleEmpty
     case authorEmpty
     
@@ -24,7 +24,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     @Published var author: String
     @Published var guestNumber: Int
     @Published var category: Category?
-    @Published var error: String?
+    @Published var errorMessage: String?
     
     init(model: Recipe) {
         self.model = model
@@ -97,8 +97,8 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
             self.modelCopy.recipeCategory = newCategory
         case .validateChanges:
             self.validate()
-        case .error(let error):
-            self.error = error
+        case .error(let errorMessage):
+            self.errorMessage = errorMessage
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

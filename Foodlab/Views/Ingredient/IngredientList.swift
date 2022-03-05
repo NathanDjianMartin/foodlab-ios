@@ -77,7 +77,7 @@ struct IngredientList: View {
                             break
                         case .success(let ingredients):
                             self.viewModel.ingredients = ingredients
-                            print(self.viewModel.ingredients)
+                            //print(self.viewModel.ingredients)
                         }
                     }
                 }

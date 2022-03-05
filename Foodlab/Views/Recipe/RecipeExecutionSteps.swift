@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct RecipeExecutionSteps: View {
+    @Environment(\.editMode) private var editMode
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
     
@@ -39,9 +40,6 @@ struct RecipeExecutionSteps: View {
                     }
                 }
                 .onDelete { indexSet in
-                    for i in indexSet {
-                        print("onDelete: \(i)")
-                    }
                     self.intent.intentToRemoveStep(at: indexSet)
                 }
                 .onMove { source, destination in
@@ -53,6 +51,21 @@ struct RecipeExecutionSteps: View {
             }
             .listStyle(.plain)
         }
+        //        .onChange(of: self.editMode.unsafelyUnwrapped) { mode in
+        //
+        //        }
+        .onChange(of: editMode!.wrappedValue, perform: { value in
+            if value.isEditing {
+                // Entering edit mode (e.g. 'Edit' tapped)
+            } else {
+                // Leaving edit mode (e.g. 'Done' tapped)
+                Task {
+                    print("BEFORE AWAIT INTENT TO UPDATERECIPEEXECUTION")
+                    await self.intent.intentToUpdateRecipeExecution(self.viewModel.model)
+                    print("AFTER AWAIT INTENT TO UPDATERECIPEEXECUTION")
+                }
+            }
+        })
     }
 }
 

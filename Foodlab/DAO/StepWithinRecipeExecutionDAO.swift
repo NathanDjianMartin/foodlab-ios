@@ -19,6 +19,7 @@ struct StepWithinRecipeExecutionDAO {
                     guard let number = stepWithinRecipeExecutionDTO.number else {
                         return .failure(UndefinedError.error("Error while creating step within recipe execution: number is nil"))
                     }
+                    step.stepWithinRecipeExecutionId = stepWithinRecipeExecutionDTO.id
                     steps.append((number, step ))
                 }
             }

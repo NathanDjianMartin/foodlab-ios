@@ -31,7 +31,7 @@ struct UserList: View {
             }
         }
         .sheet(item: self.$userToCreate) { user in
-            UserCreation(userVM: UserFormViewModel(model: user), intent: UserIntent(), isPresented: $userToCreate)
+            UserCreation(userVM: UserFormViewModel(model: user), intent: self.intent, isPresented: $userToCreate)
         }
         .navigationTitle("Users")
         .toolbar {

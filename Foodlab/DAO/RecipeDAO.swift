@@ -79,6 +79,26 @@ class RecipeDAO {
         }
     }
     
+    func getIngredientCost(recipeId: Int) async -> Result<Double, Error> {
+        do {
+            let url = stringUrl + "recipe/ingredient-cost/\(recipeId)"
+            let ingredientCost: Double = try await URLSession.shared.get(from: url)
+            return .success(ingredientCost)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func getRecipeDuration(recipeId: Int) async -> Result<Int, Error> {
+        do {
+            let url = stringUrl + "recipe/duration/\(recipeId)"
+            let duration: Int = try await URLSession.shared.get(from: url)
+            return .success(duration)
+          } catch {
+            return .failure(error)
+        }
+    }
+
     func saveRecipe(recipe: Recipe) async -> Result<Bool, Error> {
         guard let recipeId = recipe.id else {
             return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))

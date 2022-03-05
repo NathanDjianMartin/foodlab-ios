@@ -1,19 +1,33 @@
 import SwiftUI
 
-struct ErrorView: View {
+enum TypeMessage {
+    case error
+    case success
+}
+
+struct MessageView: View {
     
-    @Binding var error: String?
+    @Binding var message: String?
+    var type: TypeMessage
     
     var body: some View {
-        if let error = error {
+        if let message = message {
             withAnimation {
                 HStack {
-                    Text(error)
-                        .foregroundColor(.red)
-                        .padding(.leading)
+                    switch self.type {
+                    case .error:
+                        Text(message)
+                            .foregroundColor(.red)
+                            .padding(.leading)
+                    case .success:
+                        Text(message)
+                            .foregroundColor(.green)
+                            .padding(.leading)
+                    }
+                    
                     Spacer()
                     Button {
-                        self.error = nil
+                        self.message = nil
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundColor(.red)
@@ -38,6 +52,6 @@ struct ErrorView: View {
 
 struct ErrorView_Previews: PreviewProvider {
     static var previews: some View {
-        ErrorView(error: .constant("Error in this view. Please fix error."))
+        MessageView(message: .constant("Error in this view. Please fix error."), type: TypeMessage.error)
     }
 }

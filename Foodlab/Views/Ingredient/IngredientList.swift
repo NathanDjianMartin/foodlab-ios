@@ -17,7 +17,7 @@ struct IngredientList: View {
     var body: some View {
         
         VStack {
-            ErrorView(error: $viewModel.error)
+            MessageView(message: $viewModel.error, type: TypeMessage.error)
             List {
                 if self.viewModel.ingredients.count <= 0 {
                     VStack {

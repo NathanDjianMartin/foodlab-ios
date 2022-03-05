@@ -19,10 +19,16 @@ struct Authentication: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedTextFieldStyle(color: .foodlabRed))
                 Button("Login") {
-                    withAnimation(.easeOut(duration: 0.5)) {
-                        print("TODO: loginnnnn")
-                        self.isAuthenticated = true
-                    }
+                    //withAnimation(.easeOut(duration: 0.5)) {
+                        Task {
+                            switch await UserDAO.login(email: email, password: password) {
+                            case .failure(let error):
+                                print(error)
+                            case .success(let isAuthenticated):
+                                self.isAuthenticated = isAuthenticated
+                            }
+                        }
+                    //}
                 }
                 .buttonStyle(DarkRedButtonStyle())
                 

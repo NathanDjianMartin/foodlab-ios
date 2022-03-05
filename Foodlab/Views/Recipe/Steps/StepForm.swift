@@ -18,7 +18,7 @@ struct StepForm: View {
                     Text("Cancel")
                 }
             }
-            .padding()
+            .padding(.trailing)
             
             HStack {
                 Text(step.id == nil ? "Step creation" : "Step modification")
@@ -29,17 +29,17 @@ struct StepForm: View {
             .padding()
             
             List {
-                TextField("Step title", text: $step.title)
-                TextEditor(text: $step.description)
-                Stepper(value: $step.duration) {
-                    Text(" \(step.duration) minute\(step.duration > 1 ? "s" : "")")
+                
+                Section("Step information") {
+                    TextField("Step title", text: $step.title)
+                    TextEditor(text: $step.description)
+                    Stepper(value: $step.duration) {
+                        Text(" \(step.duration) minute\(step.duration > 1 ? "s" : "")")
+                    }
                 }
-            }
-            
-            VStack {
-                Text("Ingredients in step")
-                if let ingredients = step.ingredients {
-                    List {
+                
+                Section("Ingredients") {
+                    if let ingredients = step.ingredients {
                         ForEach(ingredients.sorted(by: >), id: \.key) { key, value in
                             HStack {
                                 Text("\(key.name)")
@@ -48,33 +48,45 @@ struct StepForm: View {
                             }
                         }
                     }
-                    
                 }
                 
-                //TODO: add selector
-                Text("Add ingredient in step")
-                Stepper(value: $currentIngredientToAdd.quantity) {
-                    Text("\(currentIngredientToAdd.quantity) \(currentIngredientToAdd.ingredient.unit)")
+                VStack {
+                    HStack {
+                        // TODO: make an ingredient dropdown
+                        CategoryDropdown(dropDownList: MockData.allergenCategories)
+                        
+                    }
+                    Stepper(value: $currentIngredientToAdd.quantity) {
+                        Text("\(currentIngredientToAdd.quantity)/\(currentIngredientToAdd.ingredient.unit)")
+                    }
+                    HStack {
+                        Spacer()
+                        Button() {
+                            // TODO: intent to add ingredient to step
+                        } label: {
+                            Label("Add ingredient", systemImage: "plus")
+                                .foregroundColor(Color.foodlabRed)
+                        }
+                        .padding(.top)
+                    }
                 }
+                .padding()
+                .overlay {
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke()
+                }
+                
                 HStack {
                     Spacer()
-                    Button("Add ingredient") {
-                        print("TODO: Add ingredient to the list!")
+                    Button("OK") {
+                        // TODO: if edit mode...
                     }
                     .buttonStyle(DarkRedButtonStyle())
                 }
+                
             }
-            .padding()
-            
-            HStack {
-                Spacer()
-                Button("Add step") {
-                    print("TODO: Add step to the list!")
-                }
-                .buttonStyle(DarkRedButtonStyle())
-            }
-            
-        }.padding()
+            .listStyle(.plain)
+        }
     }
 }
 

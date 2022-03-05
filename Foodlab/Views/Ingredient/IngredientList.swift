@@ -17,7 +17,7 @@ struct IngredientList: View {
     var body: some View {
         
         VStack {
-            ErrorView(error: $viewModel.error)
+            MessageView(message: $viewModel.error, type: TypeMessage.error)
             List {
                 if self.viewModel.ingredients.count <= 0 {
                     VStack {
@@ -77,7 +77,7 @@ struct IngredientList: View {
                             break
                         case .success(let ingredients):
                             self.viewModel.ingredients = ingredients
-                            print(self.viewModel.ingredients)
+                            //print(self.viewModel.ingredients)
                         }
                     }
                 }

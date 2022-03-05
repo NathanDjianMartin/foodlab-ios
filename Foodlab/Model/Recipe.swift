@@ -37,13 +37,13 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
     }
     var recipeCategory: Category
     var costData: CostData
-    var execution: RecipeExecution
+    var execution: RecipeExecution?
     
     var duration: Int {
         0
     }
     
-    init(id: Int? = nil, title: String, author: String, guestsNumber: Int, recipeCategory: Category, costData: CostData, execution: RecipeExecution) {
+    init(id: Int? = nil, title: String, author: String, guestsNumber: Int, recipeCategory: Category, costData: CostData, execution: RecipeExecution?) {
         self.id = id
         self.title = title
         

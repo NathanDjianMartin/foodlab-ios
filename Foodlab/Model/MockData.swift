@@ -46,12 +46,16 @@ struct MockData {
     
     //IngredientCategories
     static let legume = Category(id: 1, name: "Légume")
-    static let crustace = Category(id: 1, name: "Crustacé")
-    static let entree = Category(id: 1, name: "Entrée")
+    static let crustace = Category(id: 2, name: "Crustacé")
+    
+    // Recipe Categories
+    static let entree = Category(id: 2, name: "Entrée")
+    static let dessert = Category(id: 1, name: "Dessert")
+    static let plat = Category(id: 3, name: "Plat")
     
     static let ingredientCategoriesModel = [Category](repeating: legume, count: 3)
     static let allergenCategoriesModel = [Category](repeating: crustace, count: 2)
-    static let recipeCategoriesModel = [Category](repeating: entree, count: 2)
+    static let recipeCategoriesModel = [entree, dessert, plat]
     
     //Cost data
     static let costData = CostData(id: 1, averageHourlyCost: 7.0, flatrateHourlyCost: 8.0, coefWithCharges: 4.2, coefWithoutCharges: 5.6)

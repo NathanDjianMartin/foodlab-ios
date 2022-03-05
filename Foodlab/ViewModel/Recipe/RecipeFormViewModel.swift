@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-enum RecipeFormError: Error, CustomStringConvertible, Equatable {
+enum RecipeFormError: LocalizedError, Equatable {
     case titleEmpty
     case authorEmpty
     
@@ -23,6 +23,8 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     @Published var title: String // 7 (@Published)
     @Published var author: String
     @Published var guestNumber: Int
+    @Published var category: Category?
+    @Published var errorMessage: String?
     
     init(model: Recipe) {
         self.model = model
@@ -31,15 +33,16 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
         self.title = model.title
         self.author = model.author
         self.guestNumber = model.guestsNumber
+        self.category = model.recipeCategory
         self.model.addSubscriber(self)
     }
     
     
-    private func validate() {
-        self.model.title = self.modelCopy.title
-        self.model.author = self.modelCopy.author
-        self.model.guestsNumber = self.modelCopy.guestsNumber
-    }
+//    private func validate() {
+//        self.model.title = self.modelCopy.title
+//        self.model.author = self.modelCopy.author
+//        self.model.guestsNumber = self.modelCopy.guestsNumber
+//    }
     
     
     // MARK: --
@@ -90,8 +93,14 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
             self.modelCopy.author = newAuthor
         case .recipeGuestNumberChanging(let newGuestNumber):
             self.modelCopy.guestsNumber = newGuestNumber
+        case .recipeCategoryChanging(let newCategory):
+            self.modelCopy.recipeCategory = newCategory
         case .validateChanges:
-            self.validate()
+            self.model.title = self.modelCopy.title
+            self.model.author = self.modelCopy.author
+            self.model.guestsNumber = self.modelCopy.guestsNumber
+        case .error(let errorMessage):
+            self.errorMessage = errorMessage
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

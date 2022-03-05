@@ -7,14 +7,17 @@ enum RecipePickerSelection: String {
 }
 
 struct RecipeDetails: View {
-    var recipe: Recipe // TODO: use a VM
+    
     @ObservedObject var viewModel: RecipeDetailsViewModel
+    private var intent: RecipeIntent
+    
     @State private var selectedTab: RecipePickerSelection = .steps
     @State private var showRecipeForm = false
     
-    init(recipe: Recipe) {
-        self.recipe = recipe
-        self.viewModel = RecipeDetailsViewModel(model: recipe)
+    init(viewModel: RecipeDetailsViewModel, intent: RecipeIntent) {
+        self.viewModel = viewModel
+        self.intent = intent
+        self.intent.addObserver(viewModel)
     }
     
     var body: some View {
@@ -44,11 +47,16 @@ struct RecipeDetails: View {
             
             switch selectedTab {
             case .steps:
-                RecipeExecutionSteps(execution: recipe.execution)
+                if let execution = self.viewModel.model.execution {
+                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
+                } else {
+                    Text("This recipe is empty")
+                }
             case .ingredients:
                 Text("RecipeIngredients")
             case .costs:
-                Text("RecipeCosts")
+                // TODO: récupérer les informations mais je sais pas où mettre le await 
+                CostView(viewModel: CostDataViewModel(model: viewModel.model.costData), intent: CostDataIntent(), ingredientCost: 2, recipeDuration: 2, recipeId: viewModel.model.id!)
             }
             Spacer()
         }
@@ -62,13 +70,13 @@ struct RecipeDetails: View {
         .navigationBarTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showRecipeForm) {
-            RecipeForm(viewModel: RecipeFormViewModel(model: recipe), isPresented: $showRecipeForm)
+            RecipeForm(viewModel: RecipeFormViewModel(model: viewModel.model), intent: self.intent, isPresented: $showRecipeForm)
         }
     }
 }
 
 struct RecipeDetails_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeDetails(recipe: MockData.recipePates)
+        RecipeDetails(viewModel: RecipeDetailsViewModel(model: MockData.recipeCrepes), intent: RecipeIntent())
     }
 }

@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct CategoryDropdown: View {
-    @State var selectedCategory: Category?
+    @Binding var selectedCategory: Category?
     var placeholder: String
     var dropDownList: [Category]
     var canBeEmpty: Bool
     
-    init(selectedCategory: Category? = nil, placeholder: String = "Select element", dropDownList: [Category], canBeEmpty: Bool = true) {
-        self.selectedCategory = selectedCategory
+    init(selectedCategory: Binding<Category?> = .constant(nil), placeholder: String = "Select element", dropDownList: [Category], canBeEmpty: Bool = true) {
+        self._selectedCategory = selectedCategory
         self.placeholder = placeholder
         self.dropDownList = dropDownList
         self.canBeEmpty = canBeEmpty

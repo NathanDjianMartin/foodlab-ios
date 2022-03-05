@@ -97,6 +97,15 @@ struct CategoryDAO {
         }
     }
     
+    static func deleteCategoryById(type: CategoryType, id: Int) async -> Result<Bool, Error> {
+        do {
+            let deleted: Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "\(type.rawValue)/\(id)")
+            return .success(deleted)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
     static func getCategoryDTOFromCategory(category: Category) -> CategoryDTO {
         let categoryDTO = CategoryDTO(
             id: category.id,

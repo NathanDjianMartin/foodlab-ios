@@ -26,12 +26,12 @@ struct UserIntent {
     // Never = error type
     private var formState = PassthroughSubject<UserFormIntentState, Never>()
     private var listState = PassthroughSubject<UserListIntentState, Never>()
-    /*
+    
     func addObserver(userFormViewModel: UserFormViewModel) {
         // a view model wants to be notified when this intent changes so it subscribes
-        self.formState.subscribe(ingredientFormViewModel)
+        self.formState.subscribe(userFormViewModel)
     }
-    */
+    
     func addObserver(userListViewModel: UserListViewModel) {
         // a view model wants to be notified when this intent changes so it subscribes
         self.listState.subscribe(userListViewModel)

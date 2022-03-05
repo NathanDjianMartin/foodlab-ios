@@ -52,7 +52,7 @@ struct UserDAO {
         let userDTO = getUserDTOFromUser(user: user)
         do {
             //TODO: verifier id
-            let decoded : UserDTO = try await URLSession.shared.create(from: stringUrl+"user", object: userDTO)
+            let decoded : UserDTO = try await URLSession.shared.create(from: stringUrl+"user/create", object: userDTO)
             return .success(getUserFromUserDTO(userDTO: decoded))
         } catch {
             // on propage l'erreur transmise par la fonction post

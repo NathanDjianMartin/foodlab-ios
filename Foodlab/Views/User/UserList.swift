@@ -4,6 +4,7 @@ struct UserList: View {
     
     @State private var showUserCreation = false
     @State private var userToDelete: User?
+    @State private var userToCreate: User?
     @ObservedObject var viewModel: UserListViewModel
     private var intent: UserIntent
     
@@ -29,13 +30,13 @@ struct UserList: View {
                 }
             }
         }
-        .sheet(isPresented: $showUserCreation) {
-            UserCreation(isPresented: $showUserCreation)
+        .sheet(item: self.$userToCreate) { user in
+            UserCreation(userVM: UserFormViewModel(model: user), intent: UserIntent(), isPresented: $userToCreate)
         }
         .navigationTitle("Users")
         .toolbar {
             Button(action: {
-                showUserCreation = true
+                self.userToCreate = User(name: "", email: "", password: "", isAdmin: false)
             }) {
                 Image(systemName: "plus")
             }

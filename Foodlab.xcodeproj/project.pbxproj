@@ -53,6 +53,7 @@
 		6FE7065F27D275070032A881 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE7065E27D275070032A881 /* KeychainHelper.swift */; };
 		6FE7066227D2929D0032A881 /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE7066127D2929D0032A881 /* UserListViewModel.swift */; };
 		6FE7066527D293020032A881 /* UserIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE7066427D293020032A881 /* UserIntent.swift */; };
+		6FE7066727D356690032A881 /* UserFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE7066627D356690032A881 /* UserFormViewModel.swift */; };
 		C108924B27AAFE2800067819 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C108924A27AAFE2800067819 /* ColorExtension.swift */; };
 		C109CAA427CA939800C04CEE /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C109CAA327CA939800C04CEE /* MessageView.swift */; };
 		C11BDB4027C6256B004977D4 /* RecipeFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11BDB3D27C6256B004977D4 /* RecipeFormViewModel.swift */; };
@@ -149,6 +150,7 @@
 		6FE7065E27D275070032A881 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		6FE7066127D2929D0032A881 /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		6FE7066427D293020032A881 /* UserIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIntent.swift; sourceTree = "<group>"; };
+		6FE7066627D356690032A881 /* UserFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormViewModel.swift; sourceTree = "<group>"; };
 		C108924A27AAFE2800067819 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		C109CAA327CA939800C04CEE /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		C11BDB3D27C6256B004977D4 /* RecipeFormViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeFormViewModel.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				6FE7066127D2929D0032A881 /* UserListViewModel.swift */,
+				6FE7066627D356690032A881 /* UserFormViewModel.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				6F51486327D245B900E319F3 /* RecipeCost.swift in Sources */,
 				6F1B753A27CA23E400C8A16F /* StepDAO.swift in Sources */,
 				6F0E995127D1FDF000EEC209 /* CostDataViewModel.swift in Sources */,
+				6FE7066727D356690032A881 /* UserFormViewModel.swift in Sources */,
 				6FA8905D27BE87CC0037E851 /* UserDAO.swift in Sources */,
 				6FE7066527D293020032A881 /* UserIntent.swift in Sources */,
 				6F1B754227CA491400C8A16F /* IngredientWithinStepDAO.swift in Sources */,

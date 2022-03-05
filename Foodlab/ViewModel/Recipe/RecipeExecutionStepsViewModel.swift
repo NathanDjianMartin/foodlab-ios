@@ -19,8 +19,12 @@ class RecipeExecutionStepsViewModel: ObservableObject, Subscriber, RecipeExecuti
         self.steps.append(step)
     }
     
-    func removedStep(at index: Int) {
-        self.steps.remove(at: index)
+    func removedStep(at offSets: IndexSet) {
+        self.steps.remove(atOffsets: offSets)
+    }
+    
+    func moved(source: IndexSet, destination: Int) {
+        self.steps.move(fromOffsets: source, toOffset: destination)
     }
     
     // MARK: -
@@ -45,13 +49,11 @@ class RecipeExecutionStepsViewModel: ObservableObject, Subscriber, RecipeExecuti
         switch input {
         case .ready:
             break
-        case .test:
-            print("Test called")
         case .removingStep(let indexSet):
             print(".removingStep")
-            for i in indexSet {
-                self.model.removeStep(at: i)
-            }
+            self.model.removeStep(atOffsets: indexSet)
+        case .movingSteps(let source, let destination):
+            self.model.move(fromOffsets: source, toOffset: destination)
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

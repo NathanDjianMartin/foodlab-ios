@@ -23,7 +23,7 @@ enum RecipeDetailsIntentState {
 enum RecipeExecutionStepsIntentState {
     case ready
     case removingStep(IndexSet)
-    case test
+    case movingSteps(IndexSet, Int)
 }
 
 struct RecipeIntent {
@@ -99,6 +99,10 @@ struct RecipeIntent {
 //            // TODO: make request in database
 //        }
         self.recipeExecutionStepsState.send(.removingStep(indexSet))
+    }
+    
+    func intentToMoveSteps(source indexSet: IndexSet, destination index: Int) {
+        self.recipeExecutionStepsState.send(.movingSteps(indexSet, index))
     }
     
     func intentToValidate() {

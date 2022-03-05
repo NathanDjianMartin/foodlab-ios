@@ -44,6 +44,9 @@ struct RecipeExecutionSteps: View {
                     }
                     self.intent.intentToRemoveStep(at: indexSet)
                 }
+                .onMove { source, destination in
+                    self.intent.intentToMoveSteps(source: source, destination: destination)
+                }
                 .sheet(isPresented: $showSheet) {
                     StepForm(step: MockData.step, isPresented: $showSheet)
                 }

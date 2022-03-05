@@ -2,7 +2,8 @@ import Foundation
 
 protocol RecipeExecutionObserver {
     func addedStep(_ step: Step)
-    func removedStep(at index: Int)
+    func removedStep(at offSets: IndexSet)
+    func moved(source: IndexSet, destination: Int)
 }
 
 class RecipeExecution: Step {
@@ -27,10 +28,24 @@ class RecipeExecution: Step {
         }
     }
     
-    func removeStep(at index: Int) {
-        self.steps.remove(at: index)
+//    func removeStep(at index: Int) {
+//        self.steps.remove(at: index)
+//        for observer in observers {
+//            observer.removedStep(at: index)
+//        }
+//    }
+    
+    func removeStep(atOffsets offsets: IndexSet) {
+        self.steps.remove(atOffsets: offsets)
         for observer in observers {
-            observer.removedStep(at: index)
+            observer.removedStep(at: offsets)
+        }
+    }
+    
+    func move(fromOffsets source: IndexSet, toOffset destination: Int) {
+        self.steps.move(fromOffsets: source, toOffset: destination)
+        for observer in observers {
+            observer.moved(source: source, destination: destination)
         }
     }
 }

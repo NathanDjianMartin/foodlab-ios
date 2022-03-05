@@ -27,25 +27,32 @@ struct RecipeExecutionSteps: View {
                 ForEach(Array(zip(steps.indices, steps)), id: \.0) { (index, step) in
                     let displayIndex = index + 1
                     if let simpleStep = step as? SimpleStep {
-                        SimpleStepRow(step: simpleStep, index: displayIndex)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .onTapGesture {
-                                self.showSheet = true
-                            }
-                            .swipeActions {
-                                Button {
-                                    Task {
-                                        if let id = step.stepWithinRecipeExecutionId {
-                                            await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
-                                        } else {
-                                            // TODO:
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "trash")
+                        NavigationLink {
+                            IngredientListInStep(ingredients: simpleStep.ingredients)
+                                .navigationTitle("Ingredients")
+                        } label: {
+                            SimpleStepRow(step: simpleStep, index: displayIndex)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .onTapGesture {
+                                    self.showSheet = true
                                 }
-                                .tint(.foodlabRed)
-                            }
+                                .swipeActions {
+                                    Button {
+                                        Task {
+                                            if let id = step.stepWithinRecipeExecutionId {
+                                                await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                            } else {
+                                                // TODO:
+                                            }
+                                        }
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+                                    .tint(.foodlabRed)
+                                }
+                        }
+                        
+                       
                     } else if let execution = step as? RecipeExecution {
                         NavigationLink {
                             RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)

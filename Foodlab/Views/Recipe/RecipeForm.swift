@@ -30,7 +30,7 @@ struct RecipeForm: View {
                 }
             }
             .padding()
-            ErrorView(error: $viewModel.errorMessage)
+            MessageView(message: $viewModel.errorMessage, type: TypeMessage.error)
             HStack {
                 Text(creationMode ? "Create recipe" : "Edit recipe")
                     .font(.largeTitle)

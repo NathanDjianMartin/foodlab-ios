@@ -13,11 +13,13 @@ class LoggedUser: Identifiable, ObservableObject {
     @Published var name: String
     @Published var email: String
     @Published var isAdmin: Bool
+    @Published var isAuthenticated: Bool
     
-    internal init(id: Int? = nil, name: String, email: String, isAdmin: Bool) {
+    internal init(id: Int? = nil, name: String, email: String, isAdmin: Bool, isAuthenticated: Bool) {
         self.id = id
         self.name = name
         self.email = email
         self.isAdmin = isAdmin
+        self.isAuthenticated = isAuthenticated
     }
 }

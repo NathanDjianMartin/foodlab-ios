@@ -1,16 +1,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isAuthenticated: Bool = false
-    @StateObject var loggedUser: LoggedUser = LoggedUser(name: "", email: "", isAdmin: false)
+    @StateObject var loggedUser: LoggedUser = LoggedUser(name: "", email: "", isAdmin: false, isAuthenticated: false)
     
     var body: some View {
-        if isAuthenticated {
+        if loggedUser.isAuthenticated {
             MainView()
                 .transition(.opacity)
                 .environmentObject(loggedUser)
         } else {
-            Authentication(isAuthenticated: $isAuthenticated)
+            Authentication()
                 .transition(.opacity)
                 .environmentObject(loggedUser)
         }

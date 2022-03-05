@@ -29,7 +29,8 @@ struct MainView: View {
             }
             
             NavigationView {
-                SettingsSummary(user: loggedUser)
+                SettingsSummary()
+                    .environmentObject(loggedUser)
             }
             .tabItem {
                 Label("Settings", systemImage: "gear")

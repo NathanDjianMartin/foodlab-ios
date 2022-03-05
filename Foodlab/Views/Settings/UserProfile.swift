@@ -25,6 +25,6 @@ struct UserProfile: View {
 
 struct UserProfile_Previews: PreviewProvider {
     static var previews: some View {
-        UserProfile(user: LoggedUser(name: MockData.user.name, email: MockData.user.email, isAdmin: MockData.user.isAdmin))
+        UserProfile(user: LoggedUser(name: MockData.user.name, email: MockData.user.email, isAdmin: MockData.user.isAdmin, isAuthenticated: true))
     }
 }

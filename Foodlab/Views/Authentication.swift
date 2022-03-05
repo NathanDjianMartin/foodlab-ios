@@ -3,7 +3,6 @@ import SwiftUI
 struct Authentication: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @Binding var isAuthenticated: Bool
     
     @EnvironmentObject var loggedUser: LoggedUser
     
@@ -34,7 +33,7 @@ struct Authentication: View {
                                     loggedUser.email = user.email
                                     loggedUser.name = user.name
                                     loggedUser.isAdmin = user.isAdmin
-                                    self.isAuthenticated = isAuthenticated
+                                    loggedUser.isAuthenticated = isAuthenticated
                                 }
                             }
                         }
@@ -53,8 +52,8 @@ struct Authentication: View {
 struct Authentication_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            Authentication(isAuthenticated: .constant(false))
-            Authentication(isAuthenticated: .constant(true))
+            Authentication()
+            Authentication()
                 .previewInterfaceOrientation(.landscapeLeft)
         }
     }

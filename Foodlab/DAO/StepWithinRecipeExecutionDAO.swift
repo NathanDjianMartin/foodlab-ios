@@ -44,5 +44,18 @@ struct StepWithinRecipeExecutionDAO {
         
     }
     
+    static func deleteStepWithinRecipeExecution(id: Int) async -> Result<Bool, Error> {
+        do {
+            
+            let isDeleted : Bool = try await URLSession.shared.delete(from: stringUrl + "remove-step-within-recipe-execution\(id)")
+            return .success(isDeleted)
+        }catch {
+            // on propage l'erreur transmise par la fonction post
+            return .failure(error)
+        }
+        
+        
+    }
+    
     
 }

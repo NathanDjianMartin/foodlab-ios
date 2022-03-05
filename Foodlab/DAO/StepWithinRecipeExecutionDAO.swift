@@ -35,7 +35,7 @@ struct StepWithinRecipeExecutionDAO {
         do {
             let stepWithinRecipeExecutionDTO = StepWithinRecipeExecutionDTO(recipeExecutionId: recipeExecutionId, stepId: stepId)
             
-            let stepDTOresult : StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
+            let _: StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
             return .success(true)
         }catch {
             // on propage l'erreur transmise par la fonction post

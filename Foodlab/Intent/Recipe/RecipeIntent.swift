@@ -108,7 +108,7 @@ struct RecipeIntent {
     func intentToUpdateRecipeExecution(_ execution: RecipeExecution) async {
         switch await RecipeExecutionDAO.shared.saveRecipeExecution(execution) {
         case .success:
-            print("SUCCESS WHILE UPDATING STEPS ORDER")
+            break
         case .failure(let error):
             print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\(error.localizedDescription)")
             // TODO: send error state to RecipeStepsState

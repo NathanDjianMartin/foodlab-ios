@@ -81,18 +81,6 @@ class RecipeExecutionDAO {
         }
     }
     
-    //    func createRecipeExecution(recipeExecution: RecipeExecution) async -> Result<RecipeExecution, Error> {
-    //        let recipeExecutionDTO = getDTOFromRecipeExecution(recipeExecution)
-    //
-    //        do {
-    //            let url = stringUrl + "recipe-execution"
-    //            let createdRecipeExecutionDTO: RecipeExecutionDTO = try await URLSession.shared.create(from: url, object: recipeExecutionDTO)
-    //            return await getRecipeExecutionFromDTO(createdRecipeExecutionDTO)
-    //        } catch {
-    //            return .failure(error)
-    //        }
-    //    }
-    
     
     // MARK: -
     // MARK: private functions

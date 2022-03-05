@@ -2,8 +2,10 @@ import SwiftUI
 
 struct RecipeExecutionSteps: View {
     @Environment(\.editMode) private var editMode
+    @State private var oldEditMode: EditMode = .inactive
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
+    
     
     @State private var showSheet = false
     
@@ -30,6 +32,14 @@ struct RecipeExecutionSteps: View {
                             .onTapGesture {
                                 self.showSheet = true
                             }
+                            .swipeActions {
+                                Button {
+                                    self.intent.intentToRemoveStep(at: IndexSet(integer: index))
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .tint(.foodlabRed)
+                            }
                     } else if let execution = step as? RecipeExecution {
                         NavigationLink {
                             RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
@@ -39,9 +49,9 @@ struct RecipeExecutionSteps: View {
                         }
                     }
                 }
-                .onDelete { indexSet in
-                    self.intent.intentToRemoveStep(at: indexSet)
-                }
+                //                .onDelete { indexSet in
+                //                    self.intent.intentToRemoveStep(at: indexSet)
+                //                }
                 .onMove { source, destination in
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
@@ -58,13 +68,13 @@ struct RecipeExecutionSteps: View {
             if value.isEditing {
                 // Entering edit mode (e.g. 'Edit' tapped)
             } else {
-                // Leaving edit mode (e.g. 'Done' tapped)
-                Task {
-                    print("BEFORE AWAIT INTENT TO UPDATERECIPEEXECUTION")
-                    await self.intent.intentToUpdateRecipeExecution(self.viewModel.model)
-                    print("AFTER AWAIT INTENT TO UPDATERECIPEEXECUTION")
+                if value == .inactive && self.oldEditMode == .active { // leaving REAL edit mode
+                    Task {
+                        await self.intent.intentToUpdateRecipeExecution(self.viewModel.model)
+                    }
                 }
             }
+            self.oldEditMode = value
         })
     }
 }

@@ -1,13 +1,20 @@
 import Foundation
 
 enum RecipeExecutionDAOError: LocalizedError {
-    case noId(String)
+    case noIdInDTO(String)
+    case noIdInModel(String)
     
     var description: String {
         switch self {
-        case .noId(let recipeExecutionTitle):
+        case .noIdInDTO(let recipeExecutionTitle):
             return "No recipe execution id was found in the RecipeExecutionDTO named \(recipeExecutionTitle)"
+        case .noIdInModel(let recipeExecutionTitle):
+            return "No recipe execution id was found in the RecipeExecution model named \(recipeExecutionTitle)"
         }
+    }
+    
+    var errorDescription: String? {
+        return self.description
     }
 }
 
@@ -34,17 +41,31 @@ class RecipeExecutionDAO {
         }
     }
     
-    func createRecipeExecution(recipeExecution: RecipeExecution) async -> Result<RecipeExecution, Error> {
-        let recipeExecutionDTO = getDTOFromRecipeExecution(recipeExecution)
-        
+    func saveRecipeExecution(_ execution: RecipeExecution) async -> Result<RecipeExecution, Error> {
+        guard let executionId = execution.id else {
+            return .failure(RecipeExecutionDAOError.noIdInModel(execution.title))
+        }
         do {
-            let url = stringUrl + "recipe-execution"
-            let createdRecipeExecutionDTO: RecipeExecutionDTO = try await URLSession.shared.create(from: url, object: recipeExecutionDTO)
-            return await getRecipeExecutionFromDTO(createdRecipeExecutionDTO)
+            let url = ""
+            let recipeExecutionDTO = getDTOFromRecipeExecution(execution)
+            let done = try await URLSession.shared.update(from: url, object: recipeExecutionDTO)
+            return .success(execution)
         } catch {
             return .failure(error)
         }
     }
+    
+//    func createRecipeExecution(recipeExecution: RecipeExecution) async -> Result<RecipeExecution, Error> {
+//        let recipeExecutionDTO = getDTOFromRecipeExecution(recipeExecution)
+//
+//        do {
+//            let url = stringUrl + "recipe-execution"
+//            let createdRecipeExecutionDTO: RecipeExecutionDTO = try await URLSession.shared.create(from: url, object: recipeExecutionDTO)
+//            return await getRecipeExecutionFromDTO(createdRecipeExecutionDTO)
+//        } catch {
+//            return .failure(error)
+//        }
+//    }
     
     
     // MARK: -
@@ -52,7 +73,7 @@ class RecipeExecutionDAO {
     
     private func getRecipeExecutionFromDTO(_ dto: RecipeExecutionDTO) async -> Result<RecipeExecution, Error> {
         guard let recipeExecutionId = dto.id else {
-            return .failure(RecipeExecutionDAOError.noId(dto.stepTitle))
+            return .failure(RecipeExecutionDAOError.noIdInDTO(dto.stepTitle))
         }
         
         let recipeExecution = RecipeExecution(id: recipeExecutionId, title: dto.stepTitle)
@@ -70,7 +91,7 @@ class RecipeExecutionDAO {
         }
         
         for step in stepsWithinRecipeExecution {
-            recipeExecution.addStep(step.1) // adds the actual step without it's number property
+            recipeExecution.addStep(step.1) // adds the actual step without it's associated number
         }
         
         return .success(recipeExecution)

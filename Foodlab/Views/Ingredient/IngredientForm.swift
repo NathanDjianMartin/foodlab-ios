@@ -36,19 +36,16 @@ struct IngredientForm: View {
                     .onSubmit {
                         intent.intentToChange(name: viewModel.name)
                     }
-                
-                TextField("Unit", text: $viewModel.unit)
-                    .onSubmit {
-                        intent.intentToChange(unit: viewModel.unit)
-                    }
-                
                 HStack {
-                    Text("Unitary price")
-                        .lineLimit(1)
-                    Divider()
                     TextField("Price", value: $viewModel.unitaryPrice, formatter: FormatterHelper.decimalFormatter)
                         .onSubmit {
                             intent.intentToChange(unitaryPrice: viewModel.unitaryPrice)
+                        }
+                    Text("/")
+                        .foregroundColor(.secondary)
+                    TextField("Unit", text: $viewModel.unit)
+                        .onSubmit {
+                            intent.intentToChange(unit: viewModel.unit)
                         }
                 }
                 
@@ -62,10 +59,18 @@ struct IngredientForm: View {
                         }
                 }
                 
-                //TODO: gerer les categories
-                CategoryDropdown(selectedCategory: viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories, canBeEmpty: false)
-                // TODO: implement onSubmit
-                CategoryDropdown(selectedCategory: viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                CategoryDropdown(selectedCategory: $viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories, canBeEmpty: false)
+                    .onChange(of: self.viewModel.ingredientCategory) { ingredientCategory in
+                        if let realIngredientCategory = ingredientCategory {
+                            self.intent.intentToChange(ingredientCategory: realIngredientCategory)
+                        }
+                    }
+                CategoryDropdown(selectedCategory: $viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                    .onChange(of: self.viewModel.allergenCategory) { allergenCategory in
+                        if let realAllergenCategory = allergenCategory {
+                            self.intent.intentToChange(allergenCategory: realAllergenCategory)
+                        }
+                    }
                 
                 HStack {
                     Spacer()

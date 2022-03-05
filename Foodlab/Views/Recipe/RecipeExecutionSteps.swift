@@ -52,6 +52,20 @@ struct RecipeExecutionSteps: View {
                                 .navigationTitle(execution.title)
                         } label: {
                             RecipeExecutionRow(execution: execution, index: displayIndex)
+                                .swipeActions {
+                                Button {
+                                    Task {
+                                        if let id = step.stepWithinRecipeExecutionId {
+                                            await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                        } else {
+                                            // TODO:
+                                        }
+                                    }
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .tint(.foodlabRed)
+                            }
                         }
                     }
                 }

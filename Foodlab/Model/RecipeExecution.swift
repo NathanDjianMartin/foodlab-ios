@@ -28,7 +28,7 @@ class RecipeExecution: Step {
         }
     }
     
-    func predicate(i: Int) throws -> Bool {
+    private func predicate(i: Int) throws -> Bool {
         return i < self.steps.count
     }
     

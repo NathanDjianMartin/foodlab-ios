@@ -23,7 +23,7 @@ struct IngredientList: View {
                     VStack {
                         ProgressView()
                             .progressViewStyle(.circular)
-                        Text("We're gathering the ingredients :)")
+                        Text("We're gathering the ingredients 😬")
                     }
                 }
                 ForEach(Array(viewModel.ingredients.enumerated()), id: \.element.self) { ingredientIndex, ingredient in

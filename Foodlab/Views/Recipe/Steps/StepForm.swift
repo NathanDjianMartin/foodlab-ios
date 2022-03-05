@@ -1,10 +1,3 @@
-//
-//  StepForm.swift
-//  Foodlab
-//
-//  Created by m1 on 20/02/2022.
-//
-
 import SwiftUI
 
 struct StepForm: View {
@@ -56,7 +49,7 @@ struct StepForm: View {
                         }
                     }
                     
-            }
+                }
                 
                 //TODO: add selector
                 Text("Add ingredient in step")

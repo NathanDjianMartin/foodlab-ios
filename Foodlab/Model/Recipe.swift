@@ -69,4 +69,16 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
                       costData: self.costData,
                       execution: self.execution)
     }
+    
+    func updatePropertiesWith(recipe: Recipe) {
+        self.id = recipe.id
+        self.title = recipe.title
+        
+        self.subscribers = recipe.subscribers
+        self.author = recipe.author
+        self.guestsNumber = recipe.guestsNumber
+        self.recipeCategory = recipe.recipeCategory
+        self.costData = recipe.costData
+        self.execution = recipe.execution
+    }
 }

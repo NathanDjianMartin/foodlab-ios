@@ -13,6 +13,7 @@ struct RecipeDetails: View {
     
     @State private var selectedTab: RecipePickerSelection = .steps
     @State private var showRecipeForm = false
+    @State private var errorMessage: String?
     
     init(viewModel: RecipeDetailsViewModel, intent: RecipeIntent) {
         self.viewModel = viewModel
@@ -22,6 +23,7 @@ struct RecipeDetails: View {
     
     var body: some View {
         VStack {
+            MessageView(message: $errorMessage, type: .error)
             HStack {
                 VStack(alignment: .leading) {
                     Text(viewModel.title)
@@ -50,7 +52,11 @@ struct RecipeDetails: View {
                 if let execution = self.viewModel.model.execution {
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
                 } else {
-                    Text("This recipe is empty")
+                    VStack {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                        Text("We're loading the recipe 🤤")
+                    }
                 }
             case .ingredients:
                 Text("RecipeIngredients")
@@ -71,6 +77,20 @@ struct RecipeDetails: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showRecipeForm) {
             RecipeForm(viewModel: RecipeFormViewModel(model: viewModel.model), intent: self.intent, isPresented: $showRecipeForm)
+        }
+        .onAppear {
+            guard let recipeId = self.viewModel.model.id else {
+                self.errorMessage = "No id in recipe model \(self.viewModel.title)"
+                return
+            }
+            Task {
+                switch await RecipeDAO.shared.getRecipeById(recipeId) {
+                case .success(let recipe):
+                    self.viewModel.model.updatePropertiesWith(recipe: recipe)
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
         }
     }
 }

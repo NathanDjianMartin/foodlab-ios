@@ -56,6 +56,27 @@ class RecipeDAO {
         }
     }
     
+    func getAllRecipes() async -> Result<[Recipe], Error> {
+        do {
+            let url = stringUrl + "recipe"
+            let recipeDTOs: [RecipeDTO] = try await URLSession.shared.get(from: url)
+            var recipes: [Recipe] = []
+            
+            for dto in recipeDTOs {
+                switch await self.getRecipeHeaderFromDTO(dto) {
+                case .success(let recipe):
+                    recipes.append(recipe)
+                case .failure(let error):
+                    return .failure(error)
+                }
+            }
+            
+            return .success(recipes)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
     /**
      Creates a recipe in the backend given a Recipe model.
      - parameter recipe: the Recipe model that will be used to create the Recipe in the backend
@@ -94,11 +115,11 @@ class RecipeDAO {
             let url = stringUrl + "recipe/duration/\(recipeId)"
             let duration: Int = try await URLSession.shared.get(from: url)
             return .success(duration)
-          } catch {
+        } catch {
             return .failure(error)
         }
     }
-
+    
     func saveRecipe(recipe: Recipe) async -> Result<Bool, Error> {
         guard let recipeId = recipe.id else {
             return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))
@@ -162,6 +183,32 @@ class RecipeDAO {
         }
         
         return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: execution))
+    }
+    
+    /**
+     Gets a Recipe from a given RecipeDTO but without the informations such as cost data and ingredients and recipe execution
+     - parameter dto: the RecipeDTO which will be used to get the associated Recipe
+     - returns: a Recipe in case of succes; an Error otherwise
+     */
+    private func getRecipeHeaderFromDTO(_ dto: RecipeDTO) async -> Result<Recipe, Error> {
+        guard let recipeId = dto.id else {
+            return .failure(RecipeDAOError.noRecipeIdInDTO(dto.name))
+        }
+        //        guard let executionId = dto.recipeExecutionId else {
+        //            return .failure(RecipeDAOError.noRecipeExecutionIdInDTO(dto.name))
+        //        }
+        
+        let category: Category
+        switch await CategoryDAO.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
+        case .success(let recipeCategory):
+            category = recipeCategory
+        case .failure(let error):
+            return .failure(error)
+        }
+        
+        let costData: CostData = CostData(averageHourlyCost: 0, flatrateHourlyCost: 0, coefWithCharges: 0, coefWithoutCharges: 0)
+        
+        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: nil))
     }
     
     private func getDTOFromRecipe(_ recipe: Recipe) -> Result<RecipeDTO, Error> {

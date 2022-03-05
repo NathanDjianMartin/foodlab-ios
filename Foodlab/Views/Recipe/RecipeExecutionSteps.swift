@@ -6,7 +6,6 @@ struct RecipeExecutionSteps: View {
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
     
-    
     @State private var showSheet = false
     
     init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent) {
@@ -18,6 +17,12 @@ struct RecipeExecutionSteps: View {
     var body: some View {
         VStack {
             HStack {
+                Button {
+                    self.showSheet = true
+                } label: {
+                    Label("Add step", systemImage: "plus")
+                        .foregroundColor(Color.foodlabRed)
+                }
                 Spacer()
                 EditButton()
             }
@@ -69,9 +74,6 @@ struct RecipeExecutionSteps: View {
                         }
                     }
                 }
-                //                .onDelete { indexSet in
-                //                    self.intent.intentToRemoveStep(at: indexSet)
-                //                }
                 .onMove { source, destination in
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
@@ -81,9 +83,6 @@ struct RecipeExecutionSteps: View {
             }
             .listStyle(.plain)
         }
-        //        .onChange(of: self.editMode.unsafelyUnwrapped) { mode in
-        //
-        //        }
         .onChange(of: editMode!.wrappedValue, perform: { value in
             if value.isEditing {
                 // Entering edit mode (e.g. 'Edit' tapped)

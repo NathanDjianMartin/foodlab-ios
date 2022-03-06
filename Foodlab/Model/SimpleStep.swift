@@ -12,5 +12,11 @@ class SimpleStep: Step, ObservableObject {
         self.duration = duration
         self.ingredients = ingredients
         super.init(id: id, title: title)
+        self.stepWithinRecipeExecutionId = super.stepWithinRecipeExecutionId
+    }
+    
+    func copy() -> SimpleStep {
+        let step = SimpleStep(id: self.id, title: self.title, stepDescription: self.description, duration: self.duration, ingredients: self.ingredients)
+        return step
     }
 }

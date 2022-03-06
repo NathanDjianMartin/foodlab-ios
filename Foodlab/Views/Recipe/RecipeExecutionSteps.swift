@@ -6,7 +6,6 @@ struct RecipeExecutionSteps: View {
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
     
-    
     @State private var showSheet = false
     
     init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent) {
@@ -18,6 +17,12 @@ struct RecipeExecutionSteps: View {
     var body: some View {
         VStack {
             HStack {
+                Button {
+                    self.showSheet = true
+                } label: {
+                    Label("Add step", systemImage: "plus")
+                        .foregroundColor(Color.foodlabRed)
+                }
                 Spacer()
                 EditButton()
             }
@@ -27,25 +32,32 @@ struct RecipeExecutionSteps: View {
                 ForEach(Array(zip(steps.indices, steps)), id: \.0) { (index, step) in
                     let displayIndex = index + 1
                     if let simpleStep = step as? SimpleStep {
-                        SimpleStepRow(step: simpleStep, index: displayIndex)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .onTapGesture {
-                                self.showSheet = true
-                            }
-                            .swipeActions {
-                                Button {
-                                    Task {
-                                        if let id = step.stepWithinRecipeExecutionId {
-                                            await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
-                                        } else {
-                                            // TODO:
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "trash")
+                        NavigationLink {
+                            IngredientListInStep(ingredients: simpleStep.ingredients)
+                                .navigationTitle("Ingredients")
+                        } label: {
+                            SimpleStepRow(step: simpleStep, index: displayIndex)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .onTapGesture {
+                                    self.showSheet = true
                                 }
-                                .tint(.foodlabRed)
-                            }
+                                .swipeActions {
+                                    Button {
+                                        Task {
+                                            if let id = step.stepWithinRecipeExecutionId {
+                                                await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                            } else {
+                                                // TODO:
+                                            }
+                                        }
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+                                    .tint(.foodlabRed)
+                                }
+                        }
+                        
+                       
                     } else if let execution = step as? RecipeExecution {
                         NavigationLink {
                             RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
@@ -69,21 +81,15 @@ struct RecipeExecutionSteps: View {
                         }
                     }
                 }
-                //                .onDelete { indexSet in
-                //                    self.intent.intentToRemoveStep(at: indexSet)
-                //                }
                 .onMove { source, destination in
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
                 .sheet(isPresented: $showSheet) {
-                    StepForm(step: MockData.step, isPresented: $showSheet)
+                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step2), presentedStep: .constant(MockData.step2))
                 }
             }
             .listStyle(.plain)
         }
-        //        .onChange(of: self.editMode.unsafelyUnwrapped) { mode in
-        //
-        //        }
         .onChange(of: editMode!.wrappedValue, perform: { value in
             if value.isEditing {
                 // Entering edit mode (e.g. 'Edit' tapped)

@@ -1,9 +1,15 @@
 import Foundation
 
 struct IngredientDAO {
-    //TODO: mettre un singleton? Bonne pratique?
+    // MARK: singleton conformance
+    
+    static var shared: IngredientDAO = {
+        return IngredientDAO()
+    }()
+    
+    private init() {}
         
-    static func getAllIngredients() async -> Result<[Ingredient], Error> {
+    func getAllIngredients() async -> Result<[Ingredient], Error> {
         do {
             // recupere tout les ingredients de la base de donnee et les transforment en IngredientDTO
             let decoded : [IngredientDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "ingredient")
@@ -28,7 +34,7 @@ struct IngredientDAO {
         }
     }
     
-    static func getIngredientById(id: Int) async -> Result<Ingredient, Error> {
+    func getIngredientById(id: Int) async -> Result<Ingredient, Error> {
         do {
             
             // decoder le JSON avec la fonction présente dans JSONHelper
@@ -43,7 +49,7 @@ struct IngredientDAO {
         }
     }
     
-    static func updateIngredient(ingredient: Ingredient) async -> Result<Bool, Error> {
+    func updateIngredient(ingredient: Ingredient) async -> Result<Bool, Error> {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
             // TODO: verifier id
@@ -56,7 +62,7 @@ struct IngredientDAO {
         
     }
     
-    static func createIngredient(ingredient: Ingredient) async -> Result<Ingredient, Error> {
+    func createIngredient(ingredient: Ingredient) async -> Result<Ingredient, Error> {
         let ingredientDTO = getIngredientDTOFromIngredient(ingredient: ingredient)
         do {
             //TODO: verifier id
@@ -69,7 +75,7 @@ struct IngredientDAO {
         
     }
     
-    static func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
+    private func getIngredientDTOFromIngredient(ingredient: Ingredient) -> IngredientDTO {
         //TODO: on suppose qu'il s'agit d'une modification pour l'instant donc il y a déjà les categories id juste pour faire un premier test
         if let allergen = ingredient.allergenCategory {
             return IngredientDTO(id: ingredient.id, name: ingredient.name, unit: ingredient.unit, unitaryPrice: .post(ingredient.unitaryPrice), stockQuantity: .post(ingredient.stockQuantity), ingredientCategoryId: ingredient.ingredientCategory.id!, allergenCategoryId: allergen.id!)
@@ -78,7 +84,7 @@ struct IngredientDAO {
         }
     }
     
-    static func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Result<Ingredient, Error> {
+    private func getIngredientFromIngredientDTO(ingredientDTO : IngredientDTO) async -> Result<Ingredient, Error> {
         // manage unitary price
         let unitaryPrice: Double
         switch ingredientDTO.unitaryPrice {
@@ -105,7 +111,7 @@ struct IngredientDAO {
         
         // manage ingredient category
         let ingredientCategory: Category
-        switch await CategoryDAO.getIngredientCategoryById(id: ingredientDTO.ingredientCategoryId){
+        switch await CategoryDAO.shared.getIngredientCategoryById(id: ingredientDTO.ingredientCategoryId){
         case .failure(let error):
             return .failure(error)
         case .success(let category):
@@ -115,7 +121,7 @@ struct IngredientDAO {
         // manage ingredient category
         var allergenCategory: Category? = nil
         if let allergen = ingredientDTO.allergenCategoryId {
-            switch await CategoryDAO.getAllergenCategoryById(id: allergen){
+            switch await CategoryDAO.shared.getAllergenCategoryById(id: allergen){
             case .failure(let error):
                 return .failure(error)
             case .success(let category):
@@ -136,7 +142,7 @@ struct IngredientDAO {
         return .success(ingredient)
     }
     
-    static func deleteIngredientById(_ id: Int) async -> Result<Bool, Error> {
+    func deleteIngredientById(_ id: Int) async -> Result<Bool, Error> {
         do {
             let deleted: Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "ingredient/\(id)")
             return .success(deleted)

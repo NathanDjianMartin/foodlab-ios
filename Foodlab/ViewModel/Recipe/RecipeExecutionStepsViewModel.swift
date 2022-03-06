@@ -50,7 +50,6 @@ class RecipeExecutionStepsViewModel: ObservableObject, Subscriber, RecipeExecuti
         case .ready:
             break
         case .removingStep(let indexSet):
-            print(".removingStep")
             self.model.removeStep(atOffsets: indexSet)
         case .movingSteps(let source, let destination):
             self.model.move(fromOffsets: source, toOffset: destination)

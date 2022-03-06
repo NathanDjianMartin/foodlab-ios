@@ -51,7 +51,7 @@ struct CostDataSettings: View {
             .onAppear {
                 Task {
                     print("I am here")
-                    switch await CostDataDAO.getCostData(id: 1) {
+                    switch await CostDataDAO.shared.getCostData(id: 1) {
                     case .failure(_):
                         viewModel.error = "Error while fletching data from database"
                     case .success(let costData):

@@ -43,9 +43,15 @@ struct RecipeList: View {
         .onAppear {
             if appearCount == 0 {
                 Task {
-                    switch await RecipeDAO.shared.getRecipeById(136) {
-                    case .success(let recipe):
-                        self.viewModel.recipes.append(recipe)
+                    //                    switch await RecipeDAO.shared.getRecipeById(136) {
+                    //                    case .success(let recipe):
+                    //                        self.viewModel.recipes.append(recipe)
+                    //                    case .failure(let error):
+                    //                        self.viewModel.error = error.localizedDescription
+                    //                    }
+                    switch await RecipeDAO.shared.getAllRecipes() {
+                    case .success(let recipes):
+                        self.viewModel.recipes = recipes
                     case .failure(let error):
                         self.viewModel.error = error.localizedDescription
                     }

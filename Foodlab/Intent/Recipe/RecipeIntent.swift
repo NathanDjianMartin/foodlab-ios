@@ -35,6 +35,7 @@ enum SimpleStepFormIntentState {
     case stepDescriptionChanging(String)
     case stepDurationChanging(Int)
     case addIngredientInStep((Ingredient,Double))
+    case simpleStepAddedInDatabase
     case deleteIngredientInStep(Ingredient)
     case simpleStepUpdatedInDatabase
 }
@@ -111,35 +112,38 @@ struct RecipeIntent {
     }
     
     func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution) async {
-        let createdStep: Step
-        switch await StepDAO.shared.createStep(step: simpleStep) {
-        case .success(let step):
-            createdStep = step
-        case .failure(let error):
-            self.simpleStepFormState.send(.error(error.localizedDescription))
-            return
-        }
-        
-        guard let simpleStep = createdStep as? SimpleStep else {
-            self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": the Step is a RecipeExecution, not a SimpleStep"))
-            return
-        }
-        
-        guard let simpleStepId = createdStep.id else {
-            self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no SimpleStep id!"))
-            return
-        }
-        
-        guard let executionId = execution.id else {
-            self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
-            return
-        }
-        
-        switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: executionId) {
-        case .success:
-            self.recipeExecutionStepsState.send(.addingSimpleStep(simpleStep))
-        case .failure(let error):
-            self.simpleStepFormState.send(.error(error.localizedDescription))
+        if isSimpleStepValid(simpleStep: simpleStep) {
+            let createdStep: Step
+            switch await StepDAO.shared.createStep(step: simpleStep) {
+            case .success(let step):
+                createdStep = step
+            case .failure(let error):
+                self.simpleStepFormState.send(.error(error.localizedDescription))
+                return
+            }
+            
+            guard let simpleStep = createdStep as? SimpleStep else {
+                self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": the Step is a RecipeExecution, not a SimpleStep"))
+                return
+            }
+            
+            guard let simpleStepId = createdStep.id else {
+                self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no SimpleStep id!"))
+                return
+            }
+            
+            guard let executionId = execution.id else {
+                self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
+                return
+            }
+            
+            switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: executionId) {
+            case .success:
+                self.recipeExecutionStepsState.send(.addingSimpleStep(simpleStep))
+                self.simpleStepFormState.send(.simpleStepAddedInDatabase)
+            case .failure(let error):
+                self.simpleStepFormState.send(.error(error.localizedDescription))
+            }
         }
     }
     
@@ -206,6 +210,18 @@ struct RecipeIntent {
             if isUpdated {
                 self.simpleStepFormState.send(.simpleStepUpdatedInDatabase)
             }
+        }
+    }
+    
+    private func isSimpleStepValid(simpleStep: SimpleStep) -> Bool {
+        if simpleStep.title == "" {
+            self.simpleStepFormState.send(.error("Step title cannot be empty"))
+            return false
+        } else if simpleStep.description == "" {
+            self.simpleStepFormState.send(.error("Step description cannot be empty"))
+            return false
+        } else {
+            return true
         }
     }
 }

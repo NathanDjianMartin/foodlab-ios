@@ -75,6 +75,9 @@ class SimpleStepFormViewModel: ObservableObject, Subscriber {
             }
         case .deleteIngredientInStep(let ingredient):
             self.ingredients?.removeValue(forKey: ingredient)
+            self.modelCopy.ingredients?.removeValue(forKey: ingredient)
+        case .simpleStepAddedInDatabase:
+            self.errorMessage = nil
         case .simpleStepUpdatedInDatabase:
             self.model.title = self.modelCopy.title
             self.model.description = self.modelCopy.description

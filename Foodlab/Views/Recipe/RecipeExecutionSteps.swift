@@ -22,7 +22,7 @@ struct RecipeExecutionSteps: View {
             
             HStack {
                 Button {
-                    self.selectedSimpleStep = SimpleStep(title: "Step title", stepDescription: "Step description", duration: 0, ingredients: [:])
+                    self.selectedSimpleStep = SimpleStep(title: "", stepDescription: "", duration: 0, ingredients: [:])
                 } label: {
                     Label("Add step", systemImage: "plus")
                 }

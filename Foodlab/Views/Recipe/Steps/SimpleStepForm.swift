@@ -54,7 +54,7 @@ struct SimpleStepForm: View {
                         .onSubmit {
                             self.intent.intentToChange(stepTitle: viewModel.title)
                         }
-                    TextEditor(text: $viewModel.description)
+                    TextField("Step description", text: $viewModel.description)
                         .onSubmit {
                             self.intent.intentToChange(stepDescription: viewModel.description)
                         }
@@ -122,7 +122,11 @@ struct SimpleStepForm: View {
                         if creationMode {
                             Task {
                                 await self.intent.intentToAddSimpleStep(self.viewModel.modelCopy, to: self.viewModel.recipeExecution)
-                                self.presentedStep = nil
+                                if let _ = self.viewModel.errorMessage {
+                                    
+                                } else {
+                                    self.presentedStep = nil
+                                }
                             }
                         } else {
                             Task {

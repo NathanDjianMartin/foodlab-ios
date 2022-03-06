@@ -21,6 +21,7 @@ struct RecipeList: View {
                 ForEach(self.viewModel.recipes) { recipe in
                     NavigationLink {
                         RecipeDetails(viewModel: RecipeDetailsViewModel(model: recipe), intent: self.intent)
+                            .environmentObject(self.viewModel)
                     } label: {
                         RecipeRow(viewModel: RecipeRowViewModel(model: recipe))
                     }
@@ -43,12 +44,6 @@ struct RecipeList: View {
         .onAppear {
             if appearCount == 0 {
                 Task {
-                    //                    switch await RecipeDAO.shared.getRecipeById(136) {
-                    //                    case .success(let recipe):
-                    //                        self.viewModel.recipes.append(recipe)
-                    //                    case .failure(let error):
-                    //                        self.viewModel.error = error.localizedDescription
-                    //                    }
                     switch await RecipeDAO.shared.getAllRecipes() {
                     case .success(let recipes):
                         self.viewModel.recipes = recipes

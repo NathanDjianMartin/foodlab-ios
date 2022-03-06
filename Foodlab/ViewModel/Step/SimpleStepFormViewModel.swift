@@ -5,6 +5,7 @@ class SimpleStepFormViewModel: ObservableObject, Subscriber {
     
     var model: SimpleStep
     private var modelCopy: SimpleStep
+    var recipeExecution: RecipeExecution
     
     var id: Int?
     @Published var title: String
@@ -14,7 +15,7 @@ class SimpleStepFormViewModel: ObservableObject, Subscriber {
     
     @Published var errorMessage: String?
     
-    init(model: SimpleStep) {
+    init(model: SimpleStep, recipeExecution: RecipeExecution) {
         self.id = model.id
         self.title = model.title
         self.description = model.description
@@ -23,6 +24,7 @@ class SimpleStepFormViewModel: ObservableObject, Subscriber {
         
         self.model = model
         self.modelCopy = model.copy()
+        self.recipeExecution = recipeExecution
         // TODO: self.model.addObserver(self)
     }
     
@@ -50,6 +52,8 @@ class SimpleStepFormViewModel: ObservableObject, Subscriber {
         switch input {
         case .ready:
             break
+        case .error(let errorMessage):
+            self.errorMessage = errorMessage
         }
         
         return .none

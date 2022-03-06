@@ -27,6 +27,11 @@ enum RecipeExecutionStepsIntentState {
     case movingSteps(IndexSet, Int)
 }
 
+enum SimpleStepFormIntentState {
+    case ready
+    case error(String)
+}
+
 struct RecipeIntent {
     
     // passthrough subject = publisher
@@ -34,7 +39,7 @@ struct RecipeIntent {
     private var recipeListState = PassthroughSubject<RecipeListIntentState, Never>()
     private var recipeDetailsState = PassthroughSubject<RecipeDetailsIntentState, Never>()
     private var recipeExecutionStepsState = PassthroughSubject<RecipeExecutionStepsIntentState, Never>()
-    
+    private var simpleStepFormState = PassthroughSubject<SimpleStepFormIntentState, Never>()
     
     // MARK: -
     // MARK: add observer functions
@@ -53,6 +58,10 @@ struct RecipeIntent {
     
     func addObserver(_ observer: RecipeExecutionStepsViewModel) {
         self.recipeExecutionStepsState.subscribe(observer)
+    }
+    
+    func addObserver(_ observer: SimpleStepFormViewModel) {
+        self.simpleStepFormState.subscribe(observer)
     }
     
     
@@ -94,22 +103,37 @@ struct RecipeIntent {
         }
     }
     
-    func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution) async -> Result<Bool, Error> {
-        guard let simpleStepId = simpleStep.id else {
-            return .failure(UndefinedError.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no SimpleStep id!"))
+    func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution) async {
+        let createdStep: Step
+        switch await StepDAO.shared.createStep(step: simpleStep) {
+        case .success(let step):
+            createdStep = step
+        case .failure(let error):
+            self.simpleStepFormState.send(.error(error.localizedDescription))
+            return
+        }
+        
+        guard let simpleStep = createdStep as? SimpleStep else {
+            self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": the Step is a RecipeExecution, not a SimpleStep"))
+            return
+        }
+        
+        guard let simpleStepId = createdStep.id else {
+            self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no SimpleStep id!"))
+            return
         }
         
         guard let executionId = execution.id else {
-            return .failure(UndefinedError.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
+            self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
+            return
         }
         
         switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: executionId) {
         case .success:
             self.recipeExecutionStepsState.send(.addingSimpleStep(simpleStep))
         case .failure(let error):
-            return .failure(error)
+            self.simpleStepFormState.send(.error(error.localizedDescription))
         }
-        return .success(true)
     }
     
     func intentToRemoveStep(id: Int, at indexSet: IndexSet) async {

@@ -96,7 +96,7 @@ class StepDAO {
         
         if let simpleStep = step as? SimpleStep  {
             stepDTO = StepDTO(id: simpleStep.id, isStep: true, stepTitle: simpleStep.title, stepDescription: simpleStep.description, duration: simpleStep.duration)
-        }
+        } else // else ici ?
         if let recipeExecution = step as? RecipeExecution {
             stepDTO = StepDTO(id: recipeExecution.id, isStep: false, stepTitle: recipeExecution.title)
         } else {

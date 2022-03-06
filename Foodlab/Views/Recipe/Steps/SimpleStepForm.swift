@@ -15,6 +15,7 @@ struct SimpleStepForm: View {
         self._presentedStep = presentedStep
         
         self.intent = intent
+        self.intent.addObserver(self.viewModel)
     }
     
     @State var currentIngredientToAdd: IngredientWithinStep = IngredientWithinStep(ingredient: Ingredient( name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: "")), quantity: 0)
@@ -39,6 +40,8 @@ struct SimpleStepForm: View {
                 Spacer()
             }
             .padding()
+            
+            MessageView(message: self.$viewModel.errorMessage, type: .error)
             
             List {
                 
@@ -92,7 +95,8 @@ struct SimpleStepForm: View {
                     Button("OK") {
                         if creationMode {
                             Task {
-                                await self.intent.intentToAddSimpleStep(self.viewModel.model, to: <#T##RecipeExecution#>)
+                                await self.intent.intentToAddSimpleStep(self.viewModel.model, to: self.viewModel.recipeExecution)
+                                self.presentedStep = nil
                             }
                         } else {
                             
@@ -109,6 +113,6 @@ struct SimpleStepForm: View {
 
 struct StepForm_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step), presentedStep: .constant(MockData.step))
+        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step, recipeExecution: MockData.executionCrepes), presentedStep: .constant(MockData.step), intent: RecipeIntent())
     }
 }

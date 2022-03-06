@@ -18,12 +18,17 @@ struct RecipeExecutionSteps: View {
     
     var body: some View {
         VStack {
+            
             HStack {
                 Button {
                     self.selectedSimpleStep = SimpleStep(title: "Step title", stepDescription: "Step description", duration: 0, ingredients: [:])
                 } label: {
                     Label("Add step", systemImage: "plus")
-                        .foregroundColor(Color.foodlabRed)
+                }
+                Button {
+                    // TODO: intent to add recipe execution
+                } label: {
+                    Label("Add recipe execution", systemImage: "plus")
                 }
                 Spacer()
                 EditButton()
@@ -89,7 +94,7 @@ struct RecipeExecutionSteps: View {
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
                 .sheet(item: self.$selectedSimpleStep) { simpleStep in
-                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep), presentedStep: self.$selectedSimpleStep, intent: self.intent)
+                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent)
                 }
             }
             .listStyle(.plain)

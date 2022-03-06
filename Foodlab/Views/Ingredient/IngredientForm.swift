@@ -5,6 +5,8 @@ struct IngredientForm: View {
     @Binding var isPresented: Ingredient?
     @ObservedObject var viewModel: IngredientFormViewModel
     private var intent: IngredientIntent
+    @State var ingredientCategories: [Category] = []
+    @State var allergenCategories: [Category] = []
     
     var creationMode: Bool {
         self.viewModel.id == nil
@@ -59,13 +61,13 @@ struct IngredientForm: View {
                         }
                 }
                 
-                CategoryDropdown(selectedCategory: $viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: MockData.ingredientCategories, canBeEmpty: false)
+                CategoryDropdown(selectedCategory: $viewModel.ingredientCategory, placeholder: "Ingredient category", dropDownList: ingredientCategories, canBeEmpty: false)
                     .onChange(of: self.viewModel.ingredientCategory) { ingredientCategory in
                         if let realIngredientCategory = ingredientCategory {
                             self.intent.intentToChange(ingredientCategory: realIngredientCategory)
                         }
                     }
-                CategoryDropdown(selectedCategory: $viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: MockData.allergenCategories)
+                CategoryDropdown(selectedCategory: $viewModel.allergenCategory, placeholder: "Allergen category", dropDownList: allergenCategories)
                     .onChange(of: self.viewModel.allergenCategory) { allergenCategory in
                         if let realAllergenCategory = allergenCategory {
                             self.intent.intentToChange(allergenCategory: realAllergenCategory)
@@ -99,6 +101,28 @@ struct IngredientForm: View {
             }
             .listStyle(.plain)
             .padding()
+        }
+        .onAppear {
+            Task {
+                switch await CategoryDAO.shared.getAllCategories(type: CategoryType.ingredient) {
+                case .failure(let error):
+                    print(error)
+                    self.viewModel.error = "Error while fletching ingredient categories"
+                case .success(let categories):
+                    ingredientCategories = categories
+                    if ingredientCategories.count > 0 {
+                        self.viewModel.ingredientCategory = ingredientCategories[0]
+                    }
+                }
+                switch await CategoryDAO.shared.getAllCategories(type: CategoryType.allergen) {
+                case .failure(let error):
+                    print(error)
+                    self.viewModel.error = "Error while fletching allergen categories"
+                case .success(let categories):
+                    allergenCategories = categories
+                }
+
+            }
         }
     }
 }

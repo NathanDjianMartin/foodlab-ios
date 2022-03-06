@@ -48,7 +48,18 @@ class StepDAO {
             // update informations général de l'étape (titre, description et duration)
             let isUpdated = try await URLSession.shared.update(from: FoodlabApp.apiUrl + "recipe-execution/\(step.id!)", object: stepDTO)
             
-            // TODO: update ingredient in step (supprimer tout les ingredients puis les rajouter : à faire dans ingredientWithinStepDAO)
+            if let simpleStep = step as? SimpleStep {
+                // si oui, on modifie aussi les ingredients de l'étape
+                guard let stepId = step.id else {
+                    // TODO: créer une nouvelle erreur pour les id manquant
+                    return .failure(UndefinedError.error("Missing id"))
+                }
+                
+                if let ingredients = simpleStep.ingredients {
+                    let _ =
+                    await IngredientWithinStepDAO.shared.updateIngredientsWithinStep(stepId: stepId, ingredients: ingredients)
+                }
+            }
             return .success(isUpdated)
         }catch {
             // on propage l'erreur transmise par la fonctionx post

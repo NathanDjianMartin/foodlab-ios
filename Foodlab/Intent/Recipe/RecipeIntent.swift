@@ -24,6 +24,7 @@ enum RecipeDetailsIntentState {
 
 enum RecipeExecutionStepsIntentState {
     case ready
+    case updatingSimpleStep
     case addingStep(Step)
     case removingStep(IndexSet)
     case movingSteps(IndexSet, Int)
@@ -32,6 +33,13 @@ enum RecipeExecutionStepsIntentState {
 enum SimpleStepFormIntentState {
     case ready
     case error(String)
+    case stepTitleChanging(String)
+    case stepDescriptionChanging(String)
+    case stepDurationChanging(Int)
+    case addIngredientInStep((Ingredient,Double))
+    case simpleStepAddedInDatabase
+    case deleteIngredientInStep(Ingredient)
+    case simpleStepUpdatedInDatabase
 }
 
 enum RecipeExecutionFormIntentState {
@@ -116,7 +124,8 @@ struct RecipeIntent {
     }
     
     func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution) async {
-        let createdStep: Step
+        if isSimpleStepValid(simpleStep: simpleStep) {
+          let createdStep: Step
         switch await StepDAO.shared.createStep(step: simpleStep) {
         case .success(let step):
             createdStep = step
@@ -145,6 +154,7 @@ struct RecipeIntent {
             self.recipeExecutionStepsState.send(.addingStep(simpleStep))
         case .failure(let error):
             self.simpleStepFormState.send(.error(error.localizedDescription))
+        }
         }
     }
     
@@ -204,5 +214,49 @@ struct RecipeIntent {
     
     func intentToValidate() {
         self.recipeFormState.send(.validateChanges)
+    }
+    
+    func intentToChange(stepTitle: String){
+        self.simpleStepFormState.send(.stepTitleChanging(stepTitle))
+    }
+    
+    func intentToChange(stepDescription: String){
+        self.simpleStepFormState.send(.stepDescriptionChanging(stepDescription))
+    }
+    
+    func intentToChange(duration: Int){
+        self.simpleStepFormState.send(.stepDurationChanging(duration))
+    }
+    
+    func intentToAddIngredientInStep(ingredient: (Ingredient,Double)){
+        self.simpleStepFormState.send(.addIngredientInStep(ingredient))
+    }
+    
+    func intentToDeleteIngredientInStep(ingredient: Ingredient){
+        self.simpleStepFormState.send(.deleteIngredientInStep(ingredient))
+    }
+    
+    func intentToUpdateSimpleStep(simpleStep: SimpleStep) async {
+        // TODO: faire la requête
+        switch await StepDAO.shared.updateStep(step: simpleStep) {
+        case .failure(_):
+            self.simpleStepFormState.send(.error("Error while updating step"))
+        case .success(let isUpdated):
+            if isUpdated {
+                self.simpleStepFormState.send(.simpleStepUpdatedInDatabase)
+            }
+        }
+    }
+    
+    private func isSimpleStepValid(simpleStep: SimpleStep) -> Bool {
+        if simpleStep.title == "" {
+            self.simpleStepFormState.send(.error("Step title cannot be empty"))
+            return false
+        } else if simpleStep.description == "" {
+            self.simpleStepFormState.send(.error("Step description cannot be empty"))
+            return false
+        } else {
+            return true
+        }
     }
 }

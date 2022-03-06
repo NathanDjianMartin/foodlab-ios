@@ -209,7 +209,17 @@ class RecipeDAO {
             }
         }
         
-        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: execution))
+        var duration: Int = 0
+        if let recipeId = dto.id {
+            switch await RecipeDAO.shared.getRecipeDuration(recipeId: recipeId) {
+            case .success(let recipeDuration):
+                duration = recipeDuration
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+        
+        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: execution, duration: duration))
     }
     
     /**
@@ -233,9 +243,19 @@ class RecipeDAO {
             return .failure(error)
         }
         
+        var duration: Int = 0
+        if let recipeId = dto.id {
+            switch await RecipeDAO.shared.getRecipeDuration(recipeId: recipeId) {
+            case .success(let recipeDuration):
+                duration = recipeDuration
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+        
         let costData: CostData = CostData(averageHourlyCost: 0, flatrateHourlyCost: 0, coefWithCharges: 0, coefWithoutCharges: 0)
         
-        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: nil))
+        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: nil, duration: duration))
     }
     
     private func getDTOFromRecipe(_ recipe: Recipe) -> Result<RecipeDTO, Error> {

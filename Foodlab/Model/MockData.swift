@@ -72,7 +72,7 @@ struct MockData {
     }
     
     static var recipePates: Recipe {
-        let recipe = Recipe(id: 1, title: "Pates", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, execution: executionPates)
+        let recipe = Recipe(id: 1, title: "Pates", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, execution: executionPates, duration: 0)
         return recipe
     }
     
@@ -88,7 +88,7 @@ struct MockData {
     
     
     static var recipeCrepes: Recipe {
-        let recipe = Recipe(id: 1, title: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, execution: executionCrepes)
+        let recipe = Recipe(id: 1, title: "Crêpe", author: "Nathan", guestsNumber: 3, recipeCategory: entree, costData: costData, execution: executionCrepes, duration: 0)
         return recipe
     }
     

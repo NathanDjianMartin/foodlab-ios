@@ -40,7 +40,7 @@ struct RecipeList: View {
             }
             //.searchable(text: $searchText, prompt: "Search a recipe")
             .sheet(isPresented: $showRecipeCreation) {
-                let newRecipe = Recipe(title: "", author: "", guestsNumber: 1, recipeCategory: MockData.entree, costData: MockData.costData, execution: RecipeExecution(title: ""))
+                let newRecipe = Recipe(title: "", author: "", guestsNumber: 1, recipeCategory: MockData.entree, costData: MockData.costData, execution: RecipeExecution(title: ""), duration: 0)
                 RecipeForm(viewModel: RecipeFormViewModel(model: newRecipe), intent: self.intent, isPresented: $showRecipeCreation)
             }
         }

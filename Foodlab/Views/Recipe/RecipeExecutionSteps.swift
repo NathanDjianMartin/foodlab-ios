@@ -11,6 +11,7 @@ struct RecipeExecutionSteps: View {
     @State private var selectedSimpleStep: SimpleStep?
     @State private var simpleStepToDelete: SimpleStep?
     @State private var showRecipeExecutionForm = false
+    @State var selectedIndex: Int = -1
     
     init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent) {
         self.viewModel = viewModel
@@ -63,6 +64,7 @@ struct RecipeExecutionSteps: View {
                                     
                                     Button {
                                         self.selectedSimpleStep = simpleStep
+                                        self.selectedIndex = index
                                     } label: {
                                         Image(systemName: "square.and.pencil")
                                     }
@@ -96,7 +98,7 @@ struct RecipeExecutionSteps: View {
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
                 .sheet(item: self.$selectedSimpleStep) { simpleStep in
-                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent)
+                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent, stepIndex: selectedIndex)
                 }
                 .sheet(isPresented: self.$showRecipeExecutionForm) {
                     RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: self.recipeListViewModel.recipes, execution: self.viewModel.model), intent: self.intent, isPresented: self.$showRecipeExecutionForm)

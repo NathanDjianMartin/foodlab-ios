@@ -106,11 +106,14 @@ struct RecipeIntent {
     }
     
     func intentToCreate(recipe: Recipe) async {
-        switch await RecipeDAO.shared.createRecipe(recipe: recipe) {
-        case .success(let createdRecipe):
-            self.recipeListState.send(.recipeCreatedInDatabase(createdRecipe))
-        case .failure(let error):
-            self.recipeFormState.send(.error(error.localizedDescription))
+        if isRecipeValid(recipe: recipe) {
+            switch await RecipeDAO.shared.createRecipe(recipe: recipe) {
+            case .success(let createdRecipe):
+                self.recipeListState.send(.recipeCreatedInDatabase(createdRecipe))
+                self.recipeFormState.send(.validateChanges)
+            case .failure(let error):
+                self.recipeFormState.send(.error(error.localizedDescription))
+            }
         }
     }
     
@@ -257,6 +260,18 @@ struct RecipeIntent {
             return false
         } else if simpleStep.description == "" {
             self.simpleStepFormState.send(.error("Step description cannot be empty"))
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    private func isRecipeValid(recipe: Recipe) -> Bool {
+        if recipe.title == "" {
+            self.recipeFormState.send(.error("Recipe title cannot be empty"))
+            return false
+        } else if recipe.author == "" {
+            self.recipeFormState.send(.error("Recipe author cannot be empty"))
             return false
         } else {
             return true

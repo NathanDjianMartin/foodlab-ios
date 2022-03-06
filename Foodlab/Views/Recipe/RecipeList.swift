@@ -7,6 +7,17 @@ struct RecipeList: View {
     
     @State private var showRecipeCreation = false
     @State private var appearCount = 0 // until Apple fixes the onAppear that is called twice
+    @State private var searchText: String = ""
+    
+    var recipesList: [Recipe] {
+        if searchText.count > 0 {
+            return self.viewModel.recipes.filter { recipe in
+                return recipe.title.contains(searchText)
+            }
+        } else {
+            return self.viewModel.recipes
+        }
+    }
     
     init(viewModel: RecipeListViewModel) {
         self.viewModel = viewModel
@@ -19,7 +30,7 @@ struct RecipeList: View {
         VStack {
             MessageView(message: self.$viewModel.error, type: .error)
             List {
-                ForEach(Array(viewModel.recipes.enumerated()), id: \.element.self) { index, recipe in
+                ForEach(Array(recipesList.enumerated()), id: \.element.self) { index, recipe in
                     NavigationLink {
                         RecipeDetails(viewModel: RecipeDetailsViewModel(model: recipe), intent: self.intent)
                             .environmentObject(self.viewModel)
@@ -38,7 +49,7 @@ struct RecipeList: View {
                     }
                 }
             }
-            //.searchable(text: $searchText, prompt: "Search a recipe")
+            .searchable(text: $searchText, prompt: "Search a recipe")
             .sheet(isPresented: $showRecipeCreation) {
                 let newRecipe = Recipe(title: "", author: "", guestsNumber: 1, recipeCategory: MockData.entree, costData: MockData.costData, execution: RecipeExecution(title: ""), duration: 0)
                 RecipeForm(viewModel: RecipeFormViewModel(model: newRecipe), intent: self.intent, isPresented: $showRecipeCreation)

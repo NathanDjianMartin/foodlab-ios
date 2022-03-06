@@ -15,10 +15,12 @@ struct CostFrame: View {
     var body: some View {
         VStack {
             Text("\(self.text)")
-            Text("\(self.value)")
+                .foregroundColor(.primary)
+            Text("\(self.value.roundTo(2))")
+                .foregroundColor(.primary)
         }
         .padding()
-        .background(Color.white)
+        .background(Color("BackgroundColor"))
         .cornerRadius(10)
         .shadow(radius: 5)
         .overlay(

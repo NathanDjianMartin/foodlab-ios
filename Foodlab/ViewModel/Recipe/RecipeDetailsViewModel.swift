@@ -52,6 +52,12 @@ class RecipeDetailsViewModel: ObservableObject, Subscriber, RecipeSubscriber {
         switch input {
         case .ready:
             break
+        case .recipeUpdatedInDatabase(let recipe):
+            break
+//            self.model.title = recipe.title
+//            self.model.author = recipe.author
+//            self.model.recipeCategory = recipe.recipeCategory
+//            self.model.guestsNumber = recipe.guestsNumber
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

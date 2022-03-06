@@ -10,15 +10,18 @@ struct SimpleStepForm: View {
     @State var quantity: Double = 0
     @State var ingredientList: [Ingredient] = []
     
+    var stepIndex: Int
+    
     var creationMode: Bool {
         self.viewModel.id == nil
     }
     
-    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>, intent: RecipeIntent) {
+    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>, intent: RecipeIntent, stepIndex: Int) {
         self.viewModel = viewModel
         self._presentedStep = presentedStep
         
         self.intent = intent
+        self.stepIndex = stepIndex
         self.intent.addObserver(self.viewModel)
     }
     
@@ -72,7 +75,7 @@ struct SimpleStepForm: View {
                             HStack {
                                 Text("\(key.name)")
                                 Spacer()
-                                Text("\(value)\(key.unit)")
+                                Text("\(value.roundTo(2))\(key.unit)")
                             }.swipeActions {
                                 Button {
                                     self.intent.intentToDeleteIngredientInStep(ingredient: key)
@@ -130,7 +133,7 @@ struct SimpleStepForm: View {
                             }
                         } else {
                             Task {
-                                await self.intent.intentToUpdateSimpleStep(simpleStep: self.viewModel.modelCopy)
+                                await self.intent.intentToUpdateSimpleStep(simpleStep: self.viewModel.modelCopy, stepIndex: stepIndex)
                                 if let _ = self.viewModel.errorMessage {
                                     
                                 } else {
@@ -162,6 +165,6 @@ struct SimpleStepForm: View {
 
 struct StepForm_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step, recipeExecution: MockData.executionCrepes), presentedStep: .constant(MockData.step), intent: RecipeIntent())
+        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step, recipeExecution: MockData.executionCrepes), presentedStep: .constant(MockData.step), intent: RecipeIntent(),stepIndex: 1)
     }
 }

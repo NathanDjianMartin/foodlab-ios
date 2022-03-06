@@ -24,7 +24,7 @@ enum RecipeDetailsIntentState {
 
 enum RecipeExecutionStepsIntentState {
     case ready
-    case updatingSimpleStep
+    case updatingSimpleStep(SimpleStep, Int)
     case addingStep(Step)
     case removingStep(IndexSet)
     case movingSteps(IndexSet, Int)
@@ -236,7 +236,7 @@ struct RecipeIntent {
         self.simpleStepFormState.send(.deleteIngredientInStep(ingredient))
     }
     
-    func intentToUpdateSimpleStep(simpleStep: SimpleStep) async {
+    func intentToUpdateSimpleStep(simpleStep: SimpleStep, stepIndex: Int) async {
         // TODO: faire la requête
         switch await StepDAO.shared.updateStep(step: simpleStep) {
         case .failure(_):
@@ -244,6 +244,7 @@ struct RecipeIntent {
         case .success(let isUpdated):
             if isUpdated {
                 self.simpleStepFormState.send(.simpleStepUpdatedInDatabase)
+                self.recipeExecutionStepsState.send(.updatingSimpleStep(simpleStep, stepIndex))
             }
         }
     }

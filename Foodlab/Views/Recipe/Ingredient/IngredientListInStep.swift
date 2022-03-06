@@ -10,7 +10,7 @@ struct IngredientListInStep: View {
                     HStack {
                         Text("\(key.name)")
                         Spacer()
-                        Text("\(value) \(key.unit)")
+                        Text("\(value.roundTo(2)) \(key.unit)")
                     }
                 }
             } else {

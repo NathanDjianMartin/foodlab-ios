@@ -199,7 +199,7 @@ class RecipeDAO {
         //        }
         
         let category: Category
-        switch await CategoryDAO.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
+        switch await CategoryDAO.shared.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
         case .success(let recipeCategory):
             category = recipeCategory
         case .failure(let error):

@@ -8,7 +8,7 @@ struct IngredientRow: View {
             VStack(alignment: .leading) {
                 Text(ingredientVM.name)
                     .font(.headline)
-                Text("\(ingredientVM.stockQuantity.roundTo(2))  unit in stock")
+                Text("\(ingredientVM.stockQuantity.roundTo(2))  \(ingredientVM.unit) in stock")
                     .font(.caption)
                 Text("\(ingredientVM.unitaryPrice.roundTo(2))$ per \(ingredientVM.unit)")
                     .font(.caption)

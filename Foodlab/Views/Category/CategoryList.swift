@@ -17,6 +17,7 @@ struct CategoryList: View {
                 Button {
                     Task {
                         await categoryVM.create()
+                        categoryVM.name = ""
                     }
                 } label: {
                     Image(systemName: "plus")

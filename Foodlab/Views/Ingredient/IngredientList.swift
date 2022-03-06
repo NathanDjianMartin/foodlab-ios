@@ -89,7 +89,7 @@ struct IngredientList: View {
             .navigationTitle("Ingredients")
             .toolbar {
                 Button(action: {
-                    self.selectedIngredient = Ingredient(name: "Name", unit: "Unit", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(id: 19, name: ""))
+                    self.selectedIngredient = Ingredient(name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(id: 19, name: ""))
                 }) {
                     Image(systemName: "plus")
                 }

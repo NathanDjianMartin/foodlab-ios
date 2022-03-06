@@ -39,8 +39,7 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
     }
     
     func create() async {
-        if self.model.name.count != 0 {
-            // TODO: create in database
+        if self.model.name != "" {
             switch await CategoryDAO.shared.createCategory(type: self.type, category: self.model) {
             case .failure(let error):
                 print(error)
@@ -48,6 +47,8 @@ class CategoryViewModel : ObservableObject, CategoryObserver {
                 print(category.name)
                 self.categories.append(category)
             }
+        } else {
+            self.error = "You cannot add category with an empty name"
         }
     }
     

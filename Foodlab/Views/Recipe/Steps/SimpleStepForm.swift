@@ -69,6 +69,7 @@ struct SimpleStepForm: View {
                     VStack {
                         HStack {
                             // TODO: make an ingredient dropdown
+                            IngredientDropdown(dropDownList: MockData.ingredientList)
                             CategoryDropdown(dropDownList: MockData.allergenCategories)
                             
                         }

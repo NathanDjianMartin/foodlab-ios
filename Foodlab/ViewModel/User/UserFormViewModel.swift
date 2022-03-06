@@ -84,6 +84,7 @@ class UserFormViewModel : ObservableObject, Subscriber, UserObserver {
         case .isAdminChanging(let isAdmin):
             self.modelCopy.isAdmin = isAdmin
         case .userUpdatedInDatabase:
+            self.error = nil
             self.model.name = self.modelCopy.name
             self.model.email = self.modelCopy.email
             self.model.password = self.modelCopy.password

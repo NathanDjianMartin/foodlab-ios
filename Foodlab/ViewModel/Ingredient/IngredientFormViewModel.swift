@@ -103,6 +103,7 @@ class IngredientFormViewModel : ObservableObject, Subscriber, IngredientObserver
         case .allergenCategoryChanging(let allergenCategory):
             self.modelCopy.allergenCategory = allergenCategory
         case .ingredientUpdatedInDatabase:
+            self.error = nil
             self.model.name = self.modelCopy.name
             self.model.unit = self.modelCopy.unit
             self.model.unitaryPrice = self.modelCopy.unitaryPrice

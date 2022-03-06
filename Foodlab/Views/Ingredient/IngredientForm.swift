@@ -86,7 +86,11 @@ struct IngredientForm: View {
                             // create
                             Task {
                                 await intent.intentToCreate(ingredient: viewModel.modelCopy)
-                                self.isPresented = nil
+                                if let error = viewModel.error {
+                                    print(error)
+                                } else {
+                                    self.isPresented = nil
+                                }
                             }
                         }
                     }

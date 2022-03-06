@@ -88,14 +88,16 @@ struct IngredientIntent {
     }
     
     func intentToCreate(ingredient: Ingredient) async {
-        switch await IngredientDAO.shared.createIngredient(ingredient: ingredient) {
-        case .failure(let error):
-            self.formState.send(.error("\(error.localizedDescription)"))
-            break
-        case .success(let ingredient):
-            // si ça a marché : modifier le view model et le model
-            self.formState.send(.ingredientUpdatedInDatabase)
-            self.listState.send(.addingIngredient(ingredient))
+        if isIngredientValid(ingredient: ingredient) {
+            switch await IngredientDAO.shared.createIngredient(ingredient: ingredient) {
+            case .failure(let error):
+                self.formState.send(.error("\(error.localizedDescription)"))
+                break
+            case .success(let ingredient):
+                // si ça a marché : modifier le view model et le model
+                self.formState.send(.ingredientUpdatedInDatabase)
+                self.listState.send(.addingIngredient(ingredient))
+            }
         }
     }
     
@@ -108,12 +110,15 @@ struct IngredientIntent {
         }
     }
     
-    func intentToChange(name: String, unit: String, unitaryPrice: Double, stockQuantity: Double, ingredientCategory: Category, allergenCategory: Category?) {
-        self.formState.send(.nameChanging(name))
-        self.formState.send(.unitChanging(unit))
-        self.formState.send(.unitaryPriceChanging(unitaryPrice))
-        self.formState.send(.stockQuantityChanging(stockQuantity))
-        self.formState.send(.ingredientCategoryChanging(ingredientCategory))
-        self.formState.send(.allergenCategoryChanging(allergenCategory))
+    private func isIngredientValid(ingredient: Ingredient) -> Bool {
+        if ingredient.name == "" {
+            self.formState.send(.error("Name cannot be empty"))
+            return false
+        } else if ingredient.unit == "" {
+            self.formState.send(.error("Unit cannot be empty"))
+            return false
+        } else {
+            return true
+        }
     }
 }

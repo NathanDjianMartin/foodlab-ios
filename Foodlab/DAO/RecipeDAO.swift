@@ -37,9 +37,7 @@ class RecipeDAO {
     static var shared: RecipeDAO = {
         return RecipeDAO()
     }()
-    
-    var stringUrl = "http://localhost:3000/"
-    
+        
     private init() {}
     
     
@@ -48,7 +46,7 @@ class RecipeDAO {
     
     func getRecipeById(_ id: Int) async -> Result<Recipe, Error> {
         do {
-            let url = stringUrl + "recipe/\(id)"
+            let url = FoodlabApp.apiUrl + "recipe/\(id)"
             let recipeDTO: RecipeDTO = try await URLSession.shared.get(from: url)
             return await getRecipeFromDTO(recipeDTO)
         } catch {
@@ -58,7 +56,7 @@ class RecipeDAO {
     
     func getAllRecipes() async -> Result<[Recipe], Error> {
         do {
-            let url = stringUrl + "recipe"
+            let url = FoodlabApp.apiUrl + "recipe"
             let recipeDTOs: [RecipeDTO] = try await URLSession.shared.get(from: url)
             var recipes: [Recipe] = []
             
@@ -105,7 +103,7 @@ class RecipeDAO {
         }
         
         do {
-            let url = stringUrl + "recipe"
+            let url = FoodlabApp.apiUrl + "recipe"
             var createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
             createdRecipeDTO.recipeExecutionId = recipeDTO.recipeExecutionId
             return await getRecipeFromDTO(createdRecipeDTO)
@@ -120,7 +118,7 @@ class RecipeDAO {
         }
         
         do {
-            let url = stringUrl + "recipe/\(recipeId)"
+            let url = FoodlabApp.apiUrl + "recipe/\(recipeId)"
             return .success(try await URLSession.shared.delete(from: url))
         } catch {
             return .failure(error)
@@ -129,7 +127,7 @@ class RecipeDAO {
     
     func getIngredientCost(recipeId: Int) async -> Result<Double, Error> {
         do {
-            let url = stringUrl + "recipe/ingredient-cost/\(recipeId)"
+            let url = FoodlabApp.apiUrl + "recipe/ingredient-cost/\(recipeId)"
             let ingredientCost: Double = try await URLSession.shared.get(from: url)
             return .success(ingredientCost)
         } catch {
@@ -139,7 +137,7 @@ class RecipeDAO {
     
     func getRecipeDuration(recipeId: Int) async -> Result<Int, Error> {
         do {
-            let url = stringUrl + "recipe/duration/\(recipeId)"
+            let url = FoodlabApp.apiUrl + "recipe/duration/\(recipeId)"
             let duration: Int = try await URLSession.shared.get(from: url)
             return .success(duration)
         } catch {
@@ -152,7 +150,7 @@ class RecipeDAO {
             return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))
         }
         do {
-            let url = stringUrl + "recipe/\(recipeId)"
+            let url = FoodlabApp.apiUrl + "recipe/\(recipeId)"
             let recipeDTO: RecipeDTO
             switch getDTOFromRecipe(recipe) {
             case .success(let dto):

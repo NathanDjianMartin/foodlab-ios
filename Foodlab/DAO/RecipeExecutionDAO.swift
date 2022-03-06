@@ -23,9 +23,7 @@ class RecipeExecutionDAO {
     static let shared: RecipeExecutionDAO = {
         return RecipeExecutionDAO()
     }()
-    
-    var stringUrl = "http://localhost:3000/"
-    
+        
     private init() {}
     
     // MARK: -
@@ -33,7 +31,7 @@ class RecipeExecutionDAO {
     
     func getRecipeExecutionById(_ id: Int) async -> Result<RecipeExecution, Error> {
         do {
-            let url = stringUrl + "recipe-execution/\(id)"
+            let url = FoodlabApp.apiUrl + "recipe-execution/\(id)"
             let recipeExecutionDTO: RecipeExecutionDTO = try await URLSession.shared.get(from: url)
             return await getRecipeExecutionFromDTO(recipeExecutionDTO)
         } catch {
@@ -73,7 +71,7 @@ class RecipeExecutionDAO {
             }
             
             // Perform request on the backend
-            let url = stringUrl + "recipe-execution/update-steps-order"
+            let url = FoodlabApp.apiUrl + "recipe-execution/update-steps-order"
             let _ = try await URLSession.shared.update(from: url, object: stepWithinRecipeExecutionDTOs)
             return .success(execution)
         } catch {

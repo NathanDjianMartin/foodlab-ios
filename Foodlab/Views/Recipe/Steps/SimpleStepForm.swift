@@ -31,6 +31,7 @@ struct SimpleStepForm: View {
                 }
             }
             .padding(.trailing)
+            .padding(.top)
             
             HStack {
                 Text(creationMode ? "Step creation" : "Step modification")
@@ -50,7 +51,7 @@ struct SimpleStepForm: View {
                     }
                 }
                 
-                Section("Ingredients") {
+                Section("Step ingredients") {
                     if let ingredients = viewModel.ingredients {
                         ForEach(ingredients.sorted(by: >), id: \.key) { key, value in
                             HStack {
@@ -62,32 +63,30 @@ struct SimpleStepForm: View {
                     }
                 }
                 
-                VStack {
-                    HStack {
-                        // TODO: make an ingredient dropdown
-                        CategoryDropdown(dropDownList: MockData.allergenCategories)
-                        
-                    }
-                    Stepper(value: $currentIngredientToAdd.quantity) {
-                        Text("\(currentIngredientToAdd.quantity)/\(currentIngredientToAdd.ingredient.unit)")
-                    }
-                    HStack {
-                        Spacer()
-                        Button() {
-                            // TODO: intentToAddIngredientToStep(...)
-                        } label: {
-                            Label("Add ingredient", systemImage: "plus")
-                                .foregroundColor(Color.foodlabRed)
+                Section("Add ingredient") {
+                    VStack {
+                        HStack {
+                            // TODO: make an ingredient dropdown
+                            CategoryDropdown(dropDownList: MockData.allergenCategories)
+                            
                         }
-                        .padding(.top)
+                        Stepper(value: $currentIngredientToAdd.quantity) {
+                            Text("\(currentIngredientToAdd.quantity)/\(currentIngredientToAdd.ingredient.unit)")
+                        }
+                        HStack {
+                            Spacer()
+                            Button() {
+                                // TODO: intentToAddIngredientToStep(...)
+                            } label: {
+                                Label("Add ingredient", systemImage: "plus")
+                                    .foregroundColor(Color.foodlabRed)
+                            }
+                            .padding(.top)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
-                .overlay {
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke()
-                        .foregroundColor(.secondary)
-                }
+                
                 
                 HStack {
                     Spacer()

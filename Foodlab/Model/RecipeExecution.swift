@@ -10,7 +10,19 @@ class RecipeExecution: Step {
     
     var steps: [Step]
     private var observers: [RecipeExecutionObserver]
-    
+    /*
+    var duration: Int {
+        var duration = 0
+        for step in self.steps {
+            if let simpleStep = step as? SimpleStep {
+                duration += simpleStep.duration
+            } else if let recipeExecution = step as? RecipeExecution {
+                duration += recipeExecution.duration
+            }
+        }
+        return duration
+    }
+    */
     override init(id: Int? = nil, title: String) {
         self.steps = []
         self.observers = []

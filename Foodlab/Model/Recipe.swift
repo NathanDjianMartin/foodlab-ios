@@ -40,11 +40,9 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
     var costData: CostData
     var execution: RecipeExecution?
     
-    var duration: Int {
-        0
-    }
+    var duration: Int
     
-    init(id: Int? = nil, title: String, author: String, guestsNumber: Int, recipeCategory: Category, costData: CostData, execution: RecipeExecution?) {
+    init(id: Int? = nil, title: String, author: String, guestsNumber: Int, recipeCategory: Category, costData: CostData, execution: RecipeExecution?, duration: Int) {
         self.id = id
         self.title = title
         
@@ -54,6 +52,7 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
         self.recipeCategory = recipeCategory
         self.costData = costData
         self.execution = execution
+        self.duration = duration
     }
     
     func addSubscriber(_ subscriber: RecipeSubscriber) {
@@ -67,7 +66,8 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
                       guestsNumber: self.guestsNumber,
                       recipeCategory: self.recipeCategory,
                       costData: self.costData,
-                      execution: self.execution)
+                      execution: self.execution,
+                      duration: self.duration)
     }
     
     func updatePropertiesWith(recipe: Recipe) {

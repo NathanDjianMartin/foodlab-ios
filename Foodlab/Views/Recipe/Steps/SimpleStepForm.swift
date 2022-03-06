@@ -75,7 +75,7 @@ struct SimpleStepForm: View {
                             HStack {
                                 Text("\(key.name)")
                                 Spacer()
-                                Text("\(value)\(key.unit)")
+                                Text("\(value.roundTo(2))\(key.unit)")
                             }.swipeActions {
                                 Button {
                                     self.intent.intentToDeleteIngredientInStep(ingredient: key)

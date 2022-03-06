@@ -30,6 +30,12 @@ enum RecipeExecutionStepsIntentState {
 enum SimpleStepFormIntentState {
     case ready
     case error(String)
+    case stepTitleChanging(String)
+    case stepDescriptionChanging(String)
+    case stepDurationChanging(Int)
+    case addIngredientInStep((Ingredient,Double))
+    case deleteIngredientInStep(Ingredient)
+    case simpleStepUpdatedInDatabase
 }
 
 struct RecipeIntent {
@@ -168,5 +174,31 @@ struct RecipeIntent {
     
     func intentToValidate() {
         self.recipeFormState.send(.validateChanges)
+    }
+    
+    func intentToChange(stepTitle: String){
+        self.simpleStepFormState.send(.stepTitleChanging(stepTitle))
+    }
+    
+    func intentToChange(stepDescription: String){
+        self.simpleStepFormState.send(.stepDescriptionChanging(stepDescription))
+    }
+    
+    func intentToChange(duration: Int){
+        self.simpleStepFormState.send(.stepDurationChanging(duration))
+    }
+    
+    func intentToAddIngredientInStep(ingredient: (Ingredient,Double)){
+        
+        self.simpleStepFormState.send(.addIngredientInStep(ingredient))
+    }
+    
+    func intentToDeleteIngredientInStep(ingredient: Ingredient){
+        self.simpleStepFormState.send(.deleteIngredientInStep(ingredient))
+    }
+    
+    func intentToUpdateSimpleStep(simpleStep: SimpleStep){
+        // TODO: faire la requête
+        self.simpleStepFormState.send(.simpleStepUpdatedInDatabase)
     }
 }

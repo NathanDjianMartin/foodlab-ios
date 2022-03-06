@@ -5,6 +5,9 @@ struct SimpleStepForm: View {
     @Binding var presentedStep: SimpleStep?
     @ObservedObject var viewModel: SimpleStepFormViewModel
     private var intent: RecipeIntent
+    @State var selectedIngredient: Ingredient?
+    @State var quantity: Double = 0
+    @State var ingredientList: [Ingredient] = []
     
     var creationMode: Bool {
         self.viewModel.id == nil
@@ -47,9 +50,18 @@ struct SimpleStepForm: View {
                 
                 Section("Step information") {
                     TextField("Step title", text: $viewModel.title)
+                        .onSubmit {
+                            self.intent.intentToChange(stepTitle: viewModel.title)
+                        }
                     TextEditor(text: $viewModel.description)
+                        .onSubmit {
+                            self.intent.intentToChange(stepDescription: viewModel.description)
+                        }
                     Stepper(value: $viewModel.duration) {
                         Text(" \(viewModel.duration) minute\(viewModel.duration > 1 ? "s" : "")")
+                    }
+                    .onChange(of: self.viewModel.duration) { duration in
+                        self.intent.intentToChange(duration: self.viewModel.duration)
                     }
                 }
                 
@@ -68,26 +80,31 @@ struct SimpleStepForm: View {
                 Section("Add ingredient") {
                     VStack {
                         HStack {
-                            // TODO: make an ingredient dropdown
-                            IngredientDropdown(dropDownList: MockData.ingredientList)
-                            CategoryDropdown(dropDownList: MockData.allergenCategories)
+                            
+                            IngredientDropdown(selectedIngredient: $selectedIngredient, dropDownList: ingredientList)
                             
                         }
-                        Stepper(value: $currentIngredientToAdd.quantity) {
-                            Text("\(currentIngredientToAdd.quantity)/\(currentIngredientToAdd.ingredient.unit)")
-                        }
-                        HStack {
-                            Spacer()
-                            Button() {
-                                // TODO: intentToAddIngredientToStep(...)
-                            } label: {
-                                Label("Add ingredient", systemImage: "plus")
-                                    .foregroundColor(Color.foodlabRed)
+                        if let selectedIngredient = selectedIngredient {
+                            Stepper(value: $quantity) {
+                                Text("\(quantity)/\(selectedIngredient.unit)")
                             }
-                            .padding(.top)
+                        } else {
                         }
+                        
                     }
                     .padding()
+                }
+                HStack {
+                    Spacer()
+                    Button() {
+                        if let ingredient = selectedIngredient {
+                            self.intent.intentToAddIngredientInStep(ingredient: (ingredient, quantity))
+                        }
+                    } label: {
+                        Label("Add ingredient", systemImage: "plus")
+                            .foregroundColor(Color.foodlabRed)
+                    }
+                    .padding(.top)
                 }
                 
                 
@@ -96,7 +113,7 @@ struct SimpleStepForm: View {
                     Button("OK") {
                         if creationMode {
                             Task {
-                                await self.intent.intentToAddSimpleStep(self.viewModel.model, to: self.viewModel.recipeExecution)
+                                await self.intent.intentToAddSimpleStep(self.viewModel.modelCopy, to: self.viewModel.recipeExecution)
                                 self.presentedStep = nil
                             }
                         } else {
@@ -108,6 +125,18 @@ struct SimpleStepForm: View {
                 
             }
             .listStyle(.plain)
+        }
+        .onAppear{
+            Task {
+                switch await IngredientDAO.shared.getAllIngredients() {
+                case .failure(let error):
+                    print(error)
+                    self.viewModel.errorMessage = "Error while fletching ingredients"
+                case .success(let ingredients):
+                    ingredientList = ingredients
+                    
+                }
+            }
         }
     }
 }

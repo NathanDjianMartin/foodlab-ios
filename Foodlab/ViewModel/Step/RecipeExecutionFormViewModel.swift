@@ -1,9 +1,8 @@
 import Foundation
 import Combine
 
-class RecipeExecutionFormViewModel: ObservableObject, Subscriber {
-    
-    
+class RecipeExecutionFormViewModel: ObservableObject {
+
     @Published var recipes: [Recipe]
     @Published var errorMessage: String?
     
@@ -28,6 +27,8 @@ class RecipeExecutionFormViewModel: ObservableObject, Subscriber {
     }
     
     // Called each time the publisher calls the "send" method to notify about state modification
+    /*
+    
     func receive(_ input: SimpleStepFormIntentState) -> Subscribers.Demand {
         switch input {
         case .ready:
@@ -38,4 +39,6 @@ class RecipeExecutionFormViewModel: ObservableObject, Subscriber {
         
         return .none
     }
+     */
+     
 }

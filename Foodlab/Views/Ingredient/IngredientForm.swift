@@ -110,6 +110,9 @@ struct IngredientForm: View {
                     self.viewModel.error = "Error while fletching ingredient categories"
                 case .success(let categories):
                     ingredientCategories = categories
+                    if ingredientCategories.count > 0 {
+                        self.viewModel.ingredientCategory = ingredientCategories[0]
+                    }
                 }
                 switch await CategoryDAO.shared.getAllCategories(type: CategoryType.allergen) {
                 case .failure(let error):

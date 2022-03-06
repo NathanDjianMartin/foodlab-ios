@@ -16,7 +16,7 @@ struct FoodlabApp: App {
                     print(ingredients)
                     print("fin")
                     */
-                    let costData = await CostDataDAO.getCostData(id: 1)
+                    let costData = await CostDataDAO.shared.getCostData(id: 1)
                     print(costData)
                 
                 }

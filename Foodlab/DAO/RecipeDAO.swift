@@ -157,7 +157,7 @@ class RecipeDAO {
         //        }
         
         let category: Category
-        switch await CategoryDAO.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
+        switch await CategoryDAO.shared.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
         case .success(let recipeCategory):
             category = recipeCategory
         case .failure(let error):
@@ -165,7 +165,7 @@ class RecipeDAO {
         }
         
         let costData: CostData
-        switch await CostDataDAO.getCostData(id: dto.costDataId) {
+        switch await CostDataDAO.shared.getCostData(id: dto.costDataId) {
         case .success(let recipeCostData):
             costData = recipeCostData
         case .failure(let error):

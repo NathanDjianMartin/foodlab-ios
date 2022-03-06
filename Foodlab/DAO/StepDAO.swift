@@ -1,13 +1,18 @@
 import Foundation
 
 class StepDAO {
+    // MARK: singleton conformance
     
-    static var stringUrl = "http://51.75.248.77:3000/"
+    static var shared: StepDAO = {
+        return StepDAO()
+    }()
     
-    static func getAllProgressions() async -> Result<[Step], Error> {
+    private init() {}
+    
+    func getAllProgressions() async -> Result<[Step], Error> {
         // retourne toutes les progressions mais avec juste les titres
         do {
-            let decoded : [StepDTO] = try await URLSession.shared.get(from: stringUrl + "recipe-execution/progressions")
+            let decoded : [StepDTO] = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "recipe-execution/progressions")
             
             var steps: [Step] = []
             for stepDTO in decoded {
@@ -22,10 +27,10 @@ class StepDAO {
         }
     }
     
-    static func getStepById(id: Int) async -> Result<Step, Error> {
+    func getStepById(id: Int) async -> Result<Step, Error> {
         do {
             
-            let stepDTO : StepDTO = try await URLSession.shared.get(from: stringUrl + "recipe-execution/\(id)")
+            let stepDTO : StepDTO = try await URLSession.shared.get(from: FoodlabApp.apiUrl + "recipe-execution/\(id)")
             
             return await getStepFromStepDTO(stepDTO: stepDTO)
             
@@ -35,13 +40,13 @@ class StepDAO {
         }
     }
     
-    static func updateStep(step: Step) async -> Result<Bool, Error> {
+    func updateStep(step: Step) async -> Result<Bool, Error> {
         do {
             let stepDTO = try getStepDTOFromStep(step: step)
             
             // TODO: verifier id
             // update informations général de l'étape (titre, description et duration)
-            let isUpdated = try await URLSession.shared.update(from: stringUrl+"recipe-execution/\(step.id!)", object: stepDTO)
+            let isUpdated = try await URLSession.shared.update(from: FoodlabApp.apiUrl + "recipe-execution/\(step.id!)", object: stepDTO)
             
             // TODO: update ingredient in step (supprimer tout les ingredients puis les rajouter : à faire dans ingredientWithinStepDAO)
             return .success(isUpdated)
@@ -52,13 +57,13 @@ class StepDAO {
         
     }
     
-    static func createStep(step: Step) async -> Result<Step, Error> {
+    func createStep(step: Step) async -> Result<Step, Error> {
         do {
             let stepDTO = try getStepDTOFromStep(step: step)
             
             //TODO: verifier id
             // créer l'étapes avec ses informations générales
-            let stepDTOresult : StepDTO = try await URLSession.shared.create(from: stringUrl+"recipe-execution", object: stepDTO)
+            let stepDTOresult : StepDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "recipe-execution", object: stepDTO)
             
             // on vérifie s'il s'agit d'une simpleStep
             if let simpleStep = step as? SimpleStep {
@@ -69,7 +74,7 @@ class StepDAO {
                     return .failure(UndefinedError.error("Missing id"))
                 }
                 if let ingredients = simpleStep.ingredients {
-                    let _ = await IngredientWithinStepDAO.addIngredientsInSimpleStep(stepId: stepId, ingredients: ingredients)
+                    let _ = await IngredientWithinStepDAO.shared.addIngredientsInSimpleStep(stepId: stepId, ingredients: ingredients)
                 }
             }
             
@@ -81,11 +86,11 @@ class StepDAO {
         
     }
     
-    static func getStepMinimumInformationFromStepDTO(stepDTO: StepDTO) -> Step {
+    private func getStepMinimumInformationFromStepDTO(stepDTO: StepDTO) -> Step {
         return Step(id: stepDTO.id, title: stepDTO.stepTitle)
     }
     
-    static func getStepDTOFromStep(step: Step) throws -> StepDTO {
+    private func getStepDTOFromStep(step: Step) throws -> StepDTO {
         
         var stepDTO: StepDTO
         
@@ -100,7 +105,7 @@ class StepDAO {
         return stepDTO
     }
     
-    static func getStepFromStepDTO(stepDTO : StepDTO) async -> Result<Step, Error> {
+    private func getStepFromStepDTO(stepDTO : StepDTO) async -> Result<Step, Error> {
         
         let step: Step
         
@@ -121,7 +126,7 @@ class StepDAO {
                 return .failure(UndefinedError.error("Missing id"))
             }
             if let simpleStep = step as? SimpleStep {
-                switch await IngredientWithinStepDAO.getAllIngredientsWithinStep(id: stepId) {
+                switch await IngredientWithinStepDAO.shared.getAllIngredientsWithinStep(id: stepId) {
                 case .failure(let error):
                     return .failure(error)
                 case .success(let ingredients):

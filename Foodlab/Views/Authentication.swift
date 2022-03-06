@@ -22,11 +22,11 @@ struct Authentication: View {
                 Button("Login") {
                     //withAnimation(.easeOut(duration: 0.5)) {
                         Task {
-                            switch await UserDAO.login(email: email, password: password) {
+                            switch await UserDAO.shared.login(email: email, password: password) {
                             case .failure(let error):
                                 print(error)
                             case .success(let isAuthenticated):
-                                switch await UserDAO.getProfile() {
+                                switch await UserDAO.shared.getProfile() {
                                 case .failure(let error):
                                     print(error)
                                 case .success(let user):

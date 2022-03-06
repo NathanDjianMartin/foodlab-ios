@@ -56,7 +56,7 @@ struct UserList: View {
         }
         .onAppear(){
             Task {
-                switch await UserDAO.getAllUsers() {
+                switch await UserDAO.shared.getAllUsers() {
                 case .failure(let error):
                     print(error)
                 case .success(let users):

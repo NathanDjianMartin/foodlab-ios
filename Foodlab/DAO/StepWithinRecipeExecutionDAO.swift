@@ -1,18 +1,23 @@
 import Foundation
 
 struct StepWithinRecipeExecutionDAO {
+    // MARK: singleton conformance
     
-    static var stringUrl = "http://localhost:3000/"
+    static var shared: StepWithinRecipeExecutionDAO = {
+        return StepWithinRecipeExecutionDAO()
+    }()
     
-    static func getAllStepsWithinRecipeExecution(id: Int) async -> Result<[(Int,Step)], Error> {
+    private init() {}
+    
+    func getAllStepsWithinRecipeExecution(id: Int) async -> Result<[(Int,Step)], Error> {
         // récupère toutes les étapes présentent dans une recipe exécution ainsi que le numéro qui lui est associé
         do {
-            let url = stringUrl + "recipe-execution/all-steps/\(id)"
+            let url = FoodlabApp.apiUrl + "recipe-execution/all-steps/\(id)"
             let decoded: [StepWithinRecipeExecutionDTO] = try await URLSession.shared.get(from: url)
             
             var steps: [(Int, Step)] = []
             for stepWithinRecipeExecutionDTO in decoded {
-                switch await StepDAO.getStepById(id: stepWithinRecipeExecutionDTO.stepId) {
+                switch await StepDAO.shared.getStepById(id: stepWithinRecipeExecutionDTO.stepId) {
                 case .failure(let error):
                     return .failure(error)
                 case .success(let step):
@@ -31,11 +36,11 @@ struct StepWithinRecipeExecutionDAO {
         }
     }
     
-    static func addStepWithinRecipeExecution(stepId: Int, recipeExecutionId: Int) async -> Result<Bool, Error> {
+    func addStepWithinRecipeExecution(stepId: Int, recipeExecutionId: Int) async -> Result<Bool, Error> {
         do {
             let stepWithinRecipeExecutionDTO = StepWithinRecipeExecutionDTO(recipeExecutionId: recipeExecutionId, stepId: stepId)
             
-            let _: StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: stringUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
+            let _: StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
             return .success(true)
         }catch {
             // on propage l'erreur transmise par la fonction post
@@ -45,17 +50,15 @@ struct StepWithinRecipeExecutionDAO {
         
     }
     
-    static func deleteStepWithinRecipeExecution(id: Int) async -> Result<Bool, Error> {
+    func deleteStepWithinRecipeExecution(id: Int) async -> Result<Bool, Error> {
         do {
             print(id)
-            let isDeleted : Bool = try await URLSession.shared.delete(from: stringUrl + "recipe-execution/remove-step-within-recipe-execution/\(id)")
+            let isDeleted : Bool = try await URLSession.shared.delete(from: FoodlabApp.apiUrl + "recipe-execution/remove-step-within-recipe-execution/\(id)")
             return .success(isDeleted)
         }catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)
         }
-        
-        
     }
     
     

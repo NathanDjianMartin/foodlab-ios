@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var loggedUser: LoggedUser = LoggedUser(name: "", email: "", isAdmin: true, isAuthenticated: true)
+    @StateObject var loggedUser: LoggedUser = LoggedUser(name: "", email: "", isAdmin: false, isAuthenticated: false)
     
     var body: some View {
         if loggedUser.isAuthenticated {

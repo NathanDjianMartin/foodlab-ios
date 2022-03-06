@@ -70,7 +70,7 @@ struct UserCreation: View {
                         Task {
                             await intent.intentToCreate(user: viewModel.modelCopy)
                             if let error = viewModel.error {
-                                
+                                print(error)
                             } else {
                                 self.isPresented = nil
                             }

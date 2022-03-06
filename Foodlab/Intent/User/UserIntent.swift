@@ -64,14 +64,16 @@ struct UserIntent {
     }
     
     func intentToCreate(user: User) async {
-        switch await UserDAO.shared.createUser(user: user) {
-        case .failure(let error):
-            self.formState.send(.error("\(error.localizedDescription)"))
-            break
-        case .success(let user):
-            // si ça a marché : modifier le view model et le model
-            self.formState.send(.userUpdatedInDatabase)
-            self.listState.send(.addingUser(user))
+        if isUserValid(user: user) {
+            switch await UserDAO.shared.createUser(user: user) {
+            case .failure(let error):
+                self.formState.send(.error("\(error.localizedDescription)"))
+                break
+            case .success(let user):
+                // si ça a marché : modifier le view model et le model
+                self.formState.send(.userUpdatedInDatabase)
+                self.listState.send(.addingUser(user))
+            }
         }
     }
     
@@ -83,6 +85,22 @@ struct UserIntent {
             self.listState.send(.deletingUser(userIndex))
         }
     }
-     
-
+    
+    private func isUserValid(user: User) -> Bool {
+        if user.name == "" {
+            self.formState.send(.error("Name cannot be empty"))
+            return false
+        } else if user.email == "" {
+            // TODO: ajouter fonction avec regexp pour le mail
+            
+            self.formState.send(.error("Email cannot be empty"))
+            return false
+        } else if user.password == "" {
+            self.formState.send(.error("Password cannot be empty"))
+            return false
+        } else {
+            return true
+        }
+    }
+    
 }

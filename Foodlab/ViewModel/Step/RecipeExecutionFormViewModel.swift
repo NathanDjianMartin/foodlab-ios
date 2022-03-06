@@ -1,19 +1,23 @@
 import Foundation
 import Combine
 
-class RecipeListViewModel: ObservableObject, Subscriber {
+class RecipeExecutionFormViewModel: ObservableObject, Subscriber {
     
-    @Published var recipes : [Recipe]
-    @Published var error: String?
+    @Published var recipes: [Recipe]
+    @Published var errorMessage: String?
+    @Published var selectedRecipe: Recipe?
+    var destinationExecution: RecipeExecution
     
-    init(recipes: [Recipe] = []) {
+    
+    init(recipes: [Recipe], execution: RecipeExecution) {
         self.recipes = recipes
+        self.destinationExecution = execution
     }
     
     // MARK: -
     // MARK: Subscriber conformance
     
-    typealias Input = RecipeListIntentState
+    typealias Input = RecipeExecutionFormIntentState
     typealias Failure = Never
     
     // Called by Subscriber protocol during subscription
@@ -27,17 +31,16 @@ class RecipeListViewModel: ObservableObject, Subscriber {
     }
     
     // Called each time the publisher calls the "send" method to notify about state modification
-    func receive(_ input: RecipeListIntentState) -> Subscribers.Demand {
+    func receive(_ input: RecipeExecutionFormIntentState) -> Subscribers.Demand {
         switch input {
         case .ready:
             break
-        case .recipeCreatedInDatabase(let createdRecipe):
-            self.recipes.append(createdRecipe)
-        case .recipeDeletedInDatabase(let index):
-            self.recipes.remove(at: index)
         case .error(let errorMessage):
-            self.error = errorMessage
+            self.errorMessage = errorMessage
         }
-        return .none // on arrête de traiter cette demande et on attend un nouveau send
+        
+        return .none
     }
+     
+
 }

@@ -83,6 +83,19 @@ class RecipeDAO {
      - returns: the given Recipe with the id property correctly set; an error otherwise
      */
     func createRecipe(recipe: Recipe) async -> Result<Recipe, Error> {
+        let emptyExecution: RecipeExecution
+        switch await StepDAO.shared.createStep(step: RecipeExecution(title: recipe.title)) {
+        case .success(let step):
+            guard let execution = step as? RecipeExecution else {
+                return .failure(UndefinedError.error("The created empty execution is not of type RecipeExecution"))
+            }
+            emptyExecution = execution
+        case .failure(let error):
+            return .failure(error)
+        }
+        
+        recipe.execution = emptyExecution
+        
         let recipeDTO: RecipeDTO
         switch getDTOFromRecipe(recipe) {
         case .success(let dto):
@@ -93,8 +106,22 @@ class RecipeDAO {
         
         do {
             let url = stringUrl + "recipe"
-            let createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
+            var createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
+            createdRecipeDTO.recipeExecutionId = recipeDTO.recipeExecutionId
             return await getRecipeFromDTO(createdRecipeDTO)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func deleteRecipe(recipe: Recipe) async -> Result<Bool, Error> {
+        guard let recipeId = recipe.id else {
+            return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))
+        }
+        
+        do {
+            let url = stringUrl + "recipe/\(recipeId)"
+            return .success(try await URLSession.shared.delete(from: url))
         } catch {
             return .failure(error)
         }
@@ -182,7 +209,17 @@ class RecipeDAO {
             }
         }
         
-        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: execution))
+        var duration: Int = 0
+        if let recipeId = dto.id {
+            switch await RecipeDAO.shared.getRecipeDuration(recipeId: recipeId) {
+            case .success(let recipeDuration):
+                duration = recipeDuration
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+        
+        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: execution, duration: duration))
     }
     
     /**
@@ -199,16 +236,26 @@ class RecipeDAO {
         //        }
         
         let category: Category
-        switch await CategoryDAO.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
+        switch await CategoryDAO.shared.getCategoryById(type: .recipe, id: dto.recipeCategoryId) {
         case .success(let recipeCategory):
             category = recipeCategory
         case .failure(let error):
             return .failure(error)
         }
         
+        var duration: Int = 0
+        if let recipeId = dto.id {
+            switch await RecipeDAO.shared.getRecipeDuration(recipeId: recipeId) {
+            case .success(let recipeDuration):
+                duration = recipeDuration
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+        
         let costData: CostData = CostData(averageHourlyCost: 0, flatrateHourlyCost: 0, coefWithCharges: 0, coefWithoutCharges: 0)
         
-        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: nil))
+        return .success(Recipe(id: recipeId, title: dto.name, author: dto.author, guestsNumber: dto.guestsNumber, recipeCategory: category, costData: costData, execution: nil, duration: duration))
     }
     
     private func getDTOFromRecipe(_ recipe: Recipe) -> Result<RecipeDTO, Error> {

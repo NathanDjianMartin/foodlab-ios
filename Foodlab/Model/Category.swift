@@ -11,11 +11,14 @@ class Category: Identifiable, Hashable {
     var id: Int?
     var name: String {
         didSet { // if name was set, we should warn our observer
+            self.observer?.changed(name: self.name)
+            /*
             if name.count <= 0 {
                 name = oldValue
             } else {
                 self.observer?.changed(name: self.name) // this call makes possible observer to observe
             }
+            */
         }
     }
     

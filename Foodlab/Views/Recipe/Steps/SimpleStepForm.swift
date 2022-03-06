@@ -4,17 +4,21 @@ struct SimpleStepForm: View {
     
     @Binding var presentedStep: SimpleStep?
     @ObservedObject var viewModel: SimpleStepFormViewModel
-    private var intent: SimpleStepIntent
+    private var intent: RecipeIntent
+    
+    @State var selectedIngredient: Ingredient?
+    @State var quantity: Double = 0
+    @State var ingredientList: [Ingredient] = []
     
     var creationMode: Bool {
         self.viewModel.id == nil
     }
     
-    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>) {
+    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>, intent: RecipeIntent) {
         self.viewModel = viewModel
         self._presentedStep = presentedStep
         
-        self.intent = SimpleStepIntent()
+        self.intent = intent
         self.intent.addObserver(self.viewModel)
     }
     
@@ -31,6 +35,7 @@ struct SimpleStepForm: View {
                 }
             }
             .padding(.trailing)
+            .padding(.top)
             
             HStack {
                 Text(creationMode ? "Step creation" : "Step modification")
@@ -40,59 +45,99 @@ struct SimpleStepForm: View {
             }
             .padding()
             
+            MessageView(message: self.$viewModel.errorMessage, type: .error)
+            
             List {
                 
                 Section("Step information") {
                     TextField("Step title", text: $viewModel.title)
-                    TextEditor(text: $viewModel.description)
+                        .onSubmit {
+                            self.intent.intentToChange(stepTitle: viewModel.title)
+                        }
+                    TextField("Step description", text: $viewModel.description)
+                        .onSubmit {
+                            self.intent.intentToChange(stepDescription: viewModel.description)
+                        }
                     Stepper(value: $viewModel.duration) {
                         Text(" \(viewModel.duration) minute\(viewModel.duration > 1 ? "s" : "")")
                     }
+                    .onChange(of: self.viewModel.duration) { duration in
+                        self.intent.intentToChange(duration: self.viewModel.duration)
+                    }
                 }
                 
-                Section("Ingredients") {
+                Section("Step ingredients") {
                     if let ingredients = viewModel.ingredients {
                         ForEach(ingredients.sorted(by: >), id: \.key) { key, value in
                             HStack {
                                 Text("\(key.name)")
                                 Spacer()
                                 Text("\(value)\(key.unit)")
+                            }.swipeActions {
+                                Button {
+                                    self.intent.intentToDeleteIngredientInStep(ingredient: key)
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .tint(.foodlabRed)
                             }
                         }
                     }
                 }
                 
-                VStack {
-                    HStack {
-                        // TODO: make an ingredient dropdown
-                        CategoryDropdown(dropDownList: MockData.allergenCategories)
+                Section("Add ingredient") {
+                    VStack {
+                        HStack {
+                            
+                            IngredientDropdown(selectedIngredient: $selectedIngredient, dropDownList: ingredientList)
+                            
+                        }
+                        if let selectedIngredient = selectedIngredient {
+                            Stepper(value: $quantity) {
+                                Text("\(quantity)/\(selectedIngredient.unit)")
+                            }
+                        } else {
+                        }
                         
                     }
-                    Stepper(value: $currentIngredientToAdd.quantity) {
-                        Text("\(currentIngredientToAdd.quantity)/\(currentIngredientToAdd.ingredient.unit)")
-                    }
-                    HStack {
-                        Spacer()
-                        Button() {
-                            // TODO: intentToAddIngredientToStep(...)
-                        } label: {
-                            Label("Add ingredient", systemImage: "plus")
-                                .foregroundColor(Color.foodlabRed)
+                    .padding()
+                }
+                HStack {
+                    Spacer()
+                    Button() {
+                        if let ingredient = selectedIngredient {
+                            self.intent.intentToAddIngredientInStep(ingredient: (ingredient, quantity))
                         }
-                        .padding(.top)
+                    } label: {
+                        Label("Add ingredient", systemImage: "plus")
+                            .foregroundColor(Color.foodlabRed)
                     }
+                    .padding(.top)
                 }
-                .padding()
-                .overlay {
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke()
-                        .foregroundColor(.secondary)
-                }
+                
                 
                 HStack {
                     Spacer()
                     Button("OK") {
-                        // TODO: if edit mode...
+                        if creationMode {
+                            Task {
+                                await self.intent.intentToAddSimpleStep(self.viewModel.modelCopy, to: self.viewModel.recipeExecution)
+                                if let _ = self.viewModel.errorMessage {
+                                    
+                                } else {
+                                    self.presentedStep = nil
+                                }
+                            }
+                        } else {
+                            Task {
+                                await self.intent.intentToUpdateSimpleStep(simpleStep: self.viewModel.modelCopy)
+                                if let _ = self.viewModel.errorMessage {
+                                    
+                                } else {
+                                    self.presentedStep = nil
+                                }
+                            }
+                        }
                     }
                     .buttonStyle(DarkRedButtonStyle())
                 }
@@ -100,11 +145,23 @@ struct SimpleStepForm: View {
             }
             .listStyle(.plain)
         }
+        .onAppear{
+            Task {
+                switch await IngredientDAO.shared.getAllIngredients() {
+                case .failure(let error):
+                    print(error)
+                    self.viewModel.errorMessage = "Error while fletching ingredients"
+                case .success(let ingredients):
+                    ingredientList = ingredients
+                    
+                }
+            }
+        }
     }
 }
 
 struct StepForm_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step), presentedStep: .constant(MockData.step))
+        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step, recipeExecution: MockData.executionCrepes), presentedStep: .constant(MockData.step), intent: RecipeIntent())
     }
 }

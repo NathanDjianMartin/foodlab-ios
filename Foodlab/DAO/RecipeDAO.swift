@@ -114,6 +114,19 @@ class RecipeDAO {
         }
     }
     
+    func deleteRecipe(recipe: Recipe) async -> Result<Bool, Error> {
+        guard let recipeId = recipe.id else {
+            return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))
+        }
+        
+        do {
+            let url = stringUrl + "recipe/\(recipeId)"
+            return .success(try await URLSession.shared.delete(from: url))
+        } catch {
+            return .failure(error)
+        }
+    }
+    
     func getIngredientCost(recipeId: Int) async -> Result<Double, Error> {
         do {
             let url = stringUrl + "recipe/ingredient-cost/\(recipeId)"

@@ -6,7 +6,7 @@ protocol RecipeSubscriber {
     func changed(guestNumber: Int)
 }
 
-class Recipe: Identifiable, ObservableObject, NSCopying {
+class Recipe: Identifiable, ObservableObject, NSCopying, Hashable {
     
     private var subscribers: [RecipeSubscriber]
     var id: Int? // RecipeDTO
@@ -80,5 +80,13 @@ class Recipe: Identifiable, ObservableObject, NSCopying {
         self.recipeCategory = recipe.recipeCategory
         self.costData = recipe.costData
         self.execution = recipe.execution
+    }
+    
+    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

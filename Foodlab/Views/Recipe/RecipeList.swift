@@ -17,13 +17,24 @@ struct RecipeList: View {
     var body: some View {
         
         VStack {
+            MessageView(message: self.$viewModel.error, type: .error)
             List {
-                ForEach(self.viewModel.recipes) { recipe in
+                ForEach(Array(viewModel.recipes.enumerated()), id: \.element.self) { index, recipe in
                     NavigationLink {
                         RecipeDetails(viewModel: RecipeDetailsViewModel(model: recipe), intent: self.intent)
                             .environmentObject(self.viewModel)
                     } label: {
                         RecipeRow(viewModel: RecipeRowViewModel(model: recipe))
+                    }
+                    .swipeActions {
+                        Button {
+                            Task {
+                                await self.intent.intentToDelete(recipe: recipe, at: index)
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .tint(.foodlabRed)
                     }
                 }
             }

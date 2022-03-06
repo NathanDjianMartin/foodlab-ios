@@ -14,6 +14,8 @@ enum RecipeFormIntentState {
 enum RecipeListIntentState {
     case ready
     case recipeCreatedInDatabase(Recipe)
+    case recipeDeletedInDatabase(Int)
+    case error(String)
 }
 
 enum RecipeDetailsIntentState {
@@ -162,6 +164,15 @@ struct RecipeIntent {
             self.recipeExecutionStepsState.send(.addingStep(execution))
         case .failure(let error):
             self.recipeExecutionFormState.send(.error(error.localizedDescription))
+        }
+    }
+    
+    func intentToDelete(recipe: Recipe, at index: Int) async {
+        switch await RecipeDAO.shared.deleteRecipe(recipe: recipe) {
+        case .success:
+            self.recipeListState.send(.recipeDeletedInDatabase(index))
+        case .failure(let error):
+            self.recipeListState.send(.error(error.localizedDescription))
         }
     }
     

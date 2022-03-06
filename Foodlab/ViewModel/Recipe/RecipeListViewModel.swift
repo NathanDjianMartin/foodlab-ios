@@ -33,6 +33,10 @@ class RecipeListViewModel: ObservableObject, Subscriber {
             break
         case .recipeCreatedInDatabase(let createdRecipe):
             self.recipes.append(createdRecipe)
+        case .recipeDeletedInDatabase(let index):
+            self.recipes.remove(at: index)
+        case .error(let errorMessage):
+            self.error = errorMessage
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

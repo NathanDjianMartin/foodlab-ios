@@ -89,7 +89,7 @@ struct RecipeExecutionSteps: View {
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
                 .sheet(item: self.$selectedSimpleStep) { simpleStep in
-                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep), presentedStep: self.$selectedSimpleStep)
+                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep), presentedStep: self.$selectedSimpleStep, intent: self.intent)
                 }
             }
             .listStyle(.plain)

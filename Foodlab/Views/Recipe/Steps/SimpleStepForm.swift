@@ -4,18 +4,17 @@ struct SimpleStepForm: View {
     
     @Binding var presentedStep: SimpleStep?
     @ObservedObject var viewModel: SimpleStepFormViewModel
-    private var intent: SimpleStepIntent
+    private var intent: RecipeIntent
     
     var creationMode: Bool {
         self.viewModel.id == nil
     }
     
-    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>) {
+    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>, intent: RecipeIntent) {
         self.viewModel = viewModel
         self._presentedStep = presentedStep
         
-        self.intent = SimpleStepIntent()
-        self.intent.addObserver(self.viewModel)
+        self.intent = intent
     }
     
     @State var currentIngredientToAdd: IngredientWithinStep = IngredientWithinStep(ingredient: Ingredient( name: "", unit: "", unitaryPrice: 0, stockQuantity: 0, ingredientCategory: Category(name: "")), quantity: 0)
@@ -91,7 +90,13 @@ struct SimpleStepForm: View {
                 HStack {
                     Spacer()
                     Button("OK") {
-                        // TODO: if edit mode...
+                        if creationMode {
+                            Task {
+                                await self.intent.intentToAddSimpleStep(self.viewModel.model, to: <#T##RecipeExecution#>)
+                            }
+                        } else {
+                            
+                        }
                     }
                     .buttonStyle(DarkRedButtonStyle())
                 }

@@ -3,7 +3,7 @@ import Combine
 
 class SimpleStepFormViewModel: ObservableObject, Subscriber {
     
-    private var model: SimpleStep
+    var model: SimpleStep
     private var modelCopy: SimpleStep
     
     var id: Int?
@@ -11,6 +11,8 @@ class SimpleStepFormViewModel: ObservableObject, Subscriber {
     @Published var description: String
     @Published var duration: Int
     @Published var ingredients: [Ingredient: Double]?
+    
+    @Published var errorMessage: String?
     
     init(model: SimpleStep) {
         self.id = model.id

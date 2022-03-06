@@ -22,6 +22,7 @@ enum RecipeDetailsIntentState {
 
 enum RecipeExecutionStepsIntentState {
     case ready
+    case addingSimpleStep(SimpleStep)
     case removingStep(IndexSet)
     case movingSteps(IndexSet, Int)
 }
@@ -91,6 +92,24 @@ struct RecipeIntent {
         case .failure(let error):
             self.recipeFormState.send(.error(error.localizedDescription))
         }
+    }
+    
+    func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution) async -> Result<Bool, Error> {
+        guard let simpleStepId = simpleStep.id else {
+            return .failure(UndefinedError.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no SimpleStep id!"))
+        }
+        
+        guard let executionId = execution.id else {
+            return .failure(UndefinedError.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
+        }
+        
+        switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: executionId) {
+        case .success:
+            self.recipeExecutionStepsState.send(.addingSimpleStep(simpleStep))
+        case .failure(let error):
+            return .failure(error)
+        }
+        return .success(true)
     }
     
     func intentToRemoveStep(id: Int, at indexSet: IndexSet) async {

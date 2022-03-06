@@ -1,10 +1,3 @@
-//
-//  IngredientList.swift
-//  Foodlab
-//
-//  Created by m1 on 05/03/2022.
-//
-
 import SwiftUI
 
 struct IngredientListInStep: View {

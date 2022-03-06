@@ -53,6 +53,8 @@ class RecipeExecutionStepsViewModel: ObservableObject, Subscriber, RecipeExecuti
             self.model.removeStep(atOffsets: indexSet)
         case .movingSteps(let source, let destination):
             self.model.move(fromOffsets: source, toOffset: destination)
+        case .addingSimpleStep(let simpleStep):
+            self.model.addStep(simpleStep)
         }
         return .none // on arrête de traiter cette demande et on attend un nouveau send
     }

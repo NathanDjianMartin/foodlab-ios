@@ -96,11 +96,10 @@ class StepDAO {
         
         if let simpleStep = step as? SimpleStep  {
             stepDTO = StepDTO(id: simpleStep.id, isStep: true, stepTitle: simpleStep.title, stepDescription: simpleStep.description, duration: simpleStep.duration)
-        }
-        if let recipeExecution = step as? RecipeExecution {
+        } else if let recipeExecution = step as? RecipeExecution {
             stepDTO = StepDTO(id: recipeExecution.id, isStep: false, stepTitle: recipeExecution.title)
         } else {
-            throw UndefinedError.error("Error with creation stepDTO from step")
+            throw UndefinedError.error("The given step is not a SimpleStep or a RecipeExecution.")
         }
         return stepDTO
     }

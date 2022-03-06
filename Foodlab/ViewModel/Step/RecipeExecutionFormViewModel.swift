@@ -1,35 +1,15 @@
 import Foundation
 import Combine
 
-class SimpleStepFormViewModel: ObservableObject, Subscriber {
+class RecipeExecutionFormViewModel: ObservableObject, Subscriber {
     
-    var model: SimpleStep
-    private var modelCopy: SimpleStep
-    var recipeExecution: RecipeExecution
     
-    var id: Int?
-    @Published var title: String
-    @Published var description: String
-    @Published var duration: Int
-    @Published var ingredients: [Ingredient: Double]?
-    
+    @Published var recipes: [Recipe]
     @Published var errorMessage: String?
     
-    init(model: SimpleStep, recipeExecution: RecipeExecution) {
-        self.id = model.id
-        self.title = model.title
-        self.description = model.description
-        self.duration = model.duration
-        self.ingredients = model.ingredients
-        
-        self.model = model
-        self.modelCopy = model.copy()
-        self.recipeExecution = recipeExecution
-        // TODO: self.model.addObserver(self)
+    init(recipes: [Recipe]) {
+        self.recipes = recipes
     }
-    
-    // TODO: model delegate
-    // ...
     
     // MARK: -
     // MARK: Subscriber conformance

@@ -3,10 +3,13 @@ import SwiftUI
 struct RecipeExecutionSteps: View {
     @Environment(\.editMode) private var editMode
     @State private var oldEditMode: EditMode = .inactive
+    
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
     
-    @State private var showSheet = false
+    @State private var selectedSimpleStep: SimpleStep?
+    @State private var simpleStepToDelete: SimpleStep?
+    @State private var showRecipeExecutionForm = false
     
     init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent) {
         self.viewModel = viewModel
@@ -16,12 +19,17 @@ struct RecipeExecutionSteps: View {
     
     var body: some View {
         VStack {
+            
             HStack {
                 Button {
-                    self.showSheet = true
+                    self.selectedSimpleStep = SimpleStep(title: "Step title", stepDescription: "Step description", duration: 0, ingredients: [:])
                 } label: {
                     Label("Add step", systemImage: "plus")
-                        .foregroundColor(Color.foodlabRed)
+                }
+                Button {
+                    self.showRecipeExecutionForm = true
+                } label: {
+                    Label("Add recipe execution", systemImage: "plus")
                 }
                 Spacer()
                 EditButton()
@@ -38,9 +46,34 @@ struct RecipeExecutionSteps: View {
                         } label: {
                             SimpleStepRow(step: simpleStep, index: displayIndex)
                                 .fixedSize(horizontal: false, vertical: true)
-                                .onTapGesture {
-                                    self.showSheet = true
+                                .swipeActions {
+                                    Button {
+                                        Task {
+                                            if let id = step.stepWithinRecipeExecutionId {
+                                                await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                            } else {
+                                                // TODO:
+                                            }
+                                        }
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+                                    .tint(.foodlabRed)
+                                    
+                                    Button {
+                                        self.selectedSimpleStep = simpleStep
+                                    } label: {
+                                        Image(systemName: "square.and.pencil")
+                                    }
+                                    .tint(.foodlabTeal)
                                 }
+                        }
+                    } else if let execution = step as? RecipeExecution {
+                        NavigationLink {
+                            RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
+                                .navigationTitle(execution.title)
+                        } label: {
+                            RecipeExecutionRow(execution: execution, index: displayIndex)
                                 .swipeActions {
                                     Button {
                                         Task {
@@ -56,36 +89,16 @@ struct RecipeExecutionSteps: View {
                                     .tint(.foodlabRed)
                                 }
                         }
-                        
-                       
-                    } else if let execution = step as? RecipeExecution {
-                        NavigationLink {
-                            RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
-                                .navigationTitle(execution.title)
-                        } label: {
-                            RecipeExecutionRow(execution: execution, index: displayIndex)
-                                .swipeActions {
-                                Button {
-                                    Task {
-                                        if let id = step.stepWithinRecipeExecutionId {
-                                            await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
-                                        } else {
-                                            // TODO:
-                                        }
-                                    }
-                                } label: {
-                                    Image(systemName: "trash")
-                                }
-                                .tint(.foodlabRed)
-                            }
-                        }
                     }
                 }
                 .onMove { source, destination in
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
-                .sheet(isPresented: $showSheet) {
-                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step2), presentedStep: .constant(MockData.step2))
+                .sheet(item: self.$selectedSimpleStep) { simpleStep in
+                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent)
+                }
+                .sheet(isPresented: self.$showRecipeExecutionForm) {
+                    RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: MockData.recipeList), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
                 }
             }
             .listStyle(.plain)

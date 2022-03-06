@@ -65,7 +65,7 @@ struct SimpleStepForm: View {
                 VStack {
                     HStack {
                         // TODO: make an ingredient dropdown
-                        CategoryDropdown(dropDownList: MockData.allergenCategories)
+                        IngredientDropdown(dropDownList: MockData.ingredientList)
                         
                     }
                     Stepper(value: $currentIngredientToAdd.quantity) {

@@ -460,8 +460,8 @@
             filePath = "Foodlab/Model/Category.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
             landmarkName = "name"
             landmarkType = "24">
          </BreakpointContent>
@@ -476,8 +476,8 @@
             filePath = "Foodlab/Model/Category.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
             landmarkName = "name"
             landmarkType = "24">
          </BreakpointContent>
@@ -830,8 +830,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "149"
             endingLineNumber = "149"
-            landmarkName = "getRecipeFromDTO(_:)"
-            landmarkType = "7">
+            landmarkName = "RecipeDAO"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

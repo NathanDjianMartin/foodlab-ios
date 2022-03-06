@@ -5,6 +5,7 @@ struct SimpleStepForm: View {
     @Binding var presentedStep: SimpleStep?
     @ObservedObject var viewModel: SimpleStepFormViewModel
     private var intent: RecipeIntent
+    
     @State var selectedIngredient: Ingredient?
     @State var quantity: Double = 0
     @State var ingredientList: [Ingredient] = []
@@ -72,6 +73,13 @@ struct SimpleStepForm: View {
                                 Text("\(key.name)")
                                 Spacer()
                                 Text("\(value)\(key.unit)")
+                            }.swipeActions {
+                                Button {
+                                    self.intent.intentToDeleteIngredientInStep(ingredient: key)
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .tint(.foodlabRed)
                             }
                         }
                     }
@@ -117,7 +125,14 @@ struct SimpleStepForm: View {
                                 self.presentedStep = nil
                             }
                         } else {
-                            
+                            Task {
+                                await self.intent.intentToUpdateSimpleStep(simpleStep: self.viewModel.modelCopy)
+                                if let _ = self.viewModel.errorMessage {
+                                    
+                                } else {
+                                    self.presentedStep = nil
+                                }
+                            }
                         }
                     }
                     .buttonStyle(DarkRedButtonStyle())

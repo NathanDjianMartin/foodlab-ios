@@ -49,16 +49,24 @@ struct RecipeExecutionForm: View {
                 Spacer()
                 Button {
                     Task {
-                        if let selectedRecipe = self.viewModel.selectedRecipe {
+                        if var selectedRecipe = self.viewModel.selectedRecipe {
+                            switch await RecipeDAO.shared.getRecipeById(selectedRecipe.id!) {
+                            case .success(let recipe):
+                                selectedRecipe = recipe
+                            case .failure(let error):
+                                self.viewModel.errorMessage = error.localizedDescription
+                            }
                             if let selectedExecution = selectedRecipe.execution {
                                 await self.intent.intentToAddExecution(selectedExecution, to: self.viewModel.destinationExecution)
-                                self.isPresented = false
+                                if self.viewModel.errorMessage == nil {
+                                    self.isPresented = false
+                                }
                             } else {
                                 self.viewModel.errorMessage = "The selected recipe doesn't have a recipe execution."
                             }
                         } else {
-                           self.viewModel.errorMessage = "The selected recipe is nil."
-                       }
+                            self.viewModel.errorMessage = "The selected recipe is nil."
+                        }
                     }
                 } label: {
                     if let selectedRecipe = self.viewModel.selectedRecipe {

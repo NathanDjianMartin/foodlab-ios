@@ -9,6 +9,7 @@ struct RecipeExecutionSteps: View {
     
     @State private var selectedSimpleStep: SimpleStep?
     @State private var simpleStepToDelete: SimpleStep?
+    @State private var showRecipeExecutionForm = false
     
     init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent) {
         self.viewModel = viewModel
@@ -26,7 +27,7 @@ struct RecipeExecutionSteps: View {
                     Label("Add step", systemImage: "plus")
                 }
                 Button {
-                    // TODO: intent to add recipe execution
+                    self.showRecipeExecutionForm = true
                 } label: {
                     Label("Add recipe execution", systemImage: "plus")
                 }
@@ -95,6 +96,9 @@ struct RecipeExecutionSteps: View {
                 }
                 .sheet(item: self.$selectedSimpleStep) { simpleStep in
                     SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent)
+                }
+                .sheet(isPresented: self.$showRecipeExecutionForm) {
+                    RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: MockData.recipeList), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
                 }
             }
             .listStyle(.plain)

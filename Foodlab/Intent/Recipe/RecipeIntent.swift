@@ -136,6 +136,10 @@ struct RecipeIntent {
         }
     }
     
+    func intentToAddExecution(_ execution: RecipeExecution, to destinationExecution: RecipeExecution) async {
+        
+    }
+    
     func intentToRemoveStep(id: Int, at indexSet: IndexSet) async {
         print("intentToRemoveStep at \(indexSet) called")
         switch await StepWithinRecipeExecutionDAO.shared.deleteStepWithinRecipeExecution(id: id) {

@@ -83,6 +83,19 @@ class RecipeDAO {
      - returns: the given Recipe with the id property correctly set; an error otherwise
      */
     func createRecipe(recipe: Recipe) async -> Result<Recipe, Error> {
+        let emptyExecution: RecipeExecution
+        switch await StepDAO.shared.createStep(step: RecipeExecution(title: recipe.title)) {
+        case .success(let step):
+            guard let execution = step as? RecipeExecution else {
+                return .failure(UndefinedError.error("The created empty execution is not of type RecipeExecution"))
+            }
+            emptyExecution = execution
+        case .failure(let error):
+            return .failure(error)
+        }
+        
+        recipe.execution = emptyExecution
+        
         let recipeDTO: RecipeDTO
         switch getDTOFromRecipe(recipe) {
         case .success(let dto):
@@ -93,8 +106,22 @@ class RecipeDAO {
         
         do {
             let url = stringUrl + "recipe"
-            let createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
+            var createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
+            createdRecipeDTO.recipeExecutionId = recipeDTO.recipeExecutionId
             return await getRecipeFromDTO(createdRecipeDTO)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func deleteRecipe(recipe: Recipe) async -> Result<Bool, Error> {
+        guard let recipeId = recipe.id else {
+            return .failure(RecipeDAOError.noRecipeIdInModel(recipe.title))
+        }
+        
+        do {
+            let url = stringUrl + "recipe/\(recipeId)"
+            return .success(try await URLSession.shared.delete(from: url))
         } catch {
             return .failure(error)
         }

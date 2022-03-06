@@ -1,19 +1,23 @@
 import Foundation
 import Combine
 
-class RecipeExecutionFormViewModel: ObservableObject {
-
+class RecipeExecutionFormViewModel: ObservableObject, Subscriber {
+    
     @Published var recipes: [Recipe]
     @Published var errorMessage: String?
+    @Published var selectedRecipe: Recipe?
+    var destinationExecution: RecipeExecution
     
-    init(recipes: [Recipe]) {
+    
+    init(recipes: [Recipe], execution: RecipeExecution) {
         self.recipes = recipes
+        self.destinationExecution = execution
     }
     
     // MARK: -
     // MARK: Subscriber conformance
     
-    typealias Input = SimpleStepFormIntentState
+    typealias Input = RecipeExecutionFormIntentState
     typealias Failure = Never
     
     // Called by Subscriber protocol during subscription
@@ -27,9 +31,7 @@ class RecipeExecutionFormViewModel: ObservableObject {
     }
     
     // Called each time the publisher calls the "send" method to notify about state modification
-    /*
-    
-    func receive(_ input: SimpleStepFormIntentState) -> Subscribers.Demand {
+    func receive(_ input: RecipeExecutionFormIntentState) -> Subscribers.Demand {
         switch input {
         case .ready:
             break
@@ -39,6 +41,6 @@ class RecipeExecutionFormViewModel: ObservableObject {
         
         return .none
     }
-     */
      
+
 }

@@ -3,6 +3,7 @@ import SwiftUI
 struct RecipeExecutionSteps: View {
     @Environment(\.editMode) private var editMode
     @State private var oldEditMode: EditMode = .inactive
+    @EnvironmentObject var recipeListViewModel: RecipeListViewModel
     
     @ObservedObject var viewModel: RecipeExecutionStepsViewModel
     private var intent: RecipeIntent
@@ -98,7 +99,7 @@ struct RecipeExecutionSteps: View {
                     SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent)
                 }
                 .sheet(isPresented: self.$showRecipeExecutionForm) {
-                    RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: MockData.recipeList), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
+                    RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: self.recipeListViewModel.recipes, execution: self.viewModel.model), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
                 }
             }
             .listStyle(.plain)

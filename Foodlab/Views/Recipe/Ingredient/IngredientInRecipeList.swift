@@ -1,10 +1,3 @@
-//
-//  IngredientInRecipeList.swift
-//  Foodlab
-//
-//  Created by m1 on 20/02/2022.
-//
-
 import SwiftUI
 
 struct IngredientInRecipeList: View {
@@ -48,6 +41,7 @@ struct IngredientInRecipeList: View {
                 Text("There are no ingredient in this recipe")
             }
         }
+        .listStyle(.plain)
     }
 }
 

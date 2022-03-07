@@ -1,10 +1,3 @@
-//
-//  CostFrame.swift
-//  Foodlab
-//
-//  Created by m1 on 04/03/2022.
-//
-
 import SwiftUI
 
 struct CostFrame: View {
@@ -13,12 +6,14 @@ struct CostFrame: View {
     var value: Double
     
     var body: some View {
-        VStack {
+        HStack {
             Text("\(self.text)")
-                .foregroundColor(.primary)
+            Spacer()
             Text("\(self.value.roundTo(2))")
-                .foregroundColor(.primary)
+                .bold()
+            Text("$")
         }
+        .frame(height: 60)
         .padding()
         .background(Color("BackgroundColor"))
         .cornerRadius(10)
@@ -30,10 +25,28 @@ struct CostFrame: View {
                     Spacer()
                 })
                 .allowsHitTesting(false))   // << make click-through
-        .fixedSize()
-        .frame(width: 130, height: 100)
+        //.fixedSize()
+        
+        
+        //        HStack {
+        //            Text("\(self.text)")
+        //                .foregroundColor(.primary)
+        //            Text("\(self.value.roundTo(2))")
+        //                .foregroundColor(.primary)
+        //                .bold()
+        //            Text("$")
+        //            Spacer()
+        //        }
+        //        .padding()
+        //        .background {
+        //            RoundedRectangle(cornerRadius: 5)
+        //                .stroke(Color.foodlabRed)
+        //                .foregroundColor(Color("BackgroundColor"))
+        //
+        //        }
+        //.shadow(radius: 5)
     }
-
+    
 }
 
 struct CostFrame_Previews: PreviewProvider {

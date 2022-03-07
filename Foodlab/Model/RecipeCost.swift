@@ -1,10 +1,3 @@
-//
-//  RecipeCost.swift
-//  Foodlab
-//
-//  Created by m1 on 04/03/2022.
-//
-
 import Foundation
 
 class RecipeCost {

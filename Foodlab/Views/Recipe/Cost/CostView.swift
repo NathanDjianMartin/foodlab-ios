@@ -49,13 +49,13 @@ struct CostView: View {
         self.recipeId = recipeId
     }
     
-    var gridItems = [GridItem(.adaptive(minimum: 150, maximum: 150))]
+    var gridItems = [GridItem](repeating: .init(.flexible()), count: 2)
     var cols = [GridItem(.fixed(250)), GridItem(.flexible())]
     
     var body: some View {
-        List {
+        VStack {
             VStack {
-                LazyVGrid(columns: gridItems,alignment: .leading, spacing: 0){
+                LazyVGrid(columns: gridItems,alignment: .leading, spacing: 15){
                     CostFrame(text: "Material cost", value: self.materialCost)
                     CostFrame(text: "Charges cost", value: self.chargesCost)
                     CostFrame(text: "Production cost", value: self.productionCost)
@@ -104,7 +104,10 @@ struct CostView: View {
                 }
                 
             }
-        }.onAppear {
+        }
+        .padding()
+        //.listStyle(.plain)
+        .onAppear {
             Task {
                 switch await RecipeDAO.shared.getIngredientCost(recipeId: self.recipeId) {
                 case .failure(_):

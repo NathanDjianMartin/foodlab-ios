@@ -40,12 +40,12 @@ struct RecipeExecutionSteps: View {
                 EditButton()
             }
             .padding()
-            /*
+            //
             if self.viewModel.steps.count != 0 {
                 
                 List {
                     let steps = self.viewModel.steps
-                    ForEach(Array(zip(steps.indices, steps)), id: \.0) { (index, step) in
+                    ForEach(Array(zip(steps.indices, steps)), id: \.0) { index, step in
                         let displayIndex = index + 1
                         if let simpleStep = step as? SimpleStep {
                             NavigationLink {
@@ -67,7 +67,7 @@ struct RecipeExecutionSteps: View {
                                             Image(systemName: "trash")
                                         }
                                         .tint(.foodlabRed)
-                                        
+
                                         Button {
                                             self.selectedSimpleStep = simpleStep
                                             self.selectedIndex = index
@@ -79,7 +79,7 @@ struct RecipeExecutionSteps: View {
                             }
                         } else if let execution = step as? RecipeExecution {
                             NavigationLink {
-                                RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
+                                RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent, recipe: self.recipe)
                                     .navigationTitle(execution.title)
                             } label: {
                                 RecipeExecutionRow(execution: execution, index: displayIndex)
@@ -103,7 +103,8 @@ struct RecipeExecutionSteps: View {
                     }
                 }
                 .listStyle(.plain)
-            }*/
+            }
+             //
         }
         .sheet(item: self.$selectedSimpleStep) { simpleStep in
             SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent, stepIndex: selectedIndex, recipe: self.recipe)

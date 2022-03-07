@@ -35,6 +35,29 @@ struct RecipeList: View {
         self.intent.addObserver(self.viewModel)
     }
     
+    private func fetchData() async {
+        switch await RecipeDAO.shared.getAllRecipes() {
+        case .success(let recipes):
+            DispatchQueue.main.async {
+                self.viewModel.recipes = recipes
+            }
+        case .failure(let error):
+            DispatchQueue.main.async {
+                self.viewModel.error = error.localizedDescription
+            }
+        }
+        switch await CategoryDAO.shared.getAllCategories(type: .recipe) {
+        case .success(let categories):
+            DispatchQueue.main.async {
+                self.recipeCategories = categories
+            }
+        case .failure(let error):
+            DispatchQueue.main.async {
+                self.viewModel.error = error.localizedDescription
+            }
+        }
+    }
+    
     var body: some View {
         
         VStack {
@@ -84,6 +107,11 @@ struct RecipeList: View {
                 }
             }
             .searchable(text: $searchText, prompt: "Search a recipe")
+            .refreshable {
+                Task {
+                    await self.fetchData()
+                }
+            }
             .sheet(isPresented: $showRecipeCreation) {
                 let newRecipe = Recipe(title: "", author: "", guestsNumber: 1, recipeCategory: MockData.entree, costData: MockData.costData, execution: RecipeExecution(title: ""), duration: 0)
                 RecipeForm(viewModel: RecipeFormViewModel(model: newRecipe), intent: self.intent, isPresented: $showRecipeCreation, categories: recipeCategories)
@@ -100,18 +128,7 @@ struct RecipeList: View {
         .onAppear {
             if appearCount == 0 {
                 Task {
-                    switch await RecipeDAO.shared.getAllRecipes() {
-                    case .success(let recipes):
-                        self.viewModel.recipes = recipes
-                    case .failure(let error):
-                        self.viewModel.error = error.localizedDescription
-                    }
-                    switch await CategoryDAO.shared.getAllCategories(type: .recipe) {
-                    case .success(let categories):
-                        self.recipeCategories = categories
-                    case .failure(let error):
-                        self.viewModel.error = error.localizedDescription
-                    }
+                    await self.fetchData()
                 }
                 appearCount += 1
             }

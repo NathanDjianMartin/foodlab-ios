@@ -14,11 +14,12 @@ struct RecipeDetails: View {
     @State private var selectedTab: RecipePickerSelection = .steps
     @State private var showRecipeForm = false
     @State private var errorMessage: String?
+    var categories: [Category]
     
-    
-    init(viewModel: RecipeDetailsViewModel, intent: RecipeIntent) {
+    init(viewModel: RecipeDetailsViewModel, intent: RecipeIntent, categories: [Category]) {
         self.viewModel = viewModel
         self.intent = intent
+        self.categories = categories
         self.intent.addObserver(viewModel)
     }
     
@@ -52,18 +53,19 @@ struct RecipeDetails: View {
             case .steps:
                 if let execution = self.viewModel.model.execution {
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
-                } else {
+                } else {/*
+                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)*/
                     VStack {
-//                        ProgressView()
-//                            .progressViewStyle(.circular)
-//                        Text("We're loading the recipe 🤤")
-                          Text("No steps in this recipe")
+                        //                        ProgressView()
+                        //                            .progressViewStyle(.circular)
+                        //                        Text("We're loading the recipe 🤤")
+                        Text("No steps in this recipe")
                     }
                 }
             case .ingredients:
                 IngredientInRecipeList(recipeExecution: viewModel.model.execution)
             case .costs:
-                // TODO: récupérer les informations mais je sais pas où mettre le await 
+                // TODO: récupérer les informations mais je sais pas où mettre le await
                 CostView(viewModel: CostDataViewModel(model: viewModel.model.costData), intent: CostDataIntent(), recipeId: viewModel.model.id!)
             }
             Spacer()
@@ -78,7 +80,7 @@ struct RecipeDetails: View {
         .navigationBarTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showRecipeForm) {
-            RecipeForm(viewModel: RecipeFormViewModel(model: viewModel.model), intent: self.intent, isPresented: $showRecipeForm)
+            RecipeForm(viewModel: RecipeFormViewModel(model: viewModel.model), intent: self.intent, isPresented: $showRecipeForm, categories: categories)
         }
         .onAppear {
             guard let recipeId = self.viewModel.model.id else {
@@ -99,6 +101,6 @@ struct RecipeDetails: View {
 
 struct RecipeDetails_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeDetails(viewModel: RecipeDetailsViewModel(model: MockData.recipeCrepes), intent: RecipeIntent())
+        RecipeDetails(viewModel: RecipeDetailsViewModel(model: MockData.recipeCrepes), intent: RecipeIntent(), categories: MockData.recipeCategoriesModel)
     }
 }

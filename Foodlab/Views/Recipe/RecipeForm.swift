@@ -6,15 +6,17 @@ struct RecipeForm: View {
     @Binding var isPresented: Bool
     @State private var showErrorAlert = false
     private var intent: RecipeIntent
+    var categories: [Category]
     
     var creationMode: Bool {
         self.viewModel.id == nil
     }
     
-    init(viewModel: RecipeFormViewModel, intent: RecipeIntent, isPresented: Binding<Bool>) {
+    init(viewModel: RecipeFormViewModel, intent: RecipeIntent, isPresented: Binding<Bool>, categories: [Category]) {
         self.viewModel = viewModel
         self.intent = intent
         self._isPresented = isPresented
+        self.categories = categories
         self.intent.addObserver(self.viewModel)
     }
     
@@ -59,7 +61,7 @@ struct RecipeForm: View {
                 .onChange(of: self.viewModel.guestNumber) { guestNumber in
                     self.intent.intentToChange(guestNumber: self.viewModel.guestNumber)
                 }
-                CategoryDropdown(selectedCategory: self.$viewModel.category, placeholder: "Recipe category", dropDownList: MockData.recipeCategoriesModel, canBeEmpty: false)
+                CategoryDropdown(selectedCategory: self.$viewModel.category, placeholder: "Recipe category", dropDownList: self.categories, canBeEmpty: false)
                     .onChange(of: self.viewModel.category) { category in
                         if let realCategory = category {
                             self.intent.intentToChange(category: realCategory)
@@ -100,6 +102,6 @@ struct RecipeForm: View {
 
 struct RecipeCreation_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeForm(viewModel: RecipeFormViewModel(model: MockData.recipePates), intent: RecipeIntent(), isPresented: .constant(true))
+        RecipeForm(viewModel: RecipeFormViewModel(model: MockData.recipePates), intent: RecipeIntent(), isPresented: .constant(true), categories: MockData.recipeCategoriesModel)
     }
 }

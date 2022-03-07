@@ -40,7 +40,7 @@ struct RecipeExecutionSteps: View {
                 EditButton()
             }
             .padding()
-            
+            /*
             if self.viewModel.steps.count != 0 {
                 
                 List {
@@ -103,7 +103,7 @@ struct RecipeExecutionSteps: View {
                     }
                 }
                 .listStyle(.plain)
-            }
+            }*/
         }
         .sheet(item: self.$selectedSimpleStep) { simpleStep in
             SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent, stepIndex: selectedIndex, recipe: self.recipe)

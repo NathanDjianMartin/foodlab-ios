@@ -266,14 +266,7 @@ class RecipeDAO {
             return .failure(RecipeDAOError.noCostDataIdInModel(recipe.title))
         }
         
-        guard let recipeExecution = recipe.execution else {
-            return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: nil, costDataId: costDataId))
-        }
-        guard let recipeExecutionId = recipeExecution.id else {
-            return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: nil, costDataId: costDataId))
-        }
-        
-        return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: recipeExecutionId, costDataId: costDataId))
+        return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: recipe.execution?.id, costDataId: costDataId))
         
     }
 }

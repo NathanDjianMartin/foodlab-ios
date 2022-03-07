@@ -128,7 +128,7 @@ struct RecipeIntent {
         }
     }
     
-    func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution) async {
+    func intentToAddSimpleStep(_ simpleStep: SimpleStep, to execution: RecipeExecution, recipe: Recipe) async {
         if isSimpleStepValid(simpleStep: simpleStep) {
           let createdStep: Step
         switch await StepDAO.shared.createStep(step: simpleStep) {
@@ -150,6 +150,26 @@ struct RecipeIntent {
         }
         
         guard let executionId = execution.id else {
+            switch await StepDAO.shared.createStep(step: RecipeExecution(title: recipe.title)){
+            case .failure(let error):
+                print(error)
+                self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
+            case .success(let step):
+                guard let execution = step as? RecipeExecution else {
+                    self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
+                    return
+                }
+                recipe.execution = execution
+                await intentToSave(recipe: recipe)
+                switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: step.id!) {
+                case .success(let id):
+                    simpleStep.stepWithinRecipeExecutionId = id
+                    self.recipeExecutionStepsState.send(.addingStep(simpleStep))
+                case .failure(let error):
+                    self.simpleStepFormState.send(.error(error.localizedDescription))
+                }
+            }
+            
             self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
             return
         }

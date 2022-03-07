@@ -81,6 +81,7 @@ class RecipeDAO {
      - returns: the given Recipe with the id property correctly set; an error otherwise
      */
     func createRecipe(recipe: Recipe) async -> Result<Recipe, Error> {
+        /*
         let emptyExecution: RecipeExecution
         switch await StepDAO.shared.createStep(step: RecipeExecution(title: recipe.title)) {
         case .success(let step):
@@ -93,7 +94,7 @@ class RecipeDAO {
         }
         
         recipe.execution = emptyExecution
-        
+        */
         let recipeDTO: RecipeDTO
         switch getDTOFromRecipe(recipe) {
         case .success(let dto):
@@ -105,7 +106,7 @@ class RecipeDAO {
         do {
             let url = FoodlabApp.apiUrl + "recipe"
             var createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
-            createdRecipeDTO.recipeExecutionId = recipeDTO.recipeExecutionId
+            //createdRecipeDTO.recipeExecutionId = recipeDTO.recipeExecutionId
             return await getRecipeFromDTO(createdRecipeDTO)
         } catch {
             return .failure(error)

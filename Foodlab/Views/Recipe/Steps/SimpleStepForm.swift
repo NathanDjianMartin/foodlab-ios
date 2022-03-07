@@ -9,6 +9,7 @@ struct SimpleStepForm: View {
     @State var selectedIngredient: Ingredient?
     @State var quantity: Double = 0
     @State var ingredientList: [Ingredient] = []
+    @State var recipe: Recipe
     
     var stepIndex: Int
     
@@ -16,7 +17,8 @@ struct SimpleStepForm: View {
         self.viewModel.id == nil
     }
     
-    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>, intent: RecipeIntent, stepIndex: Int) {
+    init(viewModel: SimpleStepFormViewModel, presentedStep: Binding<SimpleStep?>, intent: RecipeIntent, stepIndex: Int, recipe: Recipe) {
+        self.recipe = recipe
         self.viewModel = viewModel
         self._presentedStep = presentedStep
         
@@ -124,7 +126,7 @@ struct SimpleStepForm: View {
                     Button("OK") {
                         if creationMode {
                             Task {
-                                await self.intent.intentToAddSimpleStep(self.viewModel.modelCopy, to: self.viewModel.recipeExecution)
+                                await self.intent.intentToAddSimpleStep(self.viewModel.modelCopy, to: self.viewModel.recipeExecution, recipe: self.recipe)
                                 if let _ = self.viewModel.errorMessage {
                                     
                                 } else {
@@ -165,6 +167,6 @@ struct SimpleStepForm: View {
 
 struct StepForm_Previews: PreviewProvider {
     static var previews: some View {
-        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step, recipeExecution: MockData.executionCrepes), presentedStep: .constant(MockData.step), intent: RecipeIntent(),stepIndex: 1)
+        SimpleStepForm(viewModel: SimpleStepFormViewModel(model: MockData.step, recipeExecution: MockData.executionCrepes), presentedStep: .constant(MockData.step), intent: RecipeIntent(),stepIndex: 1, recipe: MockData.recipeCrepes)
     }
 }

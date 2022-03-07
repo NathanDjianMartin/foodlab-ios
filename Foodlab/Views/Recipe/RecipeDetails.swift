@@ -52,7 +52,7 @@ struct RecipeDetails: View {
             switch selectedTab {
             case .steps:
                 if let execution = self.viewModel.model.execution {
-                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
+                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent, recipe: self.viewModel.model)
                 } else {/*
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)*/
                     VStack {

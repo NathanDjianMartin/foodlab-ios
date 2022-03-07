@@ -13,9 +13,12 @@ struct RecipeExecutionSteps: View {
     @State private var showRecipeExecutionForm = false
     @State var selectedIndex: Int = -1
     
-    init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent) {
+    @State var recipe: Recipe = Recipe(title: "", author: "", guestsNumber: 0, recipeCategory: Category(name: ""), costData: CostData(id: 1, averageHourlyCost: 1, flatrateHourlyCost: 1, coefWithCharges: 1, coefWithoutCharges: 1), execution: nil, duration: 1)
+    
+    init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent, recipe: Recipe) {
         self.viewModel = viewModel
         self.intent = intent
+        self.recipe = recipe
         self.intent.addObserver(self.viewModel)
     }
     
@@ -37,6 +40,7 @@ struct RecipeExecutionSteps: View {
                 EditButton()
             }
             .padding()
+            if self.viewModel.steps.count != 0 {
             List {
                 let steps = self.viewModel.steps
                 ForEach(Array(zip(steps.indices, steps)), id: \.0) { (index, step) in
@@ -82,9 +86,7 @@ struct RecipeExecutionSteps: View {
                                         Task {
                                             if let id = step.stepWithinRecipeExecutionId {
                                                 await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
-                                            } else {
-                                                // TODO:
-                                            }
+                                            } 
                                         }
                                     } label: {
                                         Image(systemName: "trash")
@@ -97,14 +99,15 @@ struct RecipeExecutionSteps: View {
                 .onMove { source, destination in
                     self.intent.intentToMoveSteps(source: source, destination: destination)
                 }
-                .sheet(item: self.$selectedSimpleStep) { simpleStep in
-                    SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent, stepIndex: selectedIndex)
-                }
-                .sheet(isPresented: self.$showRecipeExecutionForm) {
-                    RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: self.recipeListViewModel.recipes, execution: self.viewModel.model), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
-                }
             }
             .listStyle(.plain)
+            }
+        }
+        .sheet(item: self.$selectedSimpleStep) { simpleStep in
+            SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent, stepIndex: selectedIndex, recipe: self.recipe)
+        }
+        .sheet(isPresented: self.$showRecipeExecutionForm) {
+            RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: self.recipeListViewModel.recipes, execution: self.viewModel.model), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
         }
         .onChange(of: editMode!.wrappedValue, perform: { value in
             if value.isEditing {
@@ -123,6 +126,6 @@ struct RecipeExecutionSteps: View {
 
 struct RecipeExecutionDetails_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: MockData.executionPates), intent: RecipeIntent())
+        RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: MockData.executionPates), intent: RecipeIntent(), recipe: MockData.recipeCrepes)
     }
 }

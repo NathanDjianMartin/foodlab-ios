@@ -155,7 +155,8 @@ struct RecipeIntent {
         }
         
         switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: executionId) {
-        case .success:
+        case .success(let id):
+            simpleStep.stepWithinRecipeExecutionId = id
             self.recipeExecutionStepsState.send(.addingStep(simpleStep))
         case .failure(let error):
             self.simpleStepFormState.send(.error(error.localizedDescription))
@@ -175,7 +176,8 @@ struct RecipeIntent {
         }
         
         switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: executionId, recipeExecutionId: destinationExecutionId) {
-        case .success:
+        case .success(let id):
+            execution.stepWithinRecipeExecutionId = id
             self.recipeExecutionStepsState.send(.addingStep(execution))
         case .failure(let error):
             self.recipeExecutionFormState.send(.error(error.localizedDescription))

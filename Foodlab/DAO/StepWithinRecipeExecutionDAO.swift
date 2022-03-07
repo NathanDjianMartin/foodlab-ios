@@ -36,12 +36,15 @@ struct StepWithinRecipeExecutionDAO {
         }
     }
     
-    func addStepWithinRecipeExecution(stepId: Int, recipeExecutionId: Int) async -> Result<Bool, Error> {
+    func addStepWithinRecipeExecution(stepId: Int, recipeExecutionId: Int) async -> Result<Int, Error> {
         do {
             let stepWithinRecipeExecutionDTO = StepWithinRecipeExecutionDTO(recipeExecutionId: recipeExecutionId, stepId: stepId)
             
-            let _: StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
-            return .success(true)
+            let stepWithinRecipeExecutionDTOresult: StepWithinRecipeExecutionDTO = try await URLSession.shared.create(from: FoodlabApp.apiUrl + "step-within-recipe-execution", object: stepWithinRecipeExecutionDTO)
+            guard let id = stepWithinRecipeExecutionDTOresult.id else {
+                return .failure(UndefinedError.error("no id"))
+            }
+            return .success(id)
         }catch {
             // on propage l'erreur transmise par la fonction post
             return .failure(error)

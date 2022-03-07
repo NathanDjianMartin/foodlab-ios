@@ -8,15 +8,25 @@ struct RecipeList: View {
     @State private var showRecipeCreation = false
     @State private var appearCount = 0 // until Apple fixes the onAppear that is called twice
     @State private var searchText: String = ""
+    @State private var recipeCategories: [Category] = []
+    @State private var selectedCategory: Category?
     
     var recipesList: [Recipe] {
+        var result: [Recipe] = self.viewModel.recipes
+        
+        if let selectedCategory = selectedCategory {
+            result = result.filter { recipe in
+                recipe.recipeCategory.id == selectedCategory.id
+            }
+        }
+        
         if searchText.count > 0 {
-            return self.viewModel.recipes.filter { recipe in
+            result = result.filter { recipe in
                 return recipe.title.contains(searchText)
             }
-        } else {
-            return self.viewModel.recipes
         }
+        
+        return result
     }
     
     init(viewModel: RecipeListViewModel) {
@@ -30,6 +40,30 @@ struct RecipeList: View {
         VStack {
             MessageView(message: self.$viewModel.error, type: .error)
             List {
+                HStack {
+                    Menu {
+                        Button {
+                            self.selectedCategory = nil
+                        } label: {
+                            Label("None", systemImage: "xmark")
+                        }
+                        ForEach(recipeCategories) { category in
+                            Button {
+                                self.selectedCategory = category
+                            } label: {
+                                Text("\(category.name)")
+                                Spacer()
+                                if selectedCategory?.name == category.name {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    } label: {
+                        Text(selectedCategory != nil ? selectedCategory!.name : "Select recipe category")
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                    }
+                }
                 ForEach(Array(recipesList.enumerated()), id: \.element.self) { index, recipe in
                     NavigationLink {
                         RecipeDetails(viewModel: RecipeDetailsViewModel(model: recipe), intent: self.intent)
@@ -69,6 +103,12 @@ struct RecipeList: View {
                     switch await RecipeDAO.shared.getAllRecipes() {
                     case .success(let recipes):
                         self.viewModel.recipes = recipes
+                    case .failure(let error):
+                        self.viewModel.error = error.localizedDescription
+                    }
+                    switch await CategoryDAO.shared.getAllCategories(type: .recipe) {
+                    case .success(let categories):
+                        self.recipeCategories = categories
                     case .failure(let error):
                         self.viewModel.error = error.localizedDescription
                     }

@@ -3,4 +3,22 @@
    uuid = "ED865DF5-BCB9-4896-B109-487F39B3C0DC"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CAA6DF5B-F6EA-4653-A8B7-3BE77BABEB44"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Foodlab/ViewModel/Recipe/RecipeDetailsViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "receive(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

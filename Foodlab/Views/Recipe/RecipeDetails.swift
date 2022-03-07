@@ -54,9 +54,10 @@ struct RecipeDetails: View {
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
                 } else {
                     VStack {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                        Text("We're loading the recipe 🤤")
+//                        ProgressView()
+//                            .progressViewStyle(.circular)
+//                        Text("We're loading the recipe 🤤")
+                          Text("No steps in this recipe")
                     }
                 }
             case .ingredients:

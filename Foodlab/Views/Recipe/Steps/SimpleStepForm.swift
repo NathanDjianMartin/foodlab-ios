@@ -97,7 +97,7 @@ struct SimpleStepForm: View {
                         }
                         if let selectedIngredient = selectedIngredient {
                             Stepper(value: $quantity) {
-                                Text("\(quantity)/\(selectedIngredient.unit)")
+                                Text("\(quantity.roundTo(2))/\(selectedIngredient.unit)")
                             }
                         } else {
                         }

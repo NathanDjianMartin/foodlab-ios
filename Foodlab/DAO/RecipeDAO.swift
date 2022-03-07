@@ -105,7 +105,7 @@ class RecipeDAO {
         
         do {
             let url = FoodlabApp.apiUrl + "recipe"
-            var createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
+            let createdRecipeDTO: RecipeDTO = try await URLSession.shared.create(from: url, object: recipeDTO)
             //createdRecipeDTO.recipeExecutionId = recipeDTO.recipeExecutionId
             return await getRecipeFromDTO(createdRecipeDTO)
         } catch {
@@ -266,6 +266,14 @@ class RecipeDAO {
             return .failure(RecipeDAOError.noCostDataIdInModel(recipe.title))
         }
         
-        return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: recipe.execution?.id, costDataId: costDataId))
+        guard let recipeExecution = recipe.execution else {
+            return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: nil, costDataId: costDataId))
+        }
+        guard let recipeExecutionId = recipeExecution.id else {
+            return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: nil, costDataId: costDataId))
+        }
+        
+        return .success(RecipeDTO(id: recipe.id, name: recipe.title, author: recipe.author, guestsNumber: recipe.guestsNumber, recipeCategoryId: recipeCategoryId, recipeExecutionId: recipeExecutionId, costDataId: costDataId))
+        
     }
 }

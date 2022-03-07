@@ -118,6 +118,7 @@ struct RecipeIntent {
     }
     
     func intentToSave(recipe: Recipe) async {
+        print(recipe.id!)
         switch await RecipeDAO.shared.saveRecipe(recipe: recipe) {
         case .success:
             print("Recipe \(recipe.title) saved in database!")
@@ -155,11 +156,12 @@ struct RecipeIntent {
                 print(error)
                 self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
             case .success(let step):
-                guard let execution = step as? RecipeExecution else {
+                guard let recipeExecution = step as? RecipeExecution else {
                     self.simpleStepFormState.send(.error("Error while intenting to add SimpleStep \"\(simpleStep.title)\" to RecipeExecution \"\(execution.title)\": no RecipeExecution id!"))
                     return
                 }
-                recipe.execution = execution
+                print(recipeExecution.id!)
+                recipe.execution = recipeExecution
                 await intentToSave(recipe: recipe)
                 switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: simpleStepId, recipeExecutionId: step.id!) {
                 case .success(let id):
@@ -184,13 +186,31 @@ struct RecipeIntent {
         }
     }
     
-    func intentToAddExecution(_ execution: RecipeExecution, to destinationExecution: RecipeExecution) async {
+    func intentToAddExecution(_ execution: RecipeExecution, to destinationExecution: RecipeExecution, recipe: Recipe) async {
         guard let executionId = execution.id else {
             self.recipeExecutionFormState.send(.error("Error while intenting to add RecipeExecution \"\(execution.title)\" to RecipeExecution \"\(destinationExecution.title)\": \(execution.title) doesn't have an id!"))
             return
         }
         
         guard let destinationExecutionId = destinationExecution.id else {
+            switch await StepDAO.shared.createStep(step: RecipeExecution(title: recipe.title)){
+            case .failure(let error):
+                print(error)
+            case .success(let step):
+                guard let recipeExecution = step as? RecipeExecution else {
+                    return
+                }
+                recipe.execution = recipeExecution
+                await intentToSave(recipe: recipe)
+                switch await StepWithinRecipeExecutionDAO.shared.addStepWithinRecipeExecution(stepId: executionId, recipeExecutionId: step.id!) {
+                case .success(let id):
+                    execution.stepWithinRecipeExecutionId = id
+                    self.recipeExecutionStepsState.send(.addingStep(execution))
+                case .failure(let error):
+                    self.recipeExecutionFormState.send(.error(error.localizedDescription))
+                }
+            }
+            
             self.recipeExecutionFormState.send(.error("Error while intenting to add RecipeExecution \"\(execution.title)\" to RecipeExecution \"\(destinationExecution.title)\": \(destinationExecution.title) doesn't have an id!"))
             return
         }

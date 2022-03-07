@@ -53,8 +53,8 @@ struct RecipeDetails: View {
             case .steps:
                 if let execution = self.viewModel.model.execution {
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent, recipe: self.viewModel.model)
-                } else {/*
-                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)*/
+                } else {
+                    RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: RecipeExecution(title: "")), intent: self.intent, recipe: self.viewModel.model)
                     VStack {
                         //                        ProgressView()
                         //                            .progressViewStyle(.circular)

@@ -6,10 +6,12 @@ struct RecipeExecutionForm: View {
     @ObservedObject var viewModel: RecipeExecutionFormViewModel
     
     @Binding var isPresented: Bool
+    @State var recipe: Recipe
     
-    init(viewModel: RecipeExecutionFormViewModel, intent: RecipeIntent, isPresented: Binding<Bool>) {
+    init(viewModel: RecipeExecutionFormViewModel, intent: RecipeIntent, isPresented: Binding<Bool>, recipe: Recipe) {
         self.viewModel = viewModel
         self.intent = intent
+        self.recipe = recipe
         self._isPresented = isPresented
     }
     
@@ -57,7 +59,7 @@ struct RecipeExecutionForm: View {
                                 self.viewModel.errorMessage = error.localizedDescription
                             }
                             if let selectedExecution = selectedRecipe.execution {
-                                await self.intent.intentToAddExecution(selectedExecution, to: self.viewModel.destinationExecution)
+                                await self.intent.intentToAddExecution(selectedExecution, to: self.viewModel.destinationExecution, recipe: self.recipe)
                                 if self.viewModel.errorMessage == nil {
                                     self.isPresented = false
                                 }
@@ -86,6 +88,6 @@ struct RecipeExecutionForm: View {
 
 struct RecipeExecutionForm_Previews: PreviewProvider {
     static var previews: some View {
-        RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: MockData.recipeList, execution: MockData.executionCrepes), intent: RecipeIntent(), isPresented: .constant(true))
+        RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: MockData.recipeList, execution: MockData.executionCrepes), intent: RecipeIntent(), isPresented: .constant(true), recipe: MockData.recipeCrepes)
     }
 }

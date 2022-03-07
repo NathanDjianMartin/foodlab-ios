@@ -13,7 +13,7 @@ struct RecipeExecutionSteps: View {
     @State private var showRecipeExecutionForm = false
     @State var selectedIndex: Int = -1
     
-    @State var recipe: Recipe = Recipe(title: "", author: "", guestsNumber: 0, recipeCategory: Category(name: ""), costData: CostData(id: 1, averageHourlyCost: 1, flatrateHourlyCost: 1, coefWithCharges: 1, coefWithoutCharges: 1), execution: nil, duration: 1)
+    @ObservedObject var recipe: Recipe
     
     init(viewModel: RecipeExecutionStepsViewModel, intent: RecipeIntent, recipe: Recipe) {
         self.viewModel = viewModel
@@ -40,74 +40,76 @@ struct RecipeExecutionSteps: View {
                 EditButton()
             }
             .padding()
+            
             if self.viewModel.steps.count != 0 {
-            List {
-                let steps = self.viewModel.steps
-                ForEach(Array(zip(steps.indices, steps)), id: \.0) { (index, step) in
-                    let displayIndex = index + 1
-                    if let simpleStep = step as? SimpleStep {
-                        NavigationLink {
-                            IngredientListInStep(ingredients: simpleStep.ingredients)
-                                .navigationTitle("Ingredients")
-                        } label: {
-                            SimpleStepRow(step: simpleStep, index: displayIndex)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .swipeActions {
-                                    Button {
-                                        Task {
-                                            if let id = step.stepWithinRecipeExecutionId {
-                                                await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
-                                            } else {
-                                                // TODO:
+                
+                List {
+                    let steps = self.viewModel.steps
+                    ForEach(Array(zip(steps.indices, steps)), id: \.0) { (index, step) in
+                        let displayIndex = index + 1
+                        if let simpleStep = step as? SimpleStep {
+                            NavigationLink {
+                                IngredientListInStep(ingredients: simpleStep.ingredients)
+                                    .navigationTitle("Ingredients")
+                            } label: {
+                                SimpleStepRow(step: simpleStep, index: displayIndex)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .swipeActions {
+                                        Button {
+                                            Task {
+                                                if let id = step.stepWithinRecipeExecutionId {
+                                                    await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                                } else {
+                                                    // TODO:
+                                                }
                                             }
+                                        } label: {
+                                            Image(systemName: "trash")
                                         }
-                                    } label: {
-                                        Image(systemName: "trash")
-                                    }
-                                    .tint(.foodlabRed)
-                                    
-                                    Button {
-                                        self.selectedSimpleStep = simpleStep
-                                        self.selectedIndex = index
-                                    } label: {
-                                        Image(systemName: "square.and.pencil")
-                                    }
-                                    .tint(.foodlabTeal)
-                                }
-                        }
-                    } else if let execution = step as? RecipeExecution {
-                        NavigationLink {
-                            RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
-                                .navigationTitle(execution.title)
-                        } label: {
-                            RecipeExecutionRow(execution: execution, index: displayIndex)
-                                .swipeActions {
-                                    Button {
-                                        Task {
-                                            if let id = step.stepWithinRecipeExecutionId {
-                                                await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
-                                            } 
+                                        .tint(.foodlabRed)
+                                        
+                                        Button {
+                                            self.selectedSimpleStep = simpleStep
+                                            self.selectedIndex = index
+                                        } label: {
+                                            Image(systemName: "square.and.pencil")
                                         }
-                                    } label: {
-                                        Image(systemName: "trash")
+                                        .tint(.foodlabTeal)
                                     }
-                                    .tint(.foodlabRed)
-                                }
+                            }
+                        } else if let execution = step as? RecipeExecution {
+                            NavigationLink {
+                                RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent)
+                                    .navigationTitle(execution.title)
+                            } label: {
+                                RecipeExecutionRow(execution: execution, index: displayIndex)
+                                    .swipeActions {
+                                        Button {
+                                            Task {
+                                                if let id = step.stepWithinRecipeExecutionId {
+                                                    await self.intent.intentToRemoveStep(id: id ,at: IndexSet(integer: index))
+                                                }
+                                            }
+                                        } label: {
+                                            Image(systemName: "trash")
+                                        }
+                                        .tint(.foodlabRed)
+                                    }
+                            }
                         }
                     }
+                    .onMove { source, destination in
+                        self.intent.intentToMoveSteps(source: source, destination: destination)
+                    }
                 }
-                .onMove { source, destination in
-                    self.intent.intentToMoveSteps(source: source, destination: destination)
-                }
-            }
-            .listStyle(.plain)
+                .listStyle(.plain)
             }
         }
         .sheet(item: self.$selectedSimpleStep) { simpleStep in
             SimpleStepForm(viewModel: SimpleStepFormViewModel(model: simpleStep, recipeExecution: self.viewModel.model), presentedStep: self.$selectedSimpleStep, intent: self.intent, stepIndex: selectedIndex, recipe: self.recipe)
         }
         .sheet(isPresented: self.$showRecipeExecutionForm) {
-            RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: self.recipeListViewModel.recipes, execution: self.viewModel.model), intent: self.intent, isPresented: self.$showRecipeExecutionForm)
+            RecipeExecutionForm(viewModel: RecipeExecutionFormViewModel(recipes: self.recipeListViewModel.recipes, execution: self.viewModel.model), intent: self.intent, isPresented: self.$showRecipeExecutionForm, recipe: self.recipe)
         }
         .onChange(of: editMode!.wrappedValue, perform: { value in
             if value.isEditing {
@@ -121,6 +123,7 @@ struct RecipeExecutionSteps: View {
             }
             self.oldEditMode = value
         })
+             
     }
 }
 

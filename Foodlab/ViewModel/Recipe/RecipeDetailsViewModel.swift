@@ -16,6 +16,7 @@ class RecipeDetailsViewModel: ObservableObject, Subscriber, RecipeSubscriber {
         self.category = model.recipeCategory
         self.guestNumber = model.guestsNumber
         self.model.addSubscriber(self)
+        print("subscribed")
     }
     
     func changed(title: String) {

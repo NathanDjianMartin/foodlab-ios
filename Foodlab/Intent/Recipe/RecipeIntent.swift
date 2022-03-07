@@ -122,7 +122,7 @@ struct RecipeIntent {
         case .success:
             print("Recipe \(recipe.title) saved in database!")
             self.recipeFormState.send(.validateChanges)
-            self.recipeDetailsState.send(.recipeUpdatedInDatabase(recipe))
+            //self.recipeDetailsState.send(.recipeUpdatedInDatabase(recipe))
         case .failure(let error):
             self.recipeFormState.send(.error(error.localizedDescription))
         }

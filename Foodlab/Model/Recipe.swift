@@ -6,7 +6,7 @@ protocol RecipeSubscriber {
     func changed(guestNumber: Int)
 }
 
-class Recipe: Identifiable, ObservableObject, NSCopying, Hashable {
+class Recipe: Identifiable, ObservableObject, Hashable {
     
     private var subscribers: [RecipeSubscriber]
     var id: Int? // RecipeDTO
@@ -59,7 +59,7 @@ class Recipe: Identifiable, ObservableObject, NSCopying, Hashable {
         self.subscribers.append(subscriber)
     }
     
-    func copy(with zone: NSZone? = nil) -> Any {
+    func copy() -> Recipe {
         return Recipe(id: self.id,
                       title: self.title,
                       author: self.author,
@@ -74,7 +74,7 @@ class Recipe: Identifiable, ObservableObject, NSCopying, Hashable {
         self.id = recipe.id
         self.title = recipe.title
         
-        self.subscribers = recipe.subscribers
+        //self.subscribers = recipe.subscribers
         self.author = recipe.author
         self.guestsNumber = recipe.guestsNumber
         self.recipeCategory = recipe.recipeCategory

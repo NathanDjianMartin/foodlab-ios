@@ -28,7 +28,7 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
     
     init(model: Recipe) {
         self.model = model
-        self.modelCopy = model.copy() as! Recipe
+        self.modelCopy = model.copy()
         self.id = model.id
         self.title = model.title
         self.author = model.author
@@ -86,9 +86,6 @@ class RecipeFormViewModel: ObservableObject, RecipeSubscriber, Subscriber {
             break
         case .recipeTitleChanging(let newTitle):
             self.modelCopy.title = newTitle
-            if self.modelCopy.title != newTitle { // the model's property did not change, there was an error
-                
-            }
         case .recipeAuthorChanging(let newAuthor):
             self.modelCopy.author = newAuthor
         case .recipeGuestNumberChanging(let newGuestNumber):

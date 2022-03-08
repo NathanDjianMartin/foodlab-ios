@@ -127,11 +127,17 @@ struct SimpleStepForm: View {
                         if creationMode {
                             Task {
                                 await self.intent.intentToAddSimpleStep(self.viewModel.modelCopy, to: self.viewModel.recipeExecution, recipe: self.recipe)
-                                if let _ = self.viewModel.errorMessage {
-                                    
-                                } else {
-                                    self.presentedStep = nil
+                                DispatchQueue.main.async {
+                                    if self.viewModel.errorMessage == nil {
+                                        self.presentedStep = nil
+                                    }
                                 }
+                                
+//                                if let _ = self.viewModel.errorMessage {
+//
+//                                } else {
+//                                    self.presentedStep = nil
+//                                }
                             }
                         } else {
                             Task {

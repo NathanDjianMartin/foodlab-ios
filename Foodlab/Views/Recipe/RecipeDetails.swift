@@ -55,12 +55,6 @@ struct RecipeDetails: View {
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: execution), intent: self.intent, recipe: self.viewModel.model)
                 } else {
                     RecipeExecutionSteps(viewModel: RecipeExecutionStepsViewModel(model: RecipeExecution(title: "")), intent: self.intent, recipe: self.viewModel.model)
-                    VStack {
-                        //                        ProgressView()
-                        //                            .progressViewStyle(.circular)
-                        //                        Text("We're loading the recipe 🤤")
-                        Text("No steps in this recipe")
-                    }
                 }
             case .ingredients:
                 IngredientInRecipeList(recipeExecution: viewModel.model.execution)

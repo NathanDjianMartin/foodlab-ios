@@ -103,6 +103,8 @@ struct RecipeExecutionSteps: View {
                     }
                 }
                 .listStyle(.plain)
+            } else {
+                Text("No steps in this recipe")
             }
              //
         }
